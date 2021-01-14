@@ -7,15 +7,9 @@
 # useful for handling different item types with a single interface
 
 from itemadapter import ItemAdapter
-
-
-# class ScrapyAppPipeline:
-#     def process_item(self, item, spider):
-#         return item
 from scrapy_app.reg import *
 import json
 from main.models import ScrapyItem
-
 
 class ScrapyAppPipeline(object):
     def __init__(self, *args, **kwargs):
@@ -28,43 +22,14 @@ class ScrapyAppPipeline(object):
         )
 
     def close_spider(self, spider):
-        # And here we are saving our crawled data with django models.
-        item = ScrapyItem()
-        # print('item--------------------------------------------------')
-        # print(item)
-        print('items+++++++++++++++++++++++++++++++++++++++++++++++++')
-        print(self.items)
-        print('self.items[company_id]+++++++++++++++++++++++++++++++++++++++++++++++++')
-        print(self.items[0]['company_id'])
-
-        item.company_name = json.dumps(self.items[0]['company_name'], ensure_ascii=False)
-        item.company_id = json.dumps(self.items[0]['company_id'], ensure_ascii=False)
-        item.company_type = json.dumps(self.items[0]['company_type'], ensure_ascii=False)
-        item.status = json.dumps(self.items[0]['status'], ensure_ascii=False)
-        item.address = json.dumps(self.items[0]['address'], ensure_ascii=False)
-        item.objective = json.dumps(self.items[0]['objective'], ensure_ascii=False)
-        item.directors = json.dumps(self.items[0]['directors'], ensure_ascii=False)
-        item.bussiness_type = json.dumps(self.items[0]['bussiness_type'], ensure_ascii=False)
-        item.bussiness_type_code = json.dumps(self.items[0]['bussiness_type_code'], ensure_ascii=False)
-        item.street = json.dumps(self.items[0]['street'], ensure_ascii=False)
-        item.subdistrict = json.dumps(self.items[0]['subdistrict'], ensure_ascii=False)
-        item.district = json.dumps(self.items[0]['district'], ensure_ascii=False)
-        item.province = json.dumps(self.items[0]['province'], ensure_ascii=False)
-        item.tel = json.dumps(self.items[0]['tel'], ensure_ascii=False)
-        item.fax = json.dumps(self.items[0]['fax'], ensure_ascii=False)
-        item.website = json.dumps(self.items[0]['website'], ensure_ascii=False)
-        item.email = json.dumps(self.items[0]['email'], ensure_ascii=False)
-        item.save()
-        print('========================new item====================================')
-        print(item.street)
-
+        pass
 
     def process_item(self, item, spider):
         # self.items.append(item)
         print('========================process item====================================')
         print(item)
 
-        company_id              = item['company_id']
+        raw_company_id          = item['company_id']
         company_type            = item['company_type']
         status                  = item['status']
         objective               = item['objective']
@@ -78,12 +43,13 @@ class ScrapyAppPipeline(object):
         email                   = item['email']
 
         #clean data
-        directors      = directors_convert(raw_directors)
+        directors           = directors_convert(raw_directors)
         # print(directors_text)
         bussiness_type      = business_type_separater(raw_bussiness_type)[1]
         # print(bussiness_type)
         bussiness_type_code = business_type_separater(raw_bussiness_type)[0]
         # print(bussiness_type_code)
+        company_id          = re.split(':', raw_company_id)[1].strip()
         company_name        = re.split(':', raw_company_name)[1].strip()
         # print(company_name)
         street             = address_separater(raw_address)[0]
@@ -92,7 +58,21 @@ class ScrapyAppPipeline(object):
         province           = address_separater(raw_address)[3]
         address            = address_separater(raw_address)[4]
 
+        if objective == None or objective == '':
+            objective = '-'
 
+        if bussiness_type_code == None or bussiness_type_code == '':
+            bussiness_type_code = '-'
+
+        if subdistrict == None or subdistrict == '':
+            subdistrict = '-'
+
+        if district == None or district == '':
+            district = '-'
+
+        if province == None or province == '':
+            province = '-'
+            
 
         self.items.append({
             'company_name': company_name,
@@ -113,7 +93,28 @@ class ScrapyAppPipeline(object):
             'website': website,
             'email': email,
         })
+
+        new_item = ScrapyItem()
+
+        new_item.company_name           = company_name
+        new_item.company_id             = company_id
+        new_item.company_type           = company_type
+        new_item.status                 = status
+        new_item.address                = address
+        new_item.objective              = objective
+        new_item.directors              = directors
+        new_item.bussiness_type         = bussiness_type
+        new_item.bussiness_type_code    = bussiness_type_code
+        new_item.street                 = street
+        new_item.subdistrict            = subdistrict
+        new_item.district               = district
+        new_item.province               = province
+        new_item.tel                    = tel
+        new_item.fax                    = fax
+        new_item.website                = website
+        new_item.email                  = email
+        new_item.save()
+
         print('========================clean data========================')
         print(self.items)
-    
         return item
