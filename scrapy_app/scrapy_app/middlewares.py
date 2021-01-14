@@ -14,8 +14,6 @@ from scrapy.http import HtmlResponse
 from requests.exceptions import Timeout
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
 import logging
-import scrapy
-import json
 
 
 class ScrapyAppSpiderMiddleware(object):

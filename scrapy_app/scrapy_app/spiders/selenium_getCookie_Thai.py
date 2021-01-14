@@ -19,48 +19,29 @@ driver.get(login_page_url)
 print(driver.title)
 
 # get and verify captcha, then access 'https://datawarehouse.dbd.go.th/index' page 
-def getCaptchaAndLogin():
-    # Screenshot captcha code and store into 'screenshot_path'
-    for i in range(100):
-        time.sleep(3)
-        sshot = driver.find_element_by_xpath('//*[@id="loginForm"]/div[1]/span/img')
-        sshot.screenshot(screenshot_path)
-
-        # Convert image to string
-        captchaCode = pytesseract.image_to_string(Image.open(screenshot_path)).strip().replace(" ","")
-        print(captchaCode)
-        print("Length is " + str(len(captchaCode)))
-
-        if len(captchaCode) == 5 and re.match('^[A-Za-z0-9]+$',captchaCode): 
-            # Send captcha code in input box and access 'https://datawarehouse.dbd.go.th/index' page
-            driver.find_element_by_xpath('//*[@id="captchaCode"]').send_keys(captchaCode) 
-            driver.find_element_by_xpath('//*[@id="signinBtn"]').click()
-            if 'Home' in driver.title: 
-                break
-            driver.refresh()
-        else:
-            driver.refresh()
-
-def storeCookie():
-    # load cookie
-    cookies = driver.get_cookies()
-    print(cookies)
-
-    # find token 'JSESSIONID' and store it into cookie_path
-    for i in cookies:
-        print(i)
-        if i['name'] == 'JSESSIONID':
-            with open(cookie_path, 'wb') as f:
-                pickle.dump(cookies, f)
-            print(i['value'])
+def getAndStoreCookieAfterLogin():
+    for i in range(10):
+        time.sleep(10)
+        if 'Home' in driver.title:
+            # load cookie
+            cookies = driver.get_cookies()
+            # find token 'JSESSIONID' and store it into cookie_path
+            for i in cookies:
+                # print(i)
+                if i['name'] == 'JSESSIONID':
+                    
+                    with open(cookie_path, 'wb') as f:
+                        pickle.dump(cookies, f)
+                    print(i['value'])
+                    break
+                else:
+                    print('no JSESSIONID in this page!')
             break
-            # return(i)
         else:
-            print('no JSESSIONID in this page!')
+            driver.refresh()
 
 # check whether access 'https://datawarehouse.dbd.go.th/index' page successfully
-getCaptchaAndLogin()
-storeCookie()
+getAndStoreCookieAfterLogin()
 
 # Search 'Opencloud' and access 'https://datawarehouse.dbd.go.th/company/profile/5/0105554123553' page
 # Thai version
