@@ -11,7 +11,7 @@ from scrapy.spiders import CrawlSpider #, Rule
 import openpyxl
 import random
 
-class DBDSpider(scrapy.Spider):
+class DbdcrawlerSpider(CrawlSpider):
     name = "dbdcrawler_Eng"
     headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
