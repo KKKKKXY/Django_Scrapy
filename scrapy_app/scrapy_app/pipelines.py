@@ -10,16 +10,18 @@ from itemadapter import ItemAdapter
 from scrapy_app.reg import *
 import json
 from main.models import ScrapyItem
+from scrapy_app.dbd_connector import DbdConnector
 
 class ScrapyAppPipeline(object):
     def __init__(self, *args, **kwargs):
         self.items = []
+        self.dbconnector = DbdConnector()
 
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(
-            unique_id=crawler.settings.get('unique_id'), # this will be passed from django view
-        )
+    # @classmethod
+    # def from_crawler(cls, crawler):
+    #     return cls(
+    #         unique_id=crawler.settings.get('unique_id'), # this will be passed from django view
+    #     )
 
     def close_spider(self, spider):
         pass
@@ -73,48 +75,62 @@ class ScrapyAppPipeline(object):
         if province == None or province == '':
             province = '-'
             
+        # self.items.append({
+        #     'company_name': company_name,
+        #     'company_id': company_id,
+        #     'company_type': company_type, 
+        #     'status': status,
+        #     'address': address,
+        #     'objective': objective,
+        #     'directors': directors,
+        #     'bussiness_type': bussiness_type,
+        #     'bussiness_type_code': bussiness_type_code,
+        #     'street': street,
+        #     'subdistrict': subdistrict,
+        #     'district': district,
+        #     'province': province,
+        #     'tel': tel,
+        #     'fax': fax,
+        #     'website': website,
+        #     'email': email,
+        # })
 
-        self.items.append({
-            'company_name': company_name,
-            'company_id': company_id,
-            'company_type': company_type, 
-            'status': status,
-            'address': address,
-            'objective': objective,
-            'directors': directors,
-            'bussiness_type': bussiness_type,
-            'bussiness_type_code': bussiness_type_code,
-            'street': street,
-            'subdistrict': subdistrict,
-            'district': district,
-            'province': province,
-            'tel': tel,
-            'fax': fax,
-            'website': website,
-            'email': email,
-        })
+        # new_item = ScrapyItem()
+        # new_item.company_name           = company_name
+        # new_item.company_id             = company_id
+        # new_item.company_type           = company_type
+        # new_item.status                 = status
+        # new_item.address                = address
+        # new_item.objective              = objective
+        # new_item.directors              = directors
+        # new_item.bussiness_type         = bussiness_type
+        # new_item.bussiness_type_code    = bussiness_type_code
+        # new_item.street                 = street
+        # new_item.subdistrict            = subdistrict
+        # new_item.district               = district
+        # new_item.province               = province
+        # new_item.tel                    = tel
+        # new_item.fax                    = fax
+        # new_item.website                = website
+        # new_item.email                  = email
+        # new_item.save()
 
-        new_item = ScrapyItem()
+        # #generate sql and valus
+        # sql_company       = 'UPDATE test_companies_thai SET COMPANY_NAME = %s, COMPANY_TYPE= %s,COMPANY_STATUS = %s,COMPANY_ADDRESS = %s, COMPANY_OBJECTIVE = %s, COMPANY_DIRECTORS = %s, COMPANY_BUSINESS_TYPE=%s, COMPANY_BUSINESS_TYPE_CODE=%s, COMPANY_STREET=%s, COMPANY_SUBDISTRICT=%s, COMPANY_DISTRICT=%s, COMPANY_PROVINCE=%s, TEL=%s, FAX=%s, WEBSITE=%s, EMAIL=%s, WHERE COMPANY_ID = %s;'
 
-        new_item.company_name           = company_name
-        new_item.company_id             = company_id
-        new_item.company_type           = company_type
-        new_item.status                 = status
-        new_item.address                = address
-        new_item.objective              = objective
-        new_item.directors              = directors
-        new_item.bussiness_type         = bussiness_type
-        new_item.bussiness_type_code    = bussiness_type_code
-        new_item.street                 = street
-        new_item.subdistrict            = subdistrict
-        new_item.district               = district
-        new_item.province               = province
-        new_item.tel                    = tel
-        new_item.fax                    = fax
-        new_item.website                = website
-        new_item.email                  = email
-        new_item.save()
+        # values_company    = (company_name, company_type, status, address, objective, directors, bussiness_type, bussiness_type_code, street, subdistrict, district, province, tel, fax, website, email, company_id)#new
+
+        # sqls    = sql_company
+        # values  = values_company
+
+        format_str = """INSERT INTO all_companies (COMPANY_NAME, COMPANY_ID, COMPANY_TYPE, COMPANY_STATUS, COMPANY_ADDRESS, COMPANY_OBJECTIVE, COMPANY_DIRECTORS, COMPANY_BUSINESS_TYPE, COMPANY_BUSINESS_TYPE_CODE, COMPANY_STREET, COMPANY_SUBDISTRICT, COMPANY_DISTRICT, COMPANY_PROVINCE, TEL, FAX, WEBSITE, EMAIL) VALUES ("{company_name}", "{company_id}", "{company_type}", "{status}", "{address}", "{objective}", "{directors}", "{bussiness_type}", "{bussiness_type_code}", "{street}", "{subdistrict}", "{district}", "{province}", "{tel}", "{fax}", "{website}", "{email}");"""
+
+        sql_command = format_str.format(company_name=company_name, company_id=company_id, company_type=company_type, status=status, address=address, objective=objective, directors=directors, bussiness_type=bussiness_type, bussiness_type_code=bussiness_type_code, street=street, subdistrict=subdistrict, district=district, province=province, tel=tel, fax=fax, website=website, email=email)
+
+        #update database
+        self.dbconnector.insertCompanyInfo(sql_command, company_id)
 
         print('========================clean data========================')
-        print(self.items)
+        print(new_item)
+        print('------------update finished=====================')
         return item

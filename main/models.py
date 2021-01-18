@@ -10,7 +10,7 @@ class ScrapyItem(models.Model):
     status                      = models.CharField(max_length=240)
     address                     = models.TextField()
     objective                   = models.CharField(max_length=240)
-    directors                   = models.CharField(max_length=240)
+    directors                   = models.TextField()
     bussiness_type              = models.CharField(max_length=240)
     bussiness_type_code         = models.CharField(max_length=240)
     street                      = models.TextField()

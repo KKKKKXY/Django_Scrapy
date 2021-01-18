@@ -1,147 +1,259 @@
-# from itemadapter import is_item, ItemAdapter
-# import time
-# import os.path
-# import requests
-# import pickle
-# import os
-# from scrapy import signals
-# from scrapy.http import HtmlResponse
-# from requests.exceptions import Timeout
-# from scrapy.downloadermiddlewares.retry import RetryMiddleware
-# import logging
-# import scrapy
-# import json
+# import mysql.connector
+# import datetime
 
-
-# class PostscrapeSpiderMiddleware(object):
-
-#     @classmethod
-#     def from_crawler(cls, crawler):
-#         # This method is used by Scrapy to create your spiders.
-#         s = cls()
-#         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-#         return s
-
-#     def process_spider_input(self, response, spider):
-#         return None
-
-#     def process_spider_output(self, response, result, spider):
-#         for i in result:
-#             yield i
-
-#     def process_spider_exception(self, response, exception, spider):
-#         pass
-
-#     def process_start_requests(self, start_requests, spider):
-#         for r in start_requests:
-#             yield r
-
-#     def spider_opened(self, spider):
-#         spider.logger.info('Spider opened: %s' % spider.name)
-
-
-# class PostscrapeDownloaderMiddleware(RetryMiddleware):
+# class DbdConnector(object):
 #     def __init__(self):
-#         self.success_count = 0
-#         self.fail_count    = 0
-#         self.max_retry_times = 2
-#         self.priority_adjust =  -39
-
-#     def __del__(self):
-#         print("Downloader(finished): finish scraping, Totally %d companys, %d data completed, %d data failed==========" %(self.success_count + self.fail_count, self.success_count, self.fail_count))
-
-#     @classmethod
-#     def from_crawler(cls, crawler):
-#         s = cls()
-#         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-#         return s
-
-#     def process_request(self, request, spider):
-#         #load cookie from local
-#         cookie_path = '/Users/mya/Desktop/Development/scrapyTest/postscrape/postscrape/spiders/temp/cookie.json'
-#         if os.path.isfile(cookie_path):
-#             try:
-#                 with open(cookie_path, 'rb') as f: 
-#                     cookies = pickle.load(f)
-#             except EOFError:
-#                 cookies = None
-
-#         for i in cookies:
-#             if i['name']=='JSESSIONID':
-#                 cookies= i['value']
-#                 break
-
+#         print('init db')
+#         self.db = mysql.connector.connect(
+#                 host='dbd_db', 
+#                 user='root', 
+#                 passwd='opencloud1',
+#                 #passwd='opencloud1',
+#                 database='dbd',
+#                 )
+        
+#     def insert(self, sql, values):
 #         try:
-#             #time.sleep(0.1)
-#             # response = scrapy.Request(request.url, cookies={"JSESSIONID":cookies})
-#             response = requests.get(request.url, cookies = {'JSESSIONID':cookies}, timeout=60, verify=False)
-#             html = str(response.content,'utf-8')
-#             page =  html
-#             scrapy_response = HtmlResponse(url=request.url, body=page, request=request, encoding='utf-8')
-#             scrapy_response.status_code = response.status_code
-
-#         except Timeout:
-#             print('Get page time out!')
-#             self.fail_count += 1
-#             request.status = False
-#             scrapy_response = HtmlResponse(url=request.url, body='', request=request, encoding='utf-8')
-#             scrapy_response.status_code = 'timeout'
-#             return scrapy_response
-
-#         return scrapy_response
-
-#     def process_response(self, request, response, spider):
-#         code = response.status_code
-
-#         if code == 404:
-#             #if the company cannot be found
-#             print(f'Downloader: cannot find the page in datawarehouse {response.url}')
-#             request.status = False
-#             self.fail_count += 1
-
-#         elif code == 200:
-#             #find the search bar
-#             search_bar = response.xpath('/html/body/div/div[4]/div[1]')
-#             if search_bar:
-#                 # if search bar exist but the name is not exist. the company is not exist
-#                 check = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[2]/div/div/h2/text()')
-#                 if not check:
-#                     request.status = False
-#                     self.fail_count += 1
-#                 else:
-#                     request.status = True
-#                     self.success_count += 1
+#             cur = self.db.cursor()
+#             cur.execute(sql, values)
+#             self.db.commit()
+#             print('insert succeed',end=' :')
+#             if len(values)>5:
+#                 print(values[1])#if insert success, It print value
 #             else:
-#                 print(f'time out {request.url}')
-#                 request.status = False
-#                 return self._retry(request, response, spider) or response
+#                 print(values)
+#         except Exception as e:
+#             if e.errno == 1062:#the code when the data already in database
+#                 print('duplicate')
+#             else:
+#                 print(e)
+#                 print('fail to insert into dbdcompany, rollback now')
+#             self.db.rollback()
+#         finally:
+#             cur.close()
 
-#         elif code == 'timeout':
-#             print(f'time out {request.url}')
-#             request.status = False
-#             return self._retry(request, response, spider) or response
 
-#         elif code == 401:
-#             #if cookie died
-#             #raise CloseSpider('@@@@@@@@@@@@@@@the cooike expired in scraping@@@@@@@@@@@@@@@@')
-#             print('Downloader: cookie expired!')
-#             spider.close_it = 'cookie expired!'
-#         elif  code == 500 or code == 503:
-#             #if the server down:500, 503
-#             #or some error system does not know: 000
+#     def insertTransaction(self, sqls, values):
+#         row_count = 0
+#         try:
+#             cur = self.db.cursor()
+#             for index, item in enumerate(sqls):
+#                 cur.execute(item, values[index])
+#                 row_count += cur.rowcount
+#             self.db.commit()
+#             for index, item in enumerate(sqls):
+#                 print('insert succeed',end=' :')
+#                 if len(values[index])>5:
+#                     print(values[index][1])#if insert success, It print value
+#                 else:
+#                     print(values[index])
+#         except Exception as e:
+#             row_count = 0
+#             if e.errno == 1062:#the code when the data already in database
+#                 print('duplicate')
+#             else:
+#                 print(e)
+#                 print('fail to insert transaction, rollback now')
+#             self.db.rollback()
+#         finally:
+#             print(row_count, "record(s) affected")
+#             cur.close()
 
-#             #self.fake_browser.driver.save_screenshot('failed.png')
-#             #raise CloseSpider('@@@@@@@@@@@@@@@@@@@@the server is down! Please try to run it later@@@@@@@@@@@@@@@@@')
-#             print(f'Downloader: server is down! code{code}')
-#             spider.close_it = f'server is down! code{code}'
-#         else:
-#             print(f'Downloader: unexpect error! code {code}')
-#             spider.close_it = f'unexpect error! code{code}'
 
-#         return response
+#     def updateCompanyTransaction(self, sqls, values, company_id):
+#         row_count = 0
+#         try:
+#             cur = self.db.cursor()
+#             for index, item in enumerate(sqls):
+#                 if values[index]:
+#                     #print(item % values[index])
+#                     cur.execute(item, values[index])
+#                 else:
+#                     cur.execute(item)
+#                 row_count += cur.rowcount
+#             self.db.commit()
+#         except Exception as e:
+#             row_count = 0
+#             print(e)
+#             print(f'fail to update transaction about company{company_id}, rollback now')
+#             self.db.rollback()
+#         finally:
+#             print(row_count, f"record(s) affected in {company_id}")
+#             cur.close()
 
-#     def process_exception(self, request, exception, spider):
-#         pass
 
-#     def spider_opened(self, spider):
-#         spider.logger.info('Spider opened: %s' % spider.name)
+#     def readIds(self, sql):
+#         try:
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             ids = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             print('fail to get new company ids')
+#         finally:
+#             cur.close()
+#         return ids
+
+#     def read(self, sql):
+#         try:
+#             cur = self.db.cursor(buffered=True)
+#             cur.execute(sql)
+#             result = cur.fetchone()
+#             #print(f'read result is: {result}')
+#         except Exception as e:
+#             print(e)
+#             print('fail to get information')
+#         finally:
+#             cur.close()
+#             #print('read cur closed')
+#         return result
+
+#     def clearmdbd(self):
+#         try:
+#             sql = 'TRUNCATE TABLE mdbd'
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             print('finish empty mdbd')
+#         except Exception as e:
+#             print(e)
+#             print('fail to empty mdbd')
+#         finally:
+#             cur.close()
+
+#     def clearNewQuery(self):
+#         try:
+#             sql = 'TRUNCATE TABLE dbd_new_query'
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             print('finish empty dbd_new_query')
+#         except Exception as e:
+#             print(e)
+#             print('fail to empty dbd_new_query')
+#         finally:
+#             cur.close()
+
+#     #####################################
+#     def read_exclude_new_company(self):
+#         try:
+#             sql = '''select t1.DBD_COMPANY_ID from dbd_new_query as t1 
+#                      left join mdbd as t2 on t1.DBD_COMPANY_ID = t2.regisid 
+#                      where t2.id is null;'''
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             exclude_company_id = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find id that exclude in mdbd')
+#         return exclude_company_id
+
+#     def read_include_new_company(self):
+#         try:
+#             sql = '''select t1.DBD_COMPANY_ID, t2.id from dbd_new_query as t1
+#                      inner join mdbd as t2 on t1.DBD_COMPANY_ID = t2.regisid;'''
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             include_company_ids = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find id that include in mdbd')
+#         return include_company_ids
+
+#     #####################################
+#     def read_exclude_all_company(self):
+#         try:
+#             sql = '''select t1.DBD_ID from dbdcompany as t1 
+#                      left join mdbd as t2 on t1.DBD_ID = t2.regisid 
+#                      where t2.id is null;'''
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             exclude_company_id = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find id that exclude in mdbd')
+#         return exclude_company_id
+
+#     def read_include_all_company(self):
+#         try:
+#             sql = '''select t1.DBD_ID, t2.id from dbdcompany as t1 
+#                      inner join mdbd as t2 on t1.DBD_ID = t2.regisid where t2.id'''
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             include_company_ids = cur.fetchall()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find id that include in mdbd')
+#         return include_company_ids
+#     #####################################
+
+
+
+#     def read_company_info_old(self, company_id):
+#         try:
+#             sql = f'''select 
+#             DBD_ID, DBD_TYPE, DBD_REGISTRATION_DATE, DBD_STATUS, DBD_REGISTRATION_MONEY, DBD_STREET, DBD_SUBDISTRICT, DBD_DISTRICT, DBD_PROVINCE, DBD_ZIPCODE, DBD_BUSINESS_TYPE_CODE, DBD_BUSINESS_TYPE, DBD_OBJECTIVE, DBD_NAME_TH
+#             from dbdcompany where DBD_ID = '{company_id}';'''
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             company_info = cur.fetchone()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find company info')
+#         return company_info
+
+#     def read_company_info(self, company_ids):
+#         try:
+#             id_str = ''
+#             for company_id in company_ids:
+#                 id_str += '"' + str(company_id[0]) + '",'
+#             id_str = id_str.rstrip(',')
+#             #print(id_str)
+
+#             sql = f'''select 
+#             DBD_ID, DBD_TYPE, DBD_REGISTRATION_DATE, DBD_STATUS, DBD_REGISTRATION_MONEY, DBD_STREET, DBD_SUBDISTRICT, DBD_DISTRICT, DBD_PROVINCE, DBD_ZIPCODE, DBD_BUSINESS_TYPE_CODE, DBD_BUSINESS_TYPE, DBD_OBJECTIVE, DBD_NAME_TH
+#             from dbdcompany where DBD_ID in ({id_str});'''
+#             #print(sql)
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             company_info = cur.fetchall()
+#             #print(company_info)
+#         except Exception as e:
+#             print(e)
+#             print('fail to find company info')
+#         return company_info
+
+#     def find_biggest_id(self, num):
+#         try:
+#             sql = f'SELECT * FROM mdbd WHERE id < {num} ORDER BY id DESC LIMIT 1'
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             biggest = cur.fetchone()
+#         except Exception as e:
+#             print(e)
+#             print('fail to find biggest id')
+#         return biggest
+
+
+#     def clear_status_before_annually(self, start, end):
+#         try:
+#             sql = 'update dbd_query set DBD_STATUS = null'
+#             cur = self.db.cursor()
+#             cur.execute(sql)
+#             print('finish set dbd_query.status to null')
+#         except Exception as e:
+#             print(e)
+#             print('fail to set dbd_query status')
+#         finally:
+#             cur.close()
+
+
+#     def dbClose(self):
+#         self.db.close()
+#         print("database closed")
+
+
+# if __name__ == '__main__':
+#     db = DbdConnector()
+#     for i in db.read_include_new_company():
+#         print(db.read_company_info(i[0]))
+
+        
