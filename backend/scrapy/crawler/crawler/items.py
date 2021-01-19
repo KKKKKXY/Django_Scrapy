@@ -7,6 +7,15 @@ import scrapy
 
 
 class CrawlerItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    company_id          = scrapy.Field()
+    company_name        = scrapy.Field()
+    company_type        = scrapy.Field()
+    status              = scrapy.Field()
+    objective           = scrapy.Field()
+    directors           = scrapy.Field()
+    bussiness_type      = scrapy.Field()
+    address             = scrapy.Field()
+    tel                 = scrapy.Field()
+    fax                 = scrapy.Field()
+    website             = scrapy.Field()
+    email               = scrapy.Field()
