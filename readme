@@ -1,0 +1,54 @@
+pip: 
+    create venv on window 
+    `python -m venv venv --without-pip`
+
+    create venv on ubuntu 
+    `virtualenv venv `
+
+    activate the window server policy on powershell
+    `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process` 
+
+    run python enviroment
+    `.\venv\Scripts\activate`
+
+    freeze requirements
+    `pip freeze > requirements.txt`
+
+    install package from textfile
+    `pip install -r requirements.txt`
+
+    generate a list of all outdated packages
+    `pip list --outdated`
+
+    update a list of all outdated packages
+    `pip list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip install -U`
+
+django: 
+    migrate data only first time
+    `python manage.py migrate`
+
+    create session after create new model
+    `python manage.py migrate sessions`
+
+    add super user
+    `python manage.py createsuperuser` or 
+    `python manage.py createsuperuser --email root@example.com --username root`
+
+    start server in docker with no reload because reduce cpu overload
+    `python manage.py runserver 0.0.0.0:8000 --noreload`
+
+    * when update new model run command
+    `python manage.py makemigrations`
+
+    * when has new file for makemigration run 
+    `python manage.py migrate`
+
+    **when start new project use for setup project
+    `django-admin startproject base .`    
+
+    use for create structure build code
+    `django-admin startapp core`
+
+scrapy:
+    install scrapy project
+    `scrapy startproject dbdv2`

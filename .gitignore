@@ -1,0 +1,10 @@
+# vscode configuration
+.vscode
+backend/base/.env
+
+# version control
+mya_v0.0.1
+
+# python cache
+backend/base/__pycache__
+backend/scrapy/__pycache__
