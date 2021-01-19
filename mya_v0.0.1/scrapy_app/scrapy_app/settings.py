@@ -1,4 +1,4 @@
-# Scrapy settings for crawler project
+# Scrapy settings for scrapy_app project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -13,24 +13,30 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.abspath('.')))
 # Do not forget the change iCrawler part based on your project name
-os.environ['DJANGO_SETTINGS_MODULE'] = '../../base.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'DBDCrawler.settings'
 
 # This is required only if Django Version > 1.8
 import django
 django.setup()
 
-BOT_NAME = 'crawler'
 
-SPIDER_MODULES = ['crawler.spiders']
-NEWSPIDER_MODULE = 'crawler.spiders'
+## Rest of settings are below ...
+
+BOT_NAME = 'scrapy_app'
+
+SPIDER_MODULES = ['scrapy_app.spiders']
+NEWSPIDER_MODULE = 'scrapy_app.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'crawler (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrapy_app (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 FEED_EXPORT_ENCODING = 'utf-8'
+
+
+
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -58,13 +64,13 @@ DOWNLOAD_DELAY = 3
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'crawler.middlewares.CrawlerSpiderMiddleware': 543,
+#    'scrapy_app.middlewares.ScrapyAppSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'crawler.middlewares.CrawlerDownloaderMiddleware': 543,
+   'scrapy_app.middlewares.ScrapyAppDownloaderMiddleware': 543,
 }
 
 # Enable or disable extensions
@@ -76,7 +82,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'crawler.pipelines.CrawlerPipeline': 300,
+   'scrapy_app.pipelines.ScrapyAppPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

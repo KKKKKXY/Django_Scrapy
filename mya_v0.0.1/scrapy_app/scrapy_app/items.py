@@ -6,7 +6,7 @@
 import scrapy
 
 
-class CrawlerItem(scrapy.Item):
+class ScrapyAppItem(scrapy.Item):
     company_id          = scrapy.Field()
     company_name        = scrapy.Field()
     company_type        = scrapy.Field()
