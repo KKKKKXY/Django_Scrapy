@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  pip:
+    build:
+      context: ./
+      dockerfile: python.dockerfile
+    container_name: dbdv3_backend
+    tty: true
+    restart: always
+    working_dir: /backend
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 1200:8000
+    networks:
+      - proxy-db
+
+networks:
+  proxy-db:
+    external:
+      name: proxy-db
