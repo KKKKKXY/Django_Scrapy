@@ -11,17 +11,19 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tfz9s2uidnwt*)q&semnkvee85+ok2m_ih9&cbt6s#0@q6^g1#'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,11 +80,11 @@ WSGI_APPLICATION = 'base.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbdv3',
-        'USER': 'root',
-        'PASSWORD': 'opencloud1',
-        'HOST': 'database',
-        'PORT': 3306,
+        'NAME': env('DEFAULT_DATABASE_NAME'),
+        'USER': env('DEFAULT_DATABASE_USER'),
+        'PASSWORD': env('DEFAULT_DATABASE_PASSWORD'),
+        'HOST': env('DEFAULT_DATABASE_HOST'),
+        'PORT': env('DEFAULT_DATABASE_PORT'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
