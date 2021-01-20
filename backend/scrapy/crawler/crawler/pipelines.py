@@ -6,16 +6,13 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from scrapy_app.reg import *
+from .reg import *
 import json
-from main.models import ScrapyItem
-from scrapy_app.dbd_connector import DbdConnector
-
+from scrapy.models import DBDCompanyModel
 
 class CrawlerPipeline(object):
     def __init__(self, *args, **kwargs):
         self.items = []
-        self.dbconnector = DbdConnector()
 
     def close_spider(self, spider):
         pass
@@ -69,32 +66,25 @@ class CrawlerPipeline(object):
         if province == None or province == '':
             province = '-'
 
-        new_item = ScrapyItem()
+        new_item = DBDCompanyModel()
         new_item.company_name           = company_name
         new_item.company_id             = company_id
         new_item.company_type           = company_type
-        # new_item.status                 = status
-        # new_item.address                = address
+        new_item.status                 = status
+        new_item.address                = address
         new_item.objective              = objective
-        # new_item.directors              = directors
-        # new_item.bussiness_type         = bussiness_type
-        # new_item.bussiness_type_code    = bussiness_type_code
-        # new_item.street                 = street
-        # new_item.subdistrict            = subdistrict
-        # new_item.district               = district
-        # new_item.province               = province
-        # new_item.tel                    = tel
-        # new_item.fax                    = fax
-        # new_item.website                = website
-        # new_item.email                  = email
-        # new_item.save()
-
-        # format_str = """INSERT INTO all_companies (COMPANY_NAME, COMPANY_ID, COMPANY_TYPE, COMPANY_STATUS, COMPANY_ADDRESS, COMPANY_OBJECTIVE, COMPANY_DIRECTORS, COMPANY_BUSINESS_TYPE, COMPANY_BUSINESS_TYPE_CODE, COMPANY_STREET, COMPANY_SUBDISTRICT, COMPANY_DISTRICT, COMPANY_PROVINCE, TEL, FAX, WEBSITE, EMAIL) VALUES ("{company_name}", "{company_id}", "{company_type}", "{status}", "{address}", "{objective}", "{directors}", "{bussiness_type}", "{bussiness_type_code}", "{street}", "{subdistrict}", "{district}", "{province}", "{tel}", "{fax}", "{website}", "{email}");"""
-
-        # sql_command = format_str.format(company_name=company_name, company_id=company_id, company_type=company_type, status=status, address=address, objective=objective, directors=directors, bussiness_type=bussiness_type, bussiness_type_code=bussiness_type_code, street=street, subdistrict=subdistrict, district=district, province=province, tel=tel, fax=fax, website=website, email=email)
-
-        # #update database
-        # self.dbconnector.insertCompanyInfo(sql_command, company_id)
+        new_item.directors              = directors
+        new_item.bussiness_type         = bussiness_type
+        new_item.bussiness_type_code    = bussiness_type_code
+        new_item.street                 = street
+        new_item.subdistrict            = subdistrict
+        new_item.district               = district
+        new_item.province               = province
+        new_item.tel                    = tel
+        new_item.fax                    = fax
+        new_item.website                = website
+        new_item.email                  = email
+        new_item.save()
 
         print('========================clean data========================')
         print(new_item)

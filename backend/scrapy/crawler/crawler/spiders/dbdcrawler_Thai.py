@@ -1,12 +1,10 @@
 import os, time, re, pickle, signal
-import pytesseract
-from PIL import Image
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
 import scrapy
 import json
-from scrapy_app.items import ScrapyAppItem
+from crawler.items import CrawlerItem
 from scrapy.spiders import CrawlSpider #, Rule
 import openpyxl
 import random
@@ -51,13 +49,13 @@ class DbdcrawlerSpider(CrawlSpider):
         return cookies
 
     # def writeJsonFile(self, data):
-    #     filePath = 'backend/scrapy/crawler/crawler/spiders/temp/thaiVersion.json'
+    #     filePath = '/backend/scrapy/crawler/crawler/spiders/temp/thaiVersion.json'
     #     a_file = open(filePath, "w", encoding='utf-8')
     #     line = json.dumps(data, ensure_ascii=False) + "\n"
     #     a_file.write(line)
 
     # def readLoadsFile(self):
-    #     loadsfilePath = 'backend/scrapy/crawler/crawler/spiders/temp/thaiVersion.json'
+    #     loadsfilePath = '/backend/scrapy/crawler/crawler/spiders/temp/thaiVersion.json'
     #     print('------------Target Company Information------------')
     #     loadsdata = json.load(open(loadsfilePath))
     #     print(loadsdata)
@@ -114,7 +112,7 @@ class DbdcrawlerSpider(CrawlSpider):
         if email == None:
             email = '-'
 
-        item = ScrapyAppItem()
+        item = CrawlerItem()
         item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
         item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
         item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()

@@ -8,4 +8,9 @@ mya_v0.0.1
 # python cache
 backend/base/__pycache__
 backend/scrapy/__pycache__
+backend/scrapy/crawler/crawler/__pycache__
+backend/scrapy/crawler/crawler/spiders/__pycache__
 backend/scrapy/migrations/__pycache__
+mya_v0.0.1/main/__pycache__
+mya_v0.0.1/scrapy_app/scrapy_app/__pycache__
+mya_v0.0.1/scrapy_app/scrapy_app/spiders/__pycache__

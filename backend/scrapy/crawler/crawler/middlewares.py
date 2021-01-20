@@ -15,7 +15,6 @@ from scrapy import signals
 from scrapy.http import HtmlResponse
 from requests.exceptions import Timeout
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
-import logging
 
 class CrawlerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -86,7 +85,7 @@ class CrawlerDownloaderMiddleware(RetryMiddleware):
 
     def process_request(self, request, spider):
          #load cookie from local
-        cookie_path = '/Users/mya/Desktop/Django_Scrapy/backend/scrapy/crawler/crawler/spiders/temp/cookie.json'
+        cookie_path = '/backend/scrapy/crawler/crawler/spiders/temp/cookie.json'
         if os.path.isfile(cookie_path):
             try:
                 with open(cookie_path, 'rb') as f: 
