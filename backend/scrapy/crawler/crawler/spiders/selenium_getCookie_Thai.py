@@ -1,16 +1,14 @@
 import os, time, re, pickle, signal
 from selenium import webdriver
-import pytesseract
-from PIL import Image
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 import scrapy
 
 # Selenium Part
 # Setting driver
-driver = webdriver.Chrome('/Users/mya/Downloads/chromedriver')
+driver = webdriver.Chrome('/backend/chromedriver')
 driver.maximize_window()
-screenshot_path =  'backend/scrapy/crawler/crawler/spiders/temp/screenshot.png'
+screenshot_path =  '/backend/scrapy/crawler/crawler/spiders/temp/screenshot.png'
 login_page_url = 'https://datawarehouse.dbd.go.th/login'
 cookie_path = '/backend/scrapy/crawler/crawler/spiders/temp/cookie.json'
 
@@ -42,9 +40,3 @@ def getAndStoreCookieAfterLogin():
 
 # check whether access 'https://datawarehouse.dbd.go.th/index' page successfully
 getAndStoreCookieAfterLogin()
-
-# Search 'Opencloud' and access 'https://datawarehouse.dbd.go.th/company/profile/5/0105554123553' page
-# Thai version
-# driver.find_element_by_xpath('//*[@id="textStr"]').send_keys('Opencloud')
-# driver.find_element_by_xpath('//*[@id="form"]/div[2]/div/div/div[2]/button').click()
-# driver.find_element_by_xpath('//*[@id="fixTable"]/tbody/tr').click()

@@ -1,12 +1,10 @@
 # import os, time, re, pickle, signal
-# import pytesseract
-# from PIL import Image
 # from selenium.webdriver.chrome.options import Options
 # from selenium.common.exceptions import TimeoutException
 # from selenium import webdriver
 # import scrapy
 # import json
-# from scrapy_app.items import ScrapyAppItem
+# from crawler.items import CrawlerItem
 # from scrapy.spiders import CrawlSpider #, Rule
 # import openpyxl
 # import random
@@ -25,7 +23,7 @@
 #             yield scrapy.Request(url, self.parse)
 
 #     def getCookie(self):
-#         cookie_path = '/Users/mya/Desktop/Django_Scrapy/backend/scrapy/crawler/crawler/spiders/temp'
+#         cookie_path = '/backend/scrapy/crawler/crawler/spiders/temp/cookie.json'
 #         if os.path.isfile(cookie_path):
 #             try:
 #                 with open(cookie_path, 'rb') as f: 
@@ -41,7 +39,7 @@
 #         return cookies
 
 #     def random_company(self):
-#         companies_path = '/Users/mya/Desktop/Django_Scrapy/backend/scrapy/crawler/crawler/spiders/db/dbd_oct2020.xlsx'
+#         companies_path = '/backend/scrapy/crawler/crawler/spiders/db/dbd_oct2020.xlsx'
 #         companies_id = []
 #         wb_obj = openpyxl.load_workbook(companies_path)
 #         sheet_obj = wb_obj.active
@@ -90,7 +88,7 @@
 #         if email == None:
 #             email = '-'
 
-#         item = ScrapyAppItem()
+#         item = CrawlerItem()
 #         item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
 #         item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
 #         item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
