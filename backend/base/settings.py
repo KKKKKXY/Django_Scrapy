@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'scrapy'
+    'scrapy_eng_app',
+    'scrapy_thai_app',
 ]
 
 MIDDLEWARE = [
