@@ -20,6 +20,7 @@ class DBDCompany_Thai(models.Model):
     company_fax                     = models.CharField(db_column='company_fax', max_length=255)
     company_website                 = models.CharField(db_column='company_website', max_length=255)
     company_email                   = models.CharField(db_column='company_email', max_length=255)
+    date                            = models.DateTimeField(default=timezone.now)
     # company_zipcode         = models.CharField(db_column='company_zipcode', max_length=240)
     
     def __str__(self):
