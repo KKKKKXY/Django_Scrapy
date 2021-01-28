@@ -6,8 +6,11 @@ import scrapy
 import json
 from eng_spider.items import EngSpiderItem
 from scrapy.spiders import CrawlSpider #, Rule
-import openpyxl
-import random
+
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
+from data_reader.excel_reader import *
+from data_reader.pdf_reader import *
 
 class DbdcrawlerSpider1(CrawlSpider):
     name = "dbdcrawler_Eng1"
@@ -39,15 +42,12 @@ class DbdcrawlerSpider1(CrawlSpider):
         return cookies
 
     def random_company(self):
-        companies_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_oct2020.xlsx'
-        companies_id = []
-        wb_obj = openpyxl.load_workbook(companies_path)
-        sheet_obj = wb_obj.active
-        max_row = sheet_obj.max_row
-        for i in range(10): 
-            rnum = random.randint(4, max_row + 1)
-            cell_obj = sheet_obj.cell(row = rnum, column = 2)
-            companies_id.append(cell_obj.value)        
+        # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
+        # companies_id = get_cid_from_excel(excel_path)
+        pdf_path = '/backend/data_files/dbd_oct2020.pdf'
+        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
+        convert_pdf_to_excel(pdf_path, pdf_to_excel_path)
+        companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
 
@@ -135,17 +135,13 @@ class DbdcrawlerSpider2(CrawlSpider):
         return cookies
 
     def random_company(self):
-        companies_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_oct2020.xlsx'
-        companies_id = []
-        wb_obj = openpyxl.load_workbook(companies_path)
-        sheet_obj = wb_obj.active
-        max_row = sheet_obj.max_row
-        for i in range(10): 
-            rnum = random.randint(4, max_row + 1)
-            cell_obj = sheet_obj.cell(row = rnum, column = 2)
-            companies_id.append(cell_obj.value)        
+        # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
+        # companies_id = get_cid_from_excel(excel_path)
+        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
+        companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
+
 
     def parse(self, response):
         print('------------START SCRAPING------------')
@@ -231,15 +227,10 @@ class DbdcrawlerSpider3(CrawlSpider):
         return cookies
 
     def random_company(self):
-        companies_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_oct2020.xlsx'
-        companies_id = []
-        wb_obj = openpyxl.load_workbook(companies_path)
-        sheet_obj = wb_obj.active
-        max_row = sheet_obj.max_row
-        for i in range(10): 
-            rnum = random.randint(4, max_row + 1)
-            cell_obj = sheet_obj.cell(row = rnum, column = 2)
-            companies_id.append(cell_obj.value)        
+        # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
+        # companies_id = get_cid_from_excel(excel_path)
+        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
+        companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
 
@@ -327,15 +318,10 @@ class DbdcrawlerSpider4(CrawlSpider):
         return cookies
 
     def random_company(self):
-        companies_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_oct2020.xlsx'
-        companies_id = []
-        wb_obj = openpyxl.load_workbook(companies_path)
-        sheet_obj = wb_obj.active
-        max_row = sheet_obj.max_row
-        for i in range(10): 
-            rnum = random.randint(4, max_row + 1)
-            cell_obj = sheet_obj.cell(row = rnum, column = 2)
-            companies_id.append(cell_obj.value)        
+        # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
+        # companies_id = get_cid_from_excel(excel_path)
+        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
+        companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
 
@@ -423,18 +409,13 @@ class DbdcrawlerSpider5(CrawlSpider):
         return cookies
 
     def random_company(self):
-        companies_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_oct2020.xlsx'
-        companies_id = []
-        wb_obj = openpyxl.load_workbook(companies_path)
-        sheet_obj = wb_obj.active
-        max_row = sheet_obj.max_row
-        for i in range(10): 
-            rnum = random.randint(4, max_row + 1)
-            cell_obj = sheet_obj.cell(row = rnum, column = 2)
-            companies_id.append(cell_obj.value)        
+        # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
+        # companies_id = get_cid_from_excel(excel_path)
+        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
+        companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
-
+        
     def parse(self, response):
         print('------------START SCRAPING------------')
         print('------------5------------')
