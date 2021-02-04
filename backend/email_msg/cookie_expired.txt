@@ -1,0 +1,6 @@
+<strong>Dear user!</strong>
+<p>This is a waring message, the captcha code: ' <strong>${CAPTCHACODE}</strong> ' you inputted is expired!</p>
+<p>Please wait a new screenshot and input captcha code again!</p>
+<br>
+<br>
+<p>Thank you.</p>

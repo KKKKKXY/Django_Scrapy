@@ -4,9 +4,8 @@ import openpyxl
 import random
 
 def convert_pdf_to_excel(path, pdf_to_excel_path):
-    print(path)
-    print(pdf_to_excel_path)
     print('------Convert PDF to EXCEL------')
+    # Columns iterpreted as str
     df = pd.DataFrame()
     col2str = {'dtype': str}
     kwargs = {'pages': 'all',
@@ -30,7 +29,6 @@ def get_cid_from_pdf(pdf_to_excel_path):
     wb_obj = openpyxl.load_workbook(pdf_to_excel_path)
     sheet_obj = wb_obj.active
     max_row = sheet_obj.max_row
-    print(max_row)
     for i in range(10): 
         rnum = random.randint(2, max_row)
         cell_obj = sheet_obj.cell(row = rnum, column = 3)

@@ -13,7 +13,12 @@ from data_reader.excel_reader import *
 from data_reader.pdf_reader import *
 
 class DbdcrawlerSpider1(CrawlSpider):
-    name = 'dbdcrawler_Thai'
+    name = 'dbdcrawler_Thai1'
+# ['0215563008523', '0735563007409', '0105563148288', '0133563004471', '0105563144444', '0105563152269', '0115563022152', '0205563032742', '0105563146757', '0105563153044']
+# ['0135563023183', '0215563008451', '0515563001241', '0105563145441', '0105563156281', '0193563001811', '0145563003999', '0105563148873', '0105563161578', '0145563003930']
+# ['0105563152188', '0205563032394', '0105563153044', '0105563157511', '0205563031428', '0343563003219', '0965563000411', '0105563152731', '0203563004275', '0105563158534']
+# ['0343563003278', '0133563005043', '0503563006658', '0135563023183', '0575563003359', '0105563150045', '0815563001434', '0303563005394', '0805563003020', '0105563154431']
+# ['0105563148393', '0105563147745', '0105563155039', '0245563003262', '0105563144703', '0133563004934', '0105563160148', '0145563003948', '0105563156434', '0205563031738']
 
     # def __init__(self, *args, **kwargs):
     #     # We are going to pass these args from our django view.
@@ -47,7 +52,6 @@ class DbdcrawlerSpider1(CrawlSpider):
             if i['name']=='JSESSIONID':
                 cookies= i['value']
                 break
-        print(cookies)
         return cookies
 
     # def writeJsonFile(self, data):
@@ -75,63 +79,81 @@ class DbdcrawlerSpider1(CrawlSpider):
         return companies_id
 
     def parse(self, response):
-        print('------------START SCRAPING------------')
-        print('------------1------------')
+        print('------------START SCRAPING BROWSER 1------------')
         time.sleep(5)
-        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get()
-        if objective == '-' or objective == None:
-            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        if objective == None:
+            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
+        else:
+            objective = objective.strip()
 
         director_list = []
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
 
-        raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get()
-        try:
+        raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
+        if raw_bussiness_type == None:
+            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        else:
             raw_bussiness_type = raw_bussiness_type.strip()
-        except:
-            raw_bussiness_type = 'ERRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRR:' + response.url.split('/')[-1]
 
-        if raw_bussiness_type == '-'  or raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get().strip()
-
-        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get().strip()
+        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get()
         if tel == None:
             tel = '-'
+        else:
+            tel = tel.strip()
 
-        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get().strip()
+        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get()
         if fax == None:
             fax = '-'
+        else:
+            fax = fax.strip()
 
-        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get().strip()
+        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get()
         if website == None:
             website = '-'
+        else:
+            website = website.strip()
 
-        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get().strip()
+        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get()
         if email == None:
             email = '-'
+        else:
+            email = email.strip()
+
+        last_registered_id_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[1]/text()').get()
+        if last_registered_id_title == 'เลขทะเบียนเดิม':
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
+        else:
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+
+        fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+        else:
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
 
         item = ThaiSpiderItem()
-        item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
-        item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
-        item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
-        item['status']              = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
-        item['objective']           = objective.strip()
-        item['directors']           = director_list
-        item['bussiness_type']      = raw_bussiness_type
-        item['address']             = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
-        item['tel']                 = tel
-        item['fax']                 = fax
-        item['website']             = website
-        item['email']               = email
-        # item['scr']                 = '1'
+        item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
+        item['company_name']            = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
+        item['company_type']            = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
+        item['status']                  = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
+        item['objective']               = objective
+        item['directors']               = director_list
+        item['bussiness_type']          = raw_bussiness_type
+        item['address']                 = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
+        item['tel']                     = tel
+        item['fax']                     = fax
+        item['website']                 = website
+        item['email']                   = email
+        item['last_registered_id']      = last_registered_id
+        item['fiscal_year']             = fiscal_year
 
         # print('------------Target Target Target------------')
         # self.writeJsonFile(data)
         # # item = self.readLoadsFile()
         # print(item)
-
         return item
 
 class DbdcrawlerSpider2(CrawlSpider):
@@ -160,7 +182,6 @@ class DbdcrawlerSpider2(CrawlSpider):
             if i['name']=='JSESSIONID':
                 cookies= i['value']
                 break
-        print(cookies)
         return cookies
 
     def random_company(self):
@@ -172,58 +193,77 @@ class DbdcrawlerSpider2(CrawlSpider):
         return companies_id
 
     def parse(self, response):
-        print('------------START SCRAPING------------')
-        print('------------2------------')
+        print('------------START SCRAPING BROWSER 2------------')
         time.sleep(5)
-        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get()
-        if objective == '-' or objective == None:
-            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        if objective == None:
+            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
+        else:
+            objective = objective.strip()
 
         director_list = []
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
-
-        raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get()
-        try:
+            
+        raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
+        if raw_bussiness_type == None:
+            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        else:
             raw_bussiness_type = raw_bussiness_type.strip()
-        except:
-            raw_bussiness_type = 'ERRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRR:' + response.url.split('/')[-1]
 
-        if raw_bussiness_type == '-'  or raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get().strip()
-
-        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get().strip()
+        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get()
         if tel == None:
             tel = '-'
+        else:
+            tel = tel.strip()
 
-        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get().strip()
+        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get()
         if fax == None:
             fax = '-'
+        else:
+            fax = fax.strip()
 
-        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get().strip()
+        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get()
         if website == None:
             website = '-'
+        else:
+            website = website.strip()
 
-        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get().strip()
+        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get()
         if email == None:
             email = '-'
+        else:
+            email = email.strip()
+            
+        last_registered_id_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[1]/text()').get()
+        if last_registered_id_title == 'เลขทะเบียนเดิม':
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
+        else:
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+
+        fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+        else:
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
 
         item = ThaiSpiderItem()
-        item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
-        item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
-        item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
-        item['status']              = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
-        item['objective']           = objective.strip()
-        item['directors']           = director_list
-        item['bussiness_type']      = raw_bussiness_type
-        item['address']             = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
-        item['tel']                 = tel
-        item['fax']                 = fax
-        item['website']             = website
-        item['email']               = email
-        # item['scr']                 = '2'
-        
+        item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
+        item['company_name']            = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
+        item['company_type']            = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
+        item['status']                  = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
+        item['objective']               = objective
+        item['directors']               = director_list
+        item['bussiness_type']          = raw_bussiness_type
+        item['address']                 = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
+        item['tel']                     = tel
+        item['fax']                     = fax
+        item['website']                 = website
+        item['email']                   = email
+        item['last_registered_id']      = last_registered_id
+        item['fiscal_year']             = fiscal_year
+
         return item
 
 class DbdcrawlerSpider3(CrawlSpider):
@@ -252,7 +292,6 @@ class DbdcrawlerSpider3(CrawlSpider):
             if i['name']=='JSESSIONID':
                 cookies= i['value']
                 break
-        print(cookies)
         return cookies
 
     def random_company(self):
@@ -264,58 +303,77 @@ class DbdcrawlerSpider3(CrawlSpider):
         return companies_id
 
     def parse(self, response):
-        print('------------START SCRAPING------------')
-        print('------------3------------')
+        print('------------START SCRAPING BROWSER 3------------')
         time.sleep(5)
-        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get()
-        if objective == '-' or objective == None:
-            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        if objective == None:
+            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
+        else:
+            objective = objective.strip()
 
         director_list = []
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
 
-        raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get()
-        try:
+        raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
+        if raw_bussiness_type == None:
+            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        else:
             raw_bussiness_type = raw_bussiness_type.strip()
-        except:
-            raw_bussiness_type = 'ERRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRR:' + response.url.split('/')[-1]
 
-        if raw_bussiness_type == '-'  or raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get().strip()
-
-        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get().strip()
+        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get()
         if tel == None:
             tel = '-'
+        else:
+            tel = tel.strip()
 
-        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get().strip()
+        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get()
         if fax == None:
             fax = '-'
+        else:
+            fax = fax.strip()
 
-        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get().strip()
+        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get()
         if website == None:
             website = '-'
+        else:
+            website = website.strip()
 
-        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get().strip()
+        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get()
         if email == None:
             email = '-'
+        else:
+            email = email.strip()
+            
+        last_registered_id_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[1]/text()').get()
+        if last_registered_id_title == 'เลขทะเบียนเดิม':
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
+        else:
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+
+        fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+        else:
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
 
         item = ThaiSpiderItem()
-        item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
-        item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
-        item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
-        item['status']              = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
-        item['objective']           = objective.strip()
-        item['directors']           = director_list
-        item['bussiness_type']      = raw_bussiness_type
-        item['address']             = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
-        item['tel']                 = tel
-        item['fax']                 = fax
-        item['website']             = website
-        item['email']               = email
-        # item['scr']                 = '3'
-        
+        item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
+        item['company_name']            = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
+        item['company_type']            = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
+        item['status']                  = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
+        item['objective']               = objective
+        item['directors']               = director_list
+        item['bussiness_type']          = raw_bussiness_type
+        item['address']                 = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
+        item['tel']                     = tel
+        item['fax']                     = fax
+        item['website']                 = website
+        item['email']                   = email
+        item['last_registered_id']      = last_registered_id
+        item['fiscal_year']             = fiscal_year
+
         return item
 
 class DbdcrawlerSpider4(CrawlSpider):
@@ -344,7 +402,6 @@ class DbdcrawlerSpider4(CrawlSpider):
             if i['name']=='JSESSIONID':
                 cookies= i['value']
                 break
-        print(cookies)
         return cookies
 
     def random_company(self):
@@ -356,58 +413,77 @@ class DbdcrawlerSpider4(CrawlSpider):
         return companies_id
 
     def parse(self, response):
-        print('------------START SCRAPING------------')
-        print('------------4------------')
+        print('------------START SCRAPING BROWSER 4------------')
         time.sleep(5)
-        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get()
-        if objective == '-' or objective == None:
-            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        if objective == None:
+            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
+        else:
+            objective = objective.strip()
 
         director_list = []
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
-
-        raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get()
-        try:
+            
+        raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
+        if raw_bussiness_type == None:
+            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        else:
             raw_bussiness_type = raw_bussiness_type.strip()
-        except:
-            raw_bussiness_type = 'ERRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRR:' + response.url.split('/')[-1]
 
-        if raw_bussiness_type == '-'  or raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get().strip()
-
-        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get().strip()
+        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get()
         if tel == None:
             tel = '-'
+        else:
+            tel = tel.strip()
 
-        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get().strip()
+        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get()
         if fax == None:
             fax = '-'
+        else:
+            fax = fax.strip()
 
-        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get().strip()
+        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get()
         if website == None:
             website = '-'
+        else:
+            website = website.strip()
 
-        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get().strip()
+        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get()
         if email == None:
             email = '-'
+        else:
+            email = email.strip()
+            
+        last_registered_id_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[1]/text()').get()
+        if last_registered_id_title == 'เลขทะเบียนเดิม':
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
+        else:
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+
+        fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+        else:
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
 
         item = ThaiSpiderItem()
-        item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
-        item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
-        item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
-        item['status']              = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
-        item['objective']           = objective.strip()
-        item['directors']           = director_list
-        item['bussiness_type']      = raw_bussiness_type
-        item['address']             = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
-        item['tel']                 = tel
-        item['fax']                 = fax
-        item['website']             = website
-        item['email']               = email
-        # item['scr']                 = '4'
-        
+        item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
+        item['company_name']            = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
+        item['company_type']            = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
+        item['status']                  = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
+        item['objective']               = objective
+        item['directors']               = director_list
+        item['bussiness_type']          = raw_bussiness_type
+        item['address']                 = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
+        item['tel']                     = tel
+        item['fax']                     = fax
+        item['website']                 = website
+        item['email']                   = email
+        item['last_registered_id']      = last_registered_id
+        item['fiscal_year']             = fiscal_year
+
         return item
 
 class DbdcrawlerSpider5(CrawlSpider):
@@ -436,7 +512,6 @@ class DbdcrawlerSpider5(CrawlSpider):
             if i['name']=='JSESSIONID':
                 cookies= i['value']
                 break
-        print(cookies)
         return cookies
 
     def random_company(self):
@@ -448,56 +523,75 @@ class DbdcrawlerSpider5(CrawlSpider):
         return companies_id
 
     def parse(self, response):
-        print('------------START SCRAPING------------')
-        print('------------5------------')
+        print('------------START SCRAPING BROWSER 5------------')
         time.sleep(5)
-        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get()
-        if objective == '-' or objective == None:
-            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
+        if objective == None:
+            objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
+        else:
+            objective = objective.strip()
 
         director_list = []
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
 
-        raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get()
-        try:
+        raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
+        if raw_bussiness_type == None:
+            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        else:
             raw_bussiness_type = raw_bussiness_type.strip()
-        except:
-            raw_bussiness_type = 'ERRRRRRRRRRRRRRRRRRRORRRRRRRRRRRRRRRRRRRRRR:' + response.url.split('/')[-1]
 
-        if raw_bussiness_type == '-'  or raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get().strip()
-
-        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get().strip()
+        tel = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[3]/td[2]/text()').get()
         if tel == None:
             tel = '-'
+        else:
+            tel = tel.strip()
 
-        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get().strip()
+        fax = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[4]/td[2]/text()').get()
         if fax == None:
             fax = '-'
+        else:
+            fax = fax.strip()
 
-        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get().strip()
+        website = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[5]/td[2]/text()').get()
         if website == None:
             website = '-'
+        else:
+            website = website.strip()
 
-        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get().strip()
+        email = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[6]/td[2]/text()').get()
         if email == None:
             email = '-'
+        else:
+            email = email.strip()
+            
+        last_registered_id_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[1]/text()').get()
+        if last_registered_id_title == 'เลขทะเบียนเดิม':
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
+        else:
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+
+        fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+        else:
+            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
 
         item = ThaiSpiderItem()
-        item['company_id']          = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
-        item['company_name']        = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
-        item['company_type']        = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
-        item['status']              = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
-        item['objective']           = objective.strip()
-        item['directors']           = director_list
-        item['bussiness_type']      = raw_bussiness_type
-        item['address']             = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
-        item['tel']                 = tel
-        item['fax']                 = fax
-        item['website']             = website
-        item['email']               = email
-        # item['scr']                 = '5'
-        
+        item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()
+        item['company_name']            = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[1]/h2/text()').get().strip()
+        item['company_type']            = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[1]/th[2]/text()').get().strip()
+        item['status']                  = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[3]/td[2]/text()').get().strip()
+        item['objective']               = objective
+        item['directors']               = director_list
+        item['bussiness_type']          = raw_bussiness_type
+        item['address']                 = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[2]/table/tr[2]/td/text()').get().strip()   
+        item['tel']                     = tel
+        item['fax']                     = fax
+        item['website']                 = website
+        item['email']                   = email
+        item['last_registered_id']      = last_registered_id
+        item['fiscal_year']             = fiscal_year
+
         return item
