@@ -83,7 +83,7 @@ class EngSpiderDownloaderMiddleware(RetryMiddleware):
         return s
 
     def process_request(self, request, spider):
-         #load cookie from local
+        # load cookie from local
         cookie_path = '/backend/temp/cookie.json'
         if os.path.isfile(cookie_path):
             try:

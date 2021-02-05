@@ -1,5 +1,6 @@
 import re
 import datetime
+
 def address_separater(s):
     #this method separater the address which from datawarehouse to small part
     if s:
@@ -147,12 +148,16 @@ def business_type_separater(s):
     s = s.strip('"')
     bussiness_type_code = ''
     bussiness_type      = ''
-    try:
-        matchObject = re.match('([0-9]*)(.*)', s)
-        bussiness_type_code = matchObject.group(1).strip()
-        bussiness_type      = matchObject.group(2).strip()
-    except:
-        print('error')
+    if s == '-':
+        bussiness_type_code = '-'
+        bussiness_type      = '-'
+    else:
+        try:
+            matchObject = re.match('([0-9]*)(.*)', s)
+            bussiness_type_code = matchObject.group(1).strip()
+            bussiness_type      = matchObject.group(2).strip()
+        except:
+            print('Convert business type faild')
 
     return (bussiness_type_code, bussiness_type)
 
@@ -168,27 +173,24 @@ def date_convert(time):
 
 def directors_convert(directors):
         directors_text      = ''
-
         count = 0
 
         for line in directors:
             if 'ลงหุ้นด้วย' in line:
-                directors_text  = directors_text + line+'\n'
+                directors_text  = directors_text # + line+'\n'
             else:
+                if '/' in line:
+                    line = line[:-1]
                 directors_text  = directors_text + str(count+1)+'. '+ line+'\n'
                 count += 1
         directors_text      = directors_text.rstrip()
 
         return directors_text
 
+# if __name__ == "__main__":
+#     strings = ['857 ซอยเพชรเกษม94 แขวงบางแคเหนือ เขตบางแค กรุงเทพมหานคร', '39 หมู่ที่ 5 ต.นิคมพัฒนา อ.นิคมพัฒนา จ.ระยอง', '122/2หมู่ที่12 ตำบลสันกำแพงอำเภอสันกำแพงจ.เชียงใหม่']
 
-
-
-
-if __name__ == "__main__":
-    strings = ['857 ซอยเพชรเกษม94 แขวงบางแคเหนือ เขตบางแค กรุงเทพมหานคร', '39 หมู่ที่ 5 ต.นิคมพัฒนา อ.นิคมพัฒนา จ.ระยอง', '122/2หมู่ที่12 ตำบลสันกำแพงอำเภอสันกำแพงจ.เชียงใหม่']
-
-    for string in strings:
-        address = address_separater(string)
-        print(f'raw address:{address}')
-        print(f'address with header:{address_decorator(address)}')
+#     for string in strings:
+#         address = address_separater(string)
+#         print(f'raw address:{address}')
+#         print(f'address with header:{address_decorator(address)}')

@@ -6,6 +6,8 @@
 # https://stackoverflow.com/questions/40262682/how-to-run-selenium-3-x-with-chrome-driver-through-terminal
 # https://askubuntu.com/questions/760085/how-do-you-install-google-chrome-on-ubuntu-16-04
 
+# Remeber download chromedriver_linux64.zip first and put into root path of project
+
 # Remove existing downloads and binaries so we can start from scratch.
 apt-get remove google-chrome-stable
 # rm ~/chromedriver_linux64.zip
@@ -14,6 +16,10 @@ rm /usr/bin/chromedriver
 # Install dependencies.
 apt-get update
 apt-get install tesseract-ocr
+
+# for run the tabula dictionary
+apt-get install default-jdk
+
 # apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
 
 # Install Chrome.
