@@ -1,6 +1,32 @@
-<h2>List of DBD Thai version data</h2>
-<ul>
-    <li *ngFor="let company of companies">
-        <h2>{{company.company_id}}</h2>
-    </li>
-</ul>
+  <!-- Toolbar -->
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <button mat-icon-button>
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      </button>
+      <h1>DBD Scrapy System V3</h1>
+      <span class="menu-spacer"></span>
+      <div>
+        <a mat-button [routerLink]="'/file-management'"> File Management </a>
+        <a mat-button [routerLink]="'/scrapy'"> Scrapy </a>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav>
+      <mat-nav-list>
+  
+        <a mat-list-item [routerLink]="'/file-management'"> File Management</a>
+        <a mat-list-item [routerLink]="'/scrapy'"> Scrapy </a>
+        <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+  
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div style="height: 88vh;">
+  
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

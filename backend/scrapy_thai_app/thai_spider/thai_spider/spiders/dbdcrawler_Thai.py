@@ -4,21 +4,21 @@ from selenium.common.exceptions import TimeoutException
 from selenium import webdriver
 import scrapy
 import json
-from thai_spider.items import ThaiSpiderItem
+# from thai_spider.items import ThaiSpiderItem
 from scrapy.spiders import CrawlSpider #, Rule
 
+
+# from thai_spider.items import ThaiSpiderItem
+# from scrapy_thai_app.thai_spider.thai_spider.items import ThaiSpiderItem
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
-from data_reader.excel_reader import *
-from data_reader.pdf_reader import *
+from scrapy_thai_app.thai_spider.thai_spider.items import ThaiSpiderItem
+from backend.data_reader.excel_reader import *
+from backend.data_reader.pdf_reader import *
+
 
 class DbdcrawlerSpider1(CrawlSpider):
     name = 'dbdcrawler_Thai1'
-# ['0215563008523', '0735563007409', '0105563148288', '0133563004471', '0105563144444', '0105563152269', '0115563022152', '0205563032742', '0105563146757', '0105563153044']
-# ['0135563023183', '0215563008451', '0515563001241', '0105563145441', '0105563156281', '0193563001811', '0145563003999', '0105563148873', '0105563161578', '0145563003930']
-# ['0105563152188', '0205563032394', '0105563153044', '0105563157511', '0205563031428', '0343563003219', '0965563000411', '0105563152731', '0203563004275', '0105563158534']
-# ['0343563003278', '0133563005043', '0503563006658', '0135563023183', '0575563003359', '0105563150045', '0815563001434', '0303563005394', '0805563003020', '0105563154431']
-# ['0105563148393', '0105563147745', '0105563155039', '0245563003262', '0105563144703', '0133563004934', '0105563160148', '0145563003948', '0105563156434', '0205563031738']
 
     # def __init__(self, *args, **kwargs):
     #     # We are going to pass these args from our django view.
@@ -37,7 +37,7 @@ class DbdcrawlerSpider1(CrawlSpider):
         companies_id = self.random_company()
         for i in companies_id:
             url = 'https://datawarehouse.dbd.go.th/company/profile/%s/%s' %(i[3],i)
-            yield scrapy.Request(url=url, cookies={"JSESSIONID":self.getCookie()}, callback=self.parse, encoding='utf-8')
+            yield scrapy.Request(url=url, cookies={"JSESSIONID":'NmRiZmJmM2ItNjdiYS00MmQ4LWJlN2ItOTM0OGI0ZWMyNjA2'}, callback=self.parse, encoding='utf-8')
 
     def getCookie(self):
         cookie_path = '/backend/temp/cookie.json'
@@ -54,26 +54,12 @@ class DbdcrawlerSpider1(CrawlSpider):
                 break
         return cookies
 
-    # def writeJsonFile(self, data):
-    #     filePath = '/backend/temp/thaiVersion.json'
-    #     a_file = open(filePath, "w", encoding='utf-8')
-    #     line = json.dumps(data, ensure_ascii=False) + "\n"
-    #     a_file.write(line)
-
-    # def readLoadsFile(self):
-    #     loadsfilePath = '/backend/temp/thaiVersion.json'
-    #     print('------------Target Company Information------------')
-    #     loadsdata = json.load(open(loadsfilePath))
-    #     print(loadsdata)
-    #     # print(loadsdata[0]['company_name'])
-    #     return loadsdata
-
     def random_company(self):
         # excel_path = '/backend/data_files/dbd_oct2020.xlsx'
         # companies_id = get_cid_from_excel(excel_path)
         pdf_path = '/backend/data_files/dbd_oct2020.pdf'
         pdf_to_excel_path = '/backend/scrapy_thai_app/thai_spider/thai_spider/spiders/db/dbd_from_pdf_thai.xlsx'
-        convert_pdf_to_excel(pdf_path, pdf_to_excel_path)
+        # convert_pdf_to_excel(pdf_path, pdf_to_excel_path)
         companies_id = get_cid_from_pdf(pdf_to_excel_path)
         print(companies_id)
         return companies_id
