@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from .reg import *
 import json
 from scrapy_thai_app.models import DBDCompany_Thai
+import logging
 
 
 class ThaiSpiderPipeline(object):
@@ -20,6 +21,7 @@ class ThaiSpiderPipeline(object):
 
     def process_item(self, item, spider):
         print(' ===== raw item data =====')
+        logging.debug(' ===== raw item data ====') 
         print(item)
 
         raw_company_id          = item['company_id']
@@ -103,6 +105,7 @@ class ThaiSpiderPipeline(object):
 
         if not qs:
             print(' ----> Store ' + company_id + ' a new company information...')
+            logging.debug(' ----> Store ' + company_id + ' a new company information...')
             new_item.company_name                   = company_name
             new_item.company_id                     = company_id
             new_item.company_type                   = company_type
@@ -125,87 +128,105 @@ class ThaiSpiderPipeline(object):
             
             new_item.save()
             print(' ----- Store company: ' + new_item.company_id + ' finished =====')
+            logging.debug(' ----- Store company: ' + new_item.company_id + ' finished =====')
 
         else:
             is_updated = False
             print(' ----> Check and update ' + company_id + ' company information...')
+            logging.debug(' ----> Check and update ' + company_id + ' company information...')
             if qs.company_name != company_name:
                 print(' >>>>> Company NAME is changed, updating...')
+                logging.debug(' >>>>> Company NAME is changed, updating...')
                 qs.company_name = company_name
                 is_updated = True
 
             if qs.company_type != company_type:
                 print(' >>>>> Company TYPE is changed, updating...')
+                logging.debug(' >>>>> Company TYPE is changed, updating...')
                 qs.company_type = company_type
                 is_updated = True
 
             if qs.company_status != status:
                 print(' >>>>> Company STATUS is changed, updating...')
+                logging.debug(' >>>>> Company STATUS is changed, updating...')
                 qs.company_status = status
                 is_updated = True
 
             if qs.company_address != address:
                 print(' >>>>> Company ADDRESS is changed, updating...')
+                logging.debug(' >>>>> Company ADDRESS is changed, updating...')
                 qs.company_address = address
                 is_updated = True
 
             if qs.company_objective != objective:
                 print(' >>>>> Company OBJECTIVE is changed, updating...')
+                logging.debug(' >>>>> Company OBJECTIVE is changed, updating...')
                 qs.company_objective = objective
                 is_updated = True
 
             if qs.company_directors != directors:
                 print(' >>>>> Company DIRECTORS is changed, updating...')
+                logging.debug(' >>>>> Company DIRECTORS is changed, updating...')
                 qs.company_directors = directors
                 is_updated = True
 
             if qs.company_bussiness_type != bussiness_type:
                 print(' >>>>> Company BUSSINESS TYPE is changed, updating...')
+                logging.debug(' >>>>> Company BUSSINESS TYPE is changed, updating...')
                 qs.company_bussiness_type = bussiness_type
                 is_updated = True
 
             if qs.company_bussiness_type_code != bussiness_type_code:
                 print(' >>>>> Company BUSSINESS TYPE CODE is changed, updating...')
+                logging.debug(' >>>>> Company BUSSINESS TYPE CODE is changed, updating...')
                 qs.company_bussiness_type_code = bussiness_type_code
                 is_updated = True
 
             if qs.company_street != street:
                 print(' >>>>> Company STREET is changed, updating...')
+                logging.debug(' >>>>> Company STREET is changed, updating...')
                 qs.company_street = street
                 is_updated = True
 
             if qs.company_subdistrict != subdistrict:
                 print(' >>>>> Company SUBDISTRICT is changed, updating...')
+                logging.debug(' >>>>> Company SUBDISTRICT is changed, updating...')
                 qs.company_subdistrict = subdistrict
                 is_updated = True
 
             if qs.company_district != district:
                 print(' >>>>> Company DISTRICT is changed, updating...')
+                logging.debug(' >>>>> Company DISTRICT is changed, updating...')
                 qs.company_district = district
                 is_updated = True
 
             if qs.company_province != province:
                 print(' >>>>> Company PROVINCE is changed, updating...')
+                logging.debug(' >>>>> Company PROVINCE is changed, updating...')
                 qs.company_province = province
                 is_updated = True
 
             if qs.company_tel != tel:
                 print(' >>>>> Company TEL. is changed, updating...')
+                logging.debug(' >>>>> Company TEL. is changed, updating...')
                 qs.company_tel = tel
                 is_updated = True
 
             if qs.company_fax != fax:
                 print(' >>>>> Company FAX is changed, updating...')
+                logging.debug(' >>>>> Company FAX is changed, updating...')
                 qs.company_fax = fax
                 is_updated = True
 
             if qs.company_website != website:
                 print(' >>>>> Company WEBSITE is changed, updating...')
+                logging.debug(' >>>>> Company WEBSITE is changed, updating...')
                 qs.company_website = website
                 is_updated = True
 
             if qs.company_email != email:
                 print(' >>>>> Company EMAIL is changed, updating...')
+                logging.debug(' >>>>> Company EMAIL is changed, updating...')
                 qs.company_email = email
                 is_updated = True
 
@@ -216,11 +237,13 @@ class ThaiSpiderPipeline(object):
 
             if qs.company_last_registered_id != last_registered_id:
                 print(' >>>>> Company LAST REGISTERED ID is changed, updating...')
+                logging.debug(' >>>>> Company LAST REGISTERED ID is changed, updating...')
                 qs.company_last_registered_id = last_registered_id
                 is_updated = True
 
             if qs.company_fiscal_year != fiscal_year:
                 print(' >>>>> Company FISCAL YEAR is changed, updating...')
+                logging.debug(' >>>>> Company FISCAL YEAR is changed, updating...')
                 qs.company_fiscal_year = fiscal_year
                 is_updated = True
 
@@ -228,7 +251,9 @@ class ThaiSpiderPipeline(object):
             qs.save()
             if is_updated:
                 print(' ----- Update company: ' + qs.company_id + ' informtion finished =====')
+                logging.debug(' ----- Update company: ' + qs.company_id + ' informtion finished =====')
             else:
                 print(' ----- The company have not changed information =====')
+                logging.debug(' ----- The company have not changed information =====')
 
         return item
