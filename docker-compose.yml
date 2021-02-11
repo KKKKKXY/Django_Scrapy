@@ -14,15 +14,21 @@ services:
       - 1200:8000
     networks:
       - proxy-db
-  angular:
+
+  ng:
     build:
       context: ./
-      dockerfile: frontend/my-app/Dockerfile
+      dockerfile: node.dockerfile
     container_name: dbdv3_frontend
+    working_dir: /my-app
+    tty: true
+    restart: always
+    volumes:
+      - ./frontend/my-app:/my-app
     ports:
-      - 8010:80
-    depends_on:
-      - pip
+      - 1400:4200
+    networks:
+      - proxy-db
 
 networks:
   proxy-db:

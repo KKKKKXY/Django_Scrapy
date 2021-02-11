@@ -1,13 +1,13 @@
-INFO 2021-02-10 10:19:40,607: runspider start spider:thai_scrapy
-INFO 2021-02-10 10:19:40,614: Overridden settings:
+INFO 2021-02-11 04:27:56,768: runspider start spider:thai_scrapy
+INFO 2021-02-11 04:27:56,781: Overridden settings:
 {}
-INFO 2021-02-10 10:19:40,636: Telnet Password: 7e4fa588b5af8934
-INFO 2021-02-10 10:19:40,652: Enabled extensions:
+INFO 2021-02-11 04:27:56,783: Telnet Password: aaa9d40cae69d80c
+INFO 2021-02-11 04:27:56,787: Enabled extensions:
 ['scrapy.extensions.corestats.CoreStats',
  'scrapy.extensions.telnet.TelnetConsole',
  'scrapy.extensions.memusage.MemoryUsage',
  'scrapy.extensions.logstats.LogStats']
-INFO 2021-02-10 10:19:40,711: Enabled downloader middlewares:
+INFO 2021-02-11 04:27:56,792: Enabled downloader middlewares:
 ['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
  'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
  'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
@@ -19,18 +19,66 @@ INFO 2021-02-10 10:19:40,711: Enabled downloader middlewares:
  'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
  'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
  'scrapy.downloadermiddlewares.stats.DownloaderStats']
-INFO 2021-02-10 10:19:40,717: Enabled spider middlewares:
+INFO 2021-02-11 04:27:56,794: Enabled spider middlewares:
 ['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
  'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
  'scrapy.spidermiddlewares.referer.RefererMiddleware',
  'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
  'scrapy.spidermiddlewares.depth.DepthMiddleware']
-INFO 2021-02-10 10:19:40,720: Enabled item pipelines:
+INFO 2021-02-11 04:27:56,795: Enabled item pipelines:
 []
-INFO 2021-02-10 10:19:40,722: Spider opened
-INFO 2021-02-10 10:19:40,728: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-INFO 2021-02-10 10:19:40,732: Telnet console listening on 127.0.0.1:6023
-CRITICAL 2021-02-10 10:19:40,739: Unhandled Error
+INFO 2021-02-11 04:27:56,796: Spider opened
+INFO 2021-02-11 04:27:56,798: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+INFO 2021-02-11 04:27:56,800: Telnet console listening on 127.0.0.1:6023
+ERROR 2021-02-11 04:27:56,802: runspider spider:thai_scrapy exception:
+Traceback (most recent call last):
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 87, in runspider
+    reactor.run()
+  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 1282, in run
+    self.startRunning(installSignalHandlers=installSignalHandlers)
+  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 1262, in startRunning
+    ReactorBase.startRunning(self)
+  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 765, in startRunning
+    raise error.ReactorNotRestartable()
+twisted.internet.error.ReactorNotRestartable
+DEBUG 2021-02-11 04:27:56,804: finish this spider:thai_scrapy
+
+
+INFO 2021-02-11 04:29:27,477: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:29:27,479: Using selector: EpollSelector
+INFO 2021-02-11 04:30:12,479: runspider start spider:thai_scrapy
+INFO 2021-02-11 04:30:12,488: Overridden settings:
+{}
+INFO 2021-02-11 04:30:12,504: Telnet Password: 88bf02c8a2bb04cb
+INFO 2021-02-11 04:30:12,512: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.logstats.LogStats']
+INFO 2021-02-11 04:30:12,567: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+INFO 2021-02-11 04:30:12,573: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+INFO 2021-02-11 04:30:12,575: Enabled item pipelines:
+[]
+INFO 2021-02-11 04:30:12,576: Spider opened
+INFO 2021-02-11 04:30:12,580: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+INFO 2021-02-11 04:30:12,587: Telnet console listening on 127.0.0.1:6023
+CRITICAL 2021-02-11 04:30:12,594: Unhandled Error
 Traceback (most recent call last):
   File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 434, in fireEvent
     DeferredList(beforeResults).addCallback(self._continueFiring)
@@ -53,471 +101,494 @@ Traceback (most recent call last):
     handler = _signal.signal(_enum_to_int(signalnum), _enum_to_int(handler))
 builtins.ValueError: signal only works in main thread
 
-DEBUG 2021-02-10 10:19:47,599: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0303563005602> (referer: None)
-DEBUG 2021-02-10 10:19:47,695: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0275563001065> (referer: None)
-DEBUG 2021-02-10 10:19:47,699: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0815563001515> (referer: None)
-DEBUG 2021-02-10 10:19:47,706: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0105563149071> (referer: None)
-DEBUG 2021-02-10 10:19:52,691: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0125563028550> (referer: None)
-DEBUG 2021-02-10 10:19:52,697: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0133563004977> (referer: None)
-DEBUG 2021-02-10 10:19:52,701: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0113563005051> (referer: None)
-DEBUG 2021-02-10 10:19:52,707: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0343563003162> (referer: None)
-DEBUG 2021-02-10 10:19:52,713: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0255563002070> (referer: None)
-DEBUG 2021-02-10 10:19:52,720: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0395563000351> (referer: None)
-DEBUG 2021-02-10 10:20:07,840: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0303563005602>
-{'address': '565  หมู่ที่ 11 ต.กลางดง อ.ปากช่อง จ.นครราชสีมา',
- 'bussiness_type': '10711 การผลิตขนมปังเค้กและเพสตรี',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0303563005602',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด กลางดงเบเกอรี่ ครูจันดี',
+DEBUG 2021-02-11 04:30:17,529: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0105563156213> (referer: None)
+DEBUG 2021-02-11 04:30:17,550: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0125563028398> (referer: None)
+DEBUG 2021-02-11 04:30:17,560: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0633563000934> (referer: None)
+DEBUG 2021-02-11 04:30:17,563: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0423563000944> (referer: None)
+DEBUG 2021-02-11 04:30:17,566: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0125563028614> (referer: None)
+DEBUG 2021-02-11 04:30:17,570: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0313563002271> (referer: None)
+DEBUG 2021-02-11 04:30:22,647: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0125563029858> (referer: None)
+DEBUG 2021-02-11 04:30:22,650: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0115563023426> (referer: None)
+DEBUG 2021-02-11 04:30:22,654: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0305563006601> (referer: None)
+DEBUG 2021-02-11 04:30:22,656: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0715563002121> (referer: None)
+DEBUG 2021-02-11 04:30:47,715: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0105563156213>
+{'address': '1112/4  ถนนสุขุมวิท แขวงพระโขนง เขตคลองเตย กรุงเทพมหานคร',
+ 'bussiness_type': '68202 '
+                   'กิจกรรมบริการอื่นๆที่เกี่ยวกับอสังหาริมทรัพย์โดยได้รับ '
+                   'ค่าตอบแทนหรือตามสัญญาจ้าง',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0105563156213',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท ดิจิตอล มีเดีย คอนซัลแต้นท์ จำกัด',
+ 'company_type': 'บริษัทจำกัด',
+ 'directors': ['นายจักรพงษ์ ล้อมวงศ์', 'นายณริศร์ สิทธิภู่ประเสริฐ/'],
+ 'email': 'naris@digitalmedia.co.th',
+ 'fax': '-',
+ 'fiscal_year': '-',
+ 'last_registered_id': '-',
+ 'objective': 'กิจกรรมบริการอื่น ๆ '
+              'ที่เกี่ยวกับอสังหาริมทรัพย์ที่กระทำโดยได้รับค่าตอบแทนหรือตามสัญญาจ้าง',
+ 'status': 'ยังดำเนินกิจการอยู่',
+ 'tel': '-',
+ 'website': '-'}
+DEBUG 2021-02-11 04:31:07,759: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0125563028398>
+{'address': '477,479  ถนนเรวดี ต.ตลาดขวัญ อ.เมืองนนทบุรี จ.นนทบุรี',
+ 'bussiness_type': '47721 ร้านขายปลีกสินค้าทางเภสัชภัณฑ์และเวชภัณฑ์',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0125563028398',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท เอกรินทร์เภสัช จำกัด',
+ 'company_type': 'บริษัทจำกัด',
+ 'directors': ['นายเอกรินทร์ เอกวัฒน์/'],
+ 'email': 'july17th@hotmail.com',
+ 'fax': '-',
+ 'fiscal_year': '-',
+ 'last_registered_id': '-',
+ 'objective': 'ประกอบกิจการจำหน่ายยา ยารักษาโรค เภสัชภัณฑ์ เคมีภัณฑ์ '
+              'เครื่องมือแพทย์ เครื่องมือเครื่องใช้ทางวิทยาศาสตร์',
+ 'status': 'ยังดำเนินกิจการอยู่',
+ 'tel': '025255030',
+ 'website': '-'}
+DEBUG 2021-02-11 04:31:07,763: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0633563000934>
+{'address': '183  หมู่ที่ 3 ต.แม่ตาว อ.แม่สอด จ.ตาก',
+ 'bussiness_type': '49323 การขนส่งและขนถ่ายสินค้า รวมถึงคนโดยสาร',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0633563000934',
+ 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด หนุนหนุน ทรานสปอร์ต',
  'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นางสาวนภสวรรณ สิงห์ประสาทพร',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    1,200,000.00  บาท',
-               'นายนาวา สิงห์ประสาทพร',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    800,000.00  บาท'],
- 'email': 'Kongkeaw2700@gmail.com',
+ 'directors': ['นายพิพัฒน์ ใจดี',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    800,000.00  บาท',
+               'นางลำพึง สุวรรณโชติ',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท',
+               'นางสาวจุไรรัตน์ เตสะเส็ด',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท'],
+ 'email': 'wanpen2014@outlook.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'ประกอบกิจการผลิตและจำหน่ายทั้งแบบปลีกและแบบส่งผลิตภัณฑ์เบเกอรี่ '
-              'ขนมปังรวมถึงเค้กทุกชนิด',
+ 'objective': 'ประกอบกิจการขนส่งสินค้าและคนโดยสาร',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0936539224',
+ 'tel': '0848221522',
  'website': '-'}
-DEBUG 2021-02-10 10:20:37,900: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0275563001065>
-{'address': '102  หมู่ที่ 14 ต.สระแก้ว อ.เมืองสระแก้ว จ.สระแก้ว',
- 'bussiness_type': '46109 '
-                   'การขายส่งสินค้าทั่วไปโดยได้รับค่าตอบแทนหรือตามสัญญาจ้าง',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0275563001065',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท แอลทีพี โปรดักชั่น จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางสาวสุภชา สินทรัพย์มากมี/'],
- 'email': 'praductionltp@gmail.com',
+DEBUG 2021-02-11 04:31:07,767: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0423563000944>
+{'address': '307  หมู่ที่ 4 ต.หนองหญ้าปล้อง อ.วังสะพุง จ.เลย',
+ 'bussiness_type': '47300 การขายปลีกเชื้อเพลิงยานยนต์ในร้านค้าเฉพาะ สถานี ปั๊ม',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0423563000944',
+ 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด ส.สมพงษ์วังไหปิโตรเลียม',
+ 'company_type': 'ห้างหุ้นส่วนจำกัด',
+ 'directors': ['นายเคน อินทพุฒ',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    700,000.00  บาท',
+               'นายสมพงษ์ อินทพุฒ',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    300,000.00  บาท'],
+ 'email': 'Nirattaya.npk@gmail.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'ประกอบกิจการเป็นนายหน้าตัวแทนค้าต่างในกิจการและธุรกิจทุกประเภทเว้นแต่ในธุรกิจทุกประเภทเว้นแต่ในธุรกิจประกันภัยการหาสมาชิกให้สมาคม',
+ 'objective': 'ประกอบกิจการสถานีบริการน้ำมันเชื้อเพลิง '
+              'และจำหน่ายน้ำมันเชื้อเพลิงทั้งขายส่งและขายปลีก '
+              'รวมถึงการจำหน่ายน้ำมันหล่อลื่นเครื่องยนต์',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0642794047',
+ 'tel': '0872230179',
  'website': '-'}
-DEBUG 2021-02-10 10:20:37,906: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0815563001515>
-{'address': '80/22  ถนนศรีพังงา ต.กระบี่ใหญ่ อ.เมืองกระบี่ จ.กระบี่',
- 'bussiness_type': '46319 '
-                   'การขายส่งผลิตภัณฑ์อาหารอื่นๆซึ่งมิได้จัดประเภทไว้ในที่อื่น',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0815563001515',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท สมาร์ทแคร์-ทีเอช จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นายพฤษพงศ์ เจริญพงศ์ภักดี/'],
- 'email': 'saimconsult@hotmail.co.th',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการจำหน่ายอาหารเสริมเพื่อสุขภาพ',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0824191993',
- 'website': '-'}
-DEBUG 2021-02-10 10:20:37,912: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0105563149071>
-{'address': '26/55  อาคารจันทน์สเปซ ถนนนางลิ้นจี่ แขวงทุ่งมหาเมฆ เขตสาทร '
-            'กรุงเทพมหานคร',
- 'bussiness_type': '50121 การขนส่งสินค้าทางทะเลและตามแนวชายฝั่งทะเล',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0105563149071',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท ซีแกรนด์ ชิปปิ้ง เอเจนซี่ (ไทยแลนด์) '
+DEBUG 2021-02-11 04:31:07,770: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0125563028614>
+{'address': '111/104  หมู่ที่ 1 ต.ไทรม้า อ.เมืองนนทบุรี จ.นนทบุรี',
+ 'bussiness_type': '46441 การขายส่งสินค้าทางเภสัชภัณฑ์และทางการแพทย์',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0125563028614',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท เค แอนด์ ซี เอ็นเตอร์ไพรส์ เทรดดิ้ง '
                  'จำกัด',
  'company_type': 'บริษัทจำกัด',
- 'directors': ['นายจักรี ชัยวัฒนากุล',
-               'นางสาวแพรวพรรณ กุสุมาลย์',
-               'นายอรุณ เขียงทอง/'],
- 'email': 'namwan.ku@gmail.com',
+ 'directors': ['นายกิตติภัค จึงเจริญกุล', 'นายธัญสิทธิ์ กิติรัตน์พัชรกุล/'],
+ 'email': 'central-pro2018@hotmail.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'การขนส่งสินค้าทางทะเลและตามแนวชายฝั่งทะเล',
+ 'objective': 'ประกอบกิจการซื้อขาย '
+              'นำเข้าและส่งออกวัสดุและอุปกรณ์ที่ใช้ทางการแพทย์',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '-',
+ 'tel': '0863516591',
  'website': '-'}
-DEBUG 2021-02-10 10:20:37,919: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0125563028550>
-{'address': '65/39  หมู่ที่ 4 ต.ปลายบาง อ.บางกรวย จ.นนทบุรี',
- 'bussiness_type': '22193 '
-                   'การผลิตสิ่งของเครื่องใช้ด้านสุขอนามัยหรือเภสัชกรรมที่ทำ '
-                   'จากยาง',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0125563028550',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท พีทีเอ็น 999 คอร์ปอเรชั่น จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นายธนสิษฐ์ ไชยพนมศักดิ์/'],
- 'email': 'masterrich.acc@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการผลิตถุงมือยาง',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '020126524',
- 'website': '-'}
-DEBUG 2021-02-10 10:20:37,926: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0133563004977>
-{'address': '98/5  หมู่ที่ 2 ต.บึงน้ำรักษ์ อ.ธัญบุรี จ.ปทุมธานี',
- 'bussiness_type': '47219 ร้านขายปลีกอาหารอื่นๆซึ่งมิได้จัดประเภทไว้ในที่อื่น',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0133563004977',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด เคเค ฟู้ด',
+DEBUG 2021-02-11 04:31:07,773: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0313563002271>
+{'address': '274/3  หมู่ที่ 7 ต.ดอนอะราง อ.หนองกี่ จ.บุรีรัมย์',
+ 'bussiness_type': '46692 การขายส่งปุ๋ยและเคมีภัณฑ์ทางการเกษตร',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0313563002271',
+ 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด สมชายเคมีเกษตร',
  'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นายพลไพศาล วานิชย์สุข',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    350,000.00  บาท',
-               'นางสาวเสาวรส นครสันติภาพ',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    150,000.00  บาท'],
- 'email': 'tipdearada2018@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการขายปลีก ขายส่ง '
-              'อาหารแปรรูปทั้งภายในประเทศและต่างประเทศ',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '081-6580888',
- 'website': '-'}
-DEBUG 2021-02-10 10:20:37,931: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0113563005051>
-{'address': '63/1  หมู่ที่ 14 ซอยธารดำรงดิ์ ถนนสุขสวัสดิ์ ต.บางครุ อ.พระประแดง '
-            'จ.สมุทรปราการ',
- 'bussiness_type': '46317 การขายส่งน้ำตาลช็อกโกแลตและลูกกวาด',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0113563005051',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด เบล ดริ้ง',
- 'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นายวรกร นวคุณสุนทร',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท',
-               'นางสาวฉายาภัสร์ เพิ่มรุ่ง',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท'],
- 'email': 'nova3i0798@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการจำหน่ายนำเขื่อมไว้ผสมแอลกอฮอล์ และเครื่องดื่ม',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0940070798',
- 'website': '-'}
-DEBUG 2021-02-10 10:20:37,936: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0343563003162>
-{'address': '999  หมู่ที่ 10 ต.ขามใหญ่ อ.เมืองอุบลราชธานี จ.อุบลราชธานี',
- 'bussiness_type': '47525 '
-                   'ร้านขายปลีกวัสดุก่อสร้างหลายชนิดรวมถึงวัสดุอุปกรณ์และเครื่องมือชนิดนำไปใช้ทำงานได้ด้วยตัวเอง',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0343563003162',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด ส.ถิ่นขาม',
- 'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นายสุรัตน์ ถิ่นขาม',
+ 'directors': ['นายสมชาย คำมี',
                'ลงหุ้นด้วย  เงินสด         จำนวน    500,000.00  บาท',
-               'นางวิศวารี ถิ่นขาม',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    500,000.00  บาท'],
- 'email': 'tiktik.ky8565@gmail.com',
+               'นางสาวสุภาพ แร่ทอง',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท',
+               'นายสมหมาย คำมี',
+               'ลงหุ้นด้วย  เงินสด         จำนวน    100,000.00  บาท'],
+ 'email': 'supap2795@gmail.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'ประกอบกิจการค้าวัสดุก่อสร้าง '
-              'อุปกรณ์และเครื่องมือใช้ในการก่อสร้าง เครื่องมือช่างทุกประเภท สี '
-              'เครื่องมือทาสี เครื่องตกแต่งอาคาร เครื่องเหล็ก เครื่องทองแดง '
-              'เครื่องทองเหลือง เครื่องเคลือบ '
-              'รวมทั้งอะไหล่และอุปกรณ์สินค้าดังกล่าว',
+ 'objective': 'ประกอบกิจการค้า ยา ยารักษาโรค เภสัชภัณฑ์ เคมีภัณฑ์ ปุ๋ย '
+              'ยาปราบศัตรูพืช ยาบำรุงพืชและสัตว์ทุกชนิด',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '089-4284888',
+ 'tel': '0802588046',
  'website': '-'}
-DEBUG 2021-02-10 10:20:37,942: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0255563002070>
-{'address': '77 หมู่บ้าน บ้านบ่อทอง  หมู่ที่ 5 ต.บ่อทอง อ.กบินทร์บุรี '
-            'จ.ปราจีนบุรี',
- 'bussiness_type': '47591 ร้านขายปลีกเฟอร์นิเจอร์ชนิดใช้ในครัวเรือน',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0255563002070',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท ชัยวัฒน์ สตีล แมนนูแฟคเจอริ่ง จำกัด',
+DEBUG 2021-02-11 04:31:07,777: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0125563029858>
+{'address': '200/3  หมู่ที่ 3 ต.บางรักพัฒนา อ.บางบัวทอง จ.นนทบุรี',
+ 'bussiness_type': '46521 การขายส่งอุปกรณ์และชิ้นส่วนอิเล็กทรอนิกส์',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0125563029858',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท ศิริวัฒรุ่งเรือง การไฟฟ้า จำกัด',
  'company_type': 'บริษัทจำกัด',
- 'directors': ['นายชัยวัฒน์ เชียรวัฒนสุข/'],
- 'email': 'chaiwat.chean775@gmail.com',
+ 'directors': ['นางสาวณหทัย บำรุงไทย/'],
+ 'email': 'polsan_en@hotmail.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'ประกอบกิจการร้านขายปลีกเฟอร์นิเจอร์ชนิดใช้ในครัวเรือน',
+ 'objective': 'ประกอบกิจการขายวัสดุอุปกรณ์ไฟฟ้าและก่อสร้าง',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '-',
+ 'tel': '0875064217',
  'website': '-'}
-DEBUG 2021-02-10 10:20:37,947: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0395563000351>
-{'address': '302  หมู่บ้าน นาแก หมู่ที่ 7 ต.นาแก อ.นาวัง จ.หนองบัวลำภู',
- 'bussiness_type': '45203 การบำรุงรักษายานยนต์ทั่วไป',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0395563000351',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท ต้อนทอง ปิโตรเลียม 2020 จำกัด',
+DEBUG 2021-02-11 04:31:07,780: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0115563023426>
+{'address': '389/69  หมู่ที่ 4 ต.ในคลองบางปลากด อ.พระสมุทรเจดีย์ จ.สมุทรปราการ',
+ 'bussiness_type': '46695 การขายส่งของเสียและเศษวัสดุเพื่อนำกลับมาใช้ใหม่',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0115563023426',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท เอ.พี.เอ็น.ทรัพย์โลหะ จำกัด',
  'company_type': 'บริษัทจำกัด',
- 'directors': ['นางสาวกนกวรรณ ต้อนทอง',
-               'นายโยธิน ต้อนทอง',
-               'นางสาวนิตติยา ชัยพรมมา/'],
- 'email': 'cyotin2020@gmail.com',
+ 'directors': ['นางสาวพรพรรณ อัมรินทร์พรชัย/'],
+ 'email': 'new.pwinn@gmail.com',
  'fax': '-',
  'fiscal_year': '-',
  'last_registered_id': '-',
- 'objective': 'ประกอบกิจการการบริการรับเปลี่ยนถ่ายน้ำมันเครื่อง '
-              'น้ำมันอย่างอื่น และซ่อมแซมยานพาหนะทุกประเภท',
+ 'objective': 'ประกอบกิจการรับซื้อขายเหล็กเศษเหล็กทองแดงทองเหลืองอลูมิเนียม',
  'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0896267466',
+ 'tel': '0906625464',
  'website': '-'}
-INFO 2021-02-10 10:20:37,953: Closing spider (finished)
-INFO 2021-02-10 10:20:37,954: Dumping Scrapy stats:
+DEBUG 2021-02-11 04:31:07,783: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0305563006601>
+{'address': '89  หมู่ที่ 14 ต.พุดซา อ.เมืองนครราชสีมา จ.นครราชสีมา',
+ 'bussiness_type': '47912 การขายปลีกทางอินเทอร์เน็ต',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0305563006601',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท หทัยรัตน์ 1688 จำกัด',
+ 'company_type': 'บริษัทจำกัด',
+ 'directors': ['นางสาวหทัยรัตน์ แคว้นพุดซา/'],
+ 'email': 'twatchaiacc@gmail.com',
+ 'fax': '-',
+ 'fiscal_year': '-',
+ 'last_registered_id': '-',
+ 'objective': 'ประกอบกิจการซื้อขายสินค้าและให้บริการเกี่ยวกับเครื่องแต่งกายทุกประเภท '
+              'รวมถึงสินค้าชนิดอื่นๆ '
+              'โดยวิธีการใช้สื่ออิเล็คทรอนิกส์ผ่านระบบเครือข่ายอินเตอร์เน็ต',
+ 'status': 'ยังดำเนินกิจการอยู่',
+ 'tel': '0922834793',
+ 'website': '-'}
+DEBUG 2021-02-11 04:31:07,786: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0715563002121>
+{'address': '4  หมู่ที่ 11 ต.พระแท่น อ.ท่ามะกา จ.กาญจนบุรี',
+ 'bussiness_type': '41002 การก่อสร้างอาคารที่ไม่ใช่ที่พักอาศัย',
+ 'company_id': 'เลขทะเบียนนิติบุคคล : 0715563002121',
+ 'company_name': 'ชื่อนิติบุคคล : บริษัท เอสซีเจ ก่อสร้าง จำกัด',
+ 'company_type': 'บริษัทจำกัด',
+ 'directors': ['นายศุภกิจ จันทร์เพ็ญ', 'นายพรพจน์ คุณเสงี่ยม/'],
+ 'email': 'j.a.auditing@gmail.com',
+ 'fax': '-',
+ 'fiscal_year': '-',
+ 'last_registered_id': '-',
+ 'objective': 'ประกอบกิจการรับเหมาก่อสร้างอาคาร',
+ 'status': 'ยังดำเนินกิจการอยู่',
+ 'tel': '0986018756',
+ 'website': '-'}
+INFO 2021-02-11 04:31:07,789: Closing spider (finished)
+INFO 2021-02-11 04:31:07,790: Dumping Scrapy stats:
 {'downloader/request_bytes': 3230,
  'downloader/request_count': 10,
  'downloader/request_method_count/GET': 10,
- 'downloader/response_bytes': 106257,
+ 'downloader/response_bytes': 105959,
  'downloader/response_count': 10,
  'downloader/response_status_count/200': 10,
- 'elapsed_time_seconds': 57.226289,
+ 'elapsed_time_seconds': 55.210188,
  'finish_reason': 'finished',
- 'finish_time': datetime.datetime(2021, 2, 10, 10, 20, 37, 954219),
+ 'finish_time': datetime.datetime(2021, 2, 11, 4, 31, 7, 790131),
  'item_scraped_count': 10,
  'log_count/CRITICAL': 1,
  'log_count/DEBUG': 20,
  'log_count/INFO': 10,
- 'memusage/max': 134709248,
- 'memusage/startup': 134709248,
+ 'memusage/max': 135725056,
+ 'memusage/startup': 135725056,
  'response_received_count': 10,
  'scheduler/dequeued': 10,
  'scheduler/dequeued/memory': 10,
  'scheduler/enqueued': 10,
  'scheduler/enqueued/memory': 10,
- 'start_time': datetime.datetime(2021, 2, 10, 10, 19, 40, 727930)}
-INFO 2021-02-10 10:20:37,956: Spider closed (finished)
-DEBUG 2021-02-10 10:20:38,336: finish this spider:thai_scrapy
+ 'start_time': datetime.datetime(2021, 2, 11, 4, 30, 12, 579943)}
+INFO 2021-02-11 04:31:07,791: Spider closed (finished)
+DEBUG 2021-02-11 04:31:08,511: finish this spider:thai_scrapy
 
 
-DEBUG 2021-02-10 10:31:38,621: Using selector: EpollSelector
-INFO 2021-02-10 10:32:02,283: runspider start spider:thai_scrapy
-INFO 2021-02-10 10:32:02,296: Overridden settings:
-{}
-INFO 2021-02-10 10:32:02,323: Telnet Password: 86f7bb40d84af890
-INFO 2021-02-10 10:32:02,339: Enabled extensions:
-['scrapy.extensions.corestats.CoreStats',
- 'scrapy.extensions.telnet.TelnetConsole',
- 'scrapy.extensions.memusage.MemoryUsage',
- 'scrapy.extensions.logstats.LogStats']
-INFO 2021-02-10 10:32:02,390: Enabled downloader middlewares:
-['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
- 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
- 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
- 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
- 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
- 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
- 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
- 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
- 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
- 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
- 'scrapy.downloadermiddlewares.stats.DownloaderStats']
-INFO 2021-02-10 10:32:02,394: Enabled spider middlewares:
-['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
- 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
- 'scrapy.spidermiddlewares.referer.RefererMiddleware',
- 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
- 'scrapy.spidermiddlewares.depth.DepthMiddleware']
-INFO 2021-02-10 10:32:02,396: Enabled item pipelines:
-[]
-INFO 2021-02-10 10:32:02,398: Spider opened
-INFO 2021-02-10 10:32:02,401: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-INFO 2021-02-10 10:32:02,403: Telnet console listening on 127.0.0.1:6023
-CRITICAL 2021-02-10 10:32:02,412: Unhandled Error
+DEBUG 2021-02-11 04:31:08,512: -----------------------------------------------------
+INFO 2021-02-11 04:34:04,842: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:34:04,844: Using selector: EpollSelector
+ERROR 2021-02-11 04:36:48,250: Internal Server Error: /run_thai_spider/
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 434, in fireEvent
-    DeferredList(beforeResults).addCallback(self._continueFiring)
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/defer.py", line 322, in addCallback
-    callbackKeywords=kw)
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/defer.py", line 311, in addCallbacks
-    self._runCallbacks()
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/defer.py", line 654, in _runCallbacks
-    current.result = callback(current.result, *args, **kw)
---- <exception caught here> ---
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 447, in _continueFiring
-    callable(*args, **kwargs)
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 1278, in _reallyStartRunning
-    self._handleSignals()
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/posixbase.py", line 295, in _handleSignals
-    _SignalReactorMixin._handleSignals(self)
-  File "/usr/local/lib/python3.7/site-packages/twisted/internet/base.py", line 1243, in _handleSignals
-    signal.signal(signal.SIGINT, self.sigInt)
-  File "/usr/local/lib/python3.7/signal.py", line 47, in signal
-    handler = _signal.signal(_enum_to_int(signalnum), _enum_to_int(handler))
-builtins.ValueError: signal only works in main thread
-
-DEBUG 2021-02-10 10:32:07,515: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0193563001901> (referer: None)
-DEBUG 2021-02-10 10:32:07,578: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0115563022845> (referer: None)
-DEBUG 2021-02-10 10:32:07,585: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0355563000548> (referer: None)
-DEBUG 2021-02-10 10:32:07,593: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/3/0613563000446> (referer: None)
-DEBUG 2021-02-10 10:32:12,650: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0835563010077> (referer: None)
-DEBUG 2021-02-10 10:32:12,658: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0135563022756> (referer: None)
-DEBUG 2021-02-10 10:32:12,664: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0405563004577> (referer: None)
-DEBUG 2021-02-10 10:32:12,669: Crawled (200) <GET https://datawarehouse.dbd.go.th/company/profile/5/0115563021997> (referer: None)
-DEBUG 2021-02-10 10:32:27,695: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0193563001901>
-{'address': '99/71  หมู่ที่ 6 ต.ห้วยขมิ้น อ.หนองแค จ.สระบุรี',
- 'bussiness_type': '46695 การขายส่งของเสียและเศษวัสดุเพื่อนำกลับมาใช้ใหม่',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0193563001901',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด เอกอัจฉริยะ เทรดดิ้ง',
- 'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นายเอกลักษณ์ สุวรรณเกิด',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    250,000.00  บาท',
-               'นายองอาจ สุวรรณเกิด',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    250,000.00  บาท'],
- 'email': 'sombut.pil@hotmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการจำหน่ายและผลิต RDF3 SAF (ขยะเชื้อเพลิงทดแทน)',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0952767664',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,795: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0115563022845>
-{'address': '7/510  หมู่ที่ 7 ต.เทพารักษ์ อ.เมืองสมุทรปราการ จ.สมุทรปราการ',
- 'bussiness_type': '47219 ร้านขายปลีกอาหารอื่นๆซึ่งมิได้จัดประเภทไว้ในที่อื่น',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0115563022845',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท เอส.เค. อินเตอร์เทรด (1960) จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางสาวเจือจันทน์ กุลสุจริตทรัพย์',
-               'นางสาวเพ็ญศิริ กุลสุจริตทรัพย์',
-               'นายสมหวัง กุลสุจริตทรัพย์/'],
- 'email': 'sure.accounting@hotmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการซื้อมาขายไปอาหารขนมและเครื่องดื่มทุกชนิด',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '-',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,805: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0355563000548>
-{'address': '1  หมู่ที่ 12 ต.โพธิ์ไทร อ.ป่าติ้ว จ.ยโสธร',
- 'bussiness_type': '41002 การก่อสร้างอาคารที่ไม่ใช่ที่พักอาศัย',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0355563000548',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท เจริญทรัพย์ 2563 จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางธีรวรรณ มุ่งหมาย/'],
- 'email': 'thanyarat12016@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'รับก่อสร้างทั่วไป ก่อสร้างอาคาร ปรับสภาพภูมิทัศน์',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '093-091-5151',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,814: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/3/0613563000446>
-{'address': '1/4  หมู่ที่ 2 ต.สะแกกรัง อ.เมืองอุทัยธานี จ.อุทัยธานี',
- 'bussiness_type': '43210 การติดตั้งไฟฟ้า',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0613563000446',
- 'company_name': 'ชื่อนิติบุคคล : ห้างหุ้นส่วนจำกัด สะแกกรัง การช่าง',
- 'company_type': 'ห้างหุ้นส่วนจำกัด',
- 'directors': ['นายสุวัฒน์ เกิดสุวรรณ์',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    600,000.00  บาท',
-               'นายนิรุตติ์ พิลึก',
-               'ลงหุ้นด้วย  เงินสด         จำนวน    400,000.00  บาท'],
- 'email': '1122chakub@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการเกี่ยวกับระบบไฟฟ้า ระบบประปา ระบบกล้องวงจรปิด '
-              'ระบบการสื่อสารทุกชนิด',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0812810899',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,824: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0835563010077>
-{'address': '12/102  หมู่ที่ 3 ต.วิชิต อ.เมืองภูเก็ต จ.ภูเก็ต',
- 'bussiness_type': '47733 ร้านขายปลีกดอกไม้ต้นไม้และอุปกรณ์ที่เกี่ยวข้อง',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0835563010077',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท บุฟเฟต์ฟลาวเวอร์ แอนด์ เดคคอเรทีฟ '
-                 'จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางประไพพร ล่องสกุล/'],
- 'email': 'info@paexpertaccounting.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการร้านขายปลีกดอกไม้ต้นไม้และอุปกรณ์ที่เกี่ยวข้อง',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '076369763',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,834: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0135563022756>
-{'address': '1/20  หมู่ที่ 3 ต.ลาดสวาย อ.ลำลูกกา จ.ปทุมธานี',
- 'bussiness_type': '68104 '
-                   'การเช่าและการดำเนินการเกี่ยวกับอสังหาริมทรัพย์ที่เป็นของ '
-                   'ตนเองหรือเช่าจากผู้อื่นที่ไม่ใช่เพื่อเป็นที่พักอาศัย',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0135563022756',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท กาก มิวสิค จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นายวิกรานต์ วาณิชวสุธร', 'นางขวัญเรือน วาณิชวสุธร/'],
- 'email': 'np_au2012@hotmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการให้บริการเช่าพื้นที่และอุปกรณ์สำหรับห้องบันทึกเสียงห้องอัดเสียง '
-              'สตูดิโอ ถ่ายทำภาพยนต์',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '020948255',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,844: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0405563004577>
-{'address': '370/325  หมู่ที่ 21 ต.บ้านเป็ด อ.เมืองขอนแก่น จ.ขอนแก่น',
- 'bussiness_type': '46421 '
-                   'การขายส่งเครื่องใช้ไฟฟ้าและอิเล็กทรอนิกส์ชนิดใช้ในครัวเรือน',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0405563004577',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท แลมบ์ดา คอร์ปอเรชั่น จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางสาวณฐมน พ่อลิละ', 'นายรติพงศ์ พ่อลิละ/'],
- 'email': 'lambdacorp.th@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการซื้อมา ขายไป อุปกรณ์ไฟฟ้า เครื่องใช้ไฟฟ้า สายไฟ '
-              'หลอดไฟ อุปกรณ์อิเล็กทรอนิกส์',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0836138081',
- 'website': '-'}
-DEBUG 2021-02-10 10:32:47,854: Scraped from <200 https://datawarehouse.dbd.go.th/company/profile/5/0115563021997>
-{'address': '98/65  หมู่ที่ 6 ต.บางเมืองใหม่ อ.เมืองสมุทรปราการ จ.สมุทรปราการ',
- 'bussiness_type': '14112 การผลิตเสื้อผ้าชั้นนอก',
- 'company_id': 'เลขทะเบียนนิติบุคคล : 0115563021997',
- 'company_name': 'ชื่อนิติบุคคล : บริษัท เคเคสไตลิสต้า จำกัด',
- 'company_type': 'บริษัทจำกัด',
- 'directors': ['นางสาวธนัญญภัคว์ สมุทรสาคร/'],
- 'email': 'jindarat081@gmail.com',
- 'fax': '-',
- 'fiscal_year': '-',
- 'last_registered_id': '-',
- 'objective': 'ประกอบกิจการผลิตและจัดจำหน่ายเสื้อผ้าแฟชั่นสตรีและเสื้อผ้าแฟชั่นบุรุษ',
- 'status': 'ยังดำเนินกิจการอยู่',
- 'tel': '0955297999',
- 'website': '-'}
-INFO 2021-02-10 10:33:02,401: Crawled 8 pages (at 8 pages/min), scraped 8 items (at 8 items/min)
-INFO 2021-02-10 10:34:02,402: Crawled 8 pages (at 0 pages/min), scraped 8 items (at 0 items/min)
-INFO 2021-02-10 10:35:02,402: Crawled 8 pages (at 0 pages/min), scraped 8 items (at 0 items/min)
-DEBUG 2021-02-10 10:35:07,516: Retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0225563001448> (failed 1 times): User timeout caused connection failure: Getting https://datawarehouse.dbd.go.th/company/profile/5/0225563001448 took longer than 180.0 seconds..
-DEBUG 2021-02-10 10:35:07,579: Retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0345563002320> (failed 1 times): User timeout caused connection failure: Getting https://datawarehouse.dbd.go.th/company/profile/5/0345563002320 took longer than 180.0 seconds..
-DEBUG 2021-02-10 10:35:22,603: Retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0345563002320> (failed 2 times): 503 Service Unavailable
-DEBUG 2021-02-10 10:35:22,641: Retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0225563001448> (failed 2 times): 503 Service Unavailable
-ERROR 2021-02-10 10:35:37,752: Gave up retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0345563002320> (failed 3 times): 503 Service Unavailable
-DEBUG 2021-02-10 10:35:37,755: Crawled (503) <GET https://datawarehouse.dbd.go.th/company/profile/5/0345563002320> (referer: None)
-ERROR 2021-02-10 10:35:37,834: Gave up retrying <GET https://datawarehouse.dbd.go.th/company/profile/5/0225563001448> (failed 3 times): 503 Service Unavailable
-DEBUG 2021-02-10 10:35:37,842: Crawled (503) <GET https://datawarehouse.dbd.go.th/company/profile/5/0225563001448> (referer: None)
-INFO 2021-02-10 10:35:37,867: Ignoring response <503 https://datawarehouse.dbd.go.th/company/profile/5/0345563002320>: HTTP status code is not handled or not allowed
-INFO 2021-02-10 10:35:37,948: Ignoring response <503 https://datawarehouse.dbd.go.th/company/profile/5/0225563001448>: HTTP status code is not handled or not allowed
-INFO 2021-02-10 10:35:37,956: Closing spider (finished)
-INFO 2021-02-10 10:35:37,960: Dumping Scrapy stats:
-{'downloader/exception_count': 2,
- 'downloader/exception_type_count/twisted.internet.error.TimeoutError': 2,
- 'downloader/request_bytes': 5186,
- 'downloader/request_count': 14,
- 'downloader/request_method_count/GET': 14,
- 'downloader/response_bytes': 88910,
- 'downloader/response_count': 12,
- 'downloader/response_status_count/200': 8,
- 'downloader/response_status_count/503': 4,
- 'elapsed_time_seconds': 215.558496,
- 'finish_reason': 'finished',
- 'finish_time': datetime.datetime(2021, 2, 10, 10, 35, 37, 959388),
- 'httperror/response_ignored_count': 2,
- 'httperror/response_ignored_status_count/503': 2,
- 'item_scraped_count': 8,
- 'log_count/CRITICAL': 1,
- 'log_count/DEBUG': 22,
- 'log_count/ERROR': 2,
- 'log_count/INFO': 15,
- 'memusage/max': 179298304,
- 'memusage/startup': 134385664,
- 'response_received_count': 10,
- 'retry/count': 4,
- 'retry/max_reached': 2,
- 'retry/reason_count/503 Service Unavailable': 2,
- 'retry/reason_count/twisted.internet.error.TimeoutError': 2,
- 'scheduler/dequeued': 14,
- 'scheduler/dequeued/memory': 14,
- 'scheduler/enqueued': 14,
- 'scheduler/enqueued/memory': 14,
- 'start_time': datetime.datetime(2021, 2, 10, 10, 32, 2, 400892)}
-INFO 2021-02-10 10:35:37,962: Spider closed (finished)
-DEBUG 2021-02-10 10:35:38,128: finish this spider:thai_scrapy
-
-
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:37:09,430: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:37:09,433: Using selector: EpollSelector
+ERROR 2021-02-11 04:38:44,336: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:39:25,598: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:39:25,605: Using selector: EpollSelector
+ERROR 2021-02-11 04:40:25,368: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 51, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:42:48,461: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:42:48,463: Using selector: EpollSelector
+ERROR 2021-02-11 04:42:57,492: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 51, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:44:01,946: /backend/scrapy_thai_app/thai_spider/thai_spider/settings.py changed, reloading.
+DEBUG 2021-02-11 04:44:01,948: Using selector: EpollSelector
+ERROR 2021-02-11 04:44:27,510: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    crawler_settings.setmodule(Settings)
+AttributeError: 'Settings' object has no attribute 'setmodule'
+INFO 2021-02-11 04:45:07,655: /backend/scrapy_thai_app/thai_spider/thai_spider/settings.py changed, reloading.
+DEBUG 2021-02-11 04:45:07,659: Using selector: EpollSelector
+ERROR 2021-02-11 04:45:18,316: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 51, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:46:24,948: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:46:24,952: Using selector: EpollSelector
+ERROR 2021-02-11 04:50:15,329: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    runner= CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:51:51,293: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:51:51,297: Using selector: EpollSelector
+ERROR 2021-02-11 04:55:34,627: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    crawler_settings.setmodule(DbdcrawlerSpider1.settings)
+AttributeError: type object 'DbdcrawlerSpider1' has no attribute 'settings'
+INFO 2021-02-11 04:55:55,690: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:55:55,692: Using selector: EpollSelector
+ERROR 2021-02-11 04:56:34,487: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 50, in runspider
+    runner = CrawlerRunner(settings=crawler_settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 152, in __init__
+    self.spider_loader = self._get_spider_loader(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/crawler.py", line 146, in _get_spider_loader
+    return loader_cls.from_settings(settings.frozencopy())
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 67, in from_settings
+    return cls(settings)
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 24, in __init__
+    self._load_all_spiders()
+  File "/usr/local/lib/python3.7/site-packages/scrapy/spiderloader.py", line 51, in _load_all_spiders
+    for module in walk_modules(name):
+  File "/usr/local/lib/python3.7/site-packages/scrapy/utils/misc.py", line 81, in walk_modules
+    mod = import_module(path)
+  File "/usr/local/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 965, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'thai_spider'
+INFO 2021-02-11 04:57:02,675: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:57:02,677: Using selector: EpollSelector
+ERROR 2021-02-11 04:57:08,150: Internal Server Error: /run_thai_spider/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/backend/scrapy_thai_app/multi_run_thai.py", line 49, in runspider
+    crawler_settings.setmodule(scrapy_thai_app.thai_spider.thai_spider.settings)
+NameError: name 'scrapy_thai_app' is not defined
+INFO 2021-02-11 04:57:32,603: /backend/scrapy_thai_app/multi_run_thai.py changed, reloading.
+DEBUG 2021-02-11 04:57:32,606: Using selector: EpollSelector

@@ -37,7 +37,7 @@ class DbdcrawlerSpider1(CrawlSpider):
         companies_id = self.random_company()
         for i in companies_id:
             url = 'https://datawarehouse.dbd.go.th/company/profile/%s/%s' %(i[3],i)
-            yield scrapy.Request(url=url, cookies={"JSESSIONID":'NmRiZmJmM2ItNjdiYS00MmQ4LWJlN2ItOTM0OGI0ZWMyNjA2'}, callback=self.parse, encoding='utf-8')
+            yield scrapy.Request(url=url, cookies={"JSESSIONID":'MDQ5NGNjYTgtMzUxYi00ODJjLTk3NjMtNDZmNGExNmJmNzlj'}, callback=self.parse, encoding='utf-8')
 
     def getCookie(self):
         cookie_path = '/backend/temp/cookie.json'
