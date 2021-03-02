@@ -1,49 +1,64 @@
-<form class="example-container" method='POST' [formGroup]="options" (ngSubmit)="runThaiSpider()">
-  <!-- <mat-form-field class="example-full-width">
-    <mat-label>Number</mat-label>
-    <input type="text"
-           placeholder="Pick one"
-           aria-label="Number"
-           matInput
-           [formControl]="myControl"
-           [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field> -->
-
-  
-  <mat-form-field appearance="fill" [color]="filesControl.value">
+<form class="example-container" method='POST' [formGroup]="scrapyOptions" (ngSubmit)="runThaiSpider()">
+  <!-- <mat-form-field appearance="fill" [color]="filesControl.value">
     <mat-label>Select scrapy file</mat-label>
     <mat-select [formControl]="filesControl">
-      <mat-option value="pridbd_2020.xlsxmary">dbd_2020.xlsx</mat-option>
+      <mat-option value="dbd_2020.xlsx">dbd_2020.xlsx</mat-option>
       <mat-option value="dbd_2020">dbd_2020</mat-option>
       <mat-option value="dbd">dbd</mat-option>
     </mat-select>
+  </mat-form-field> -->
+
+  <mat-form-field>
+    <mat-label>Select scrapy file</mat-label>
+    <mat-select [(value)]="selectThai">
+      <mat-option *ngFor="let file of collection" [value]="file">
+        {{file}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
-  <mat-form-field appearance="fill"  style="width: 300px;">
+  <mat-form-field style="width: 200px;">
     <mat-label>Select number of browsers</mat-label>
-    <mat-select [formControl]="browsersControl">
+    <mat-select [formControl]="thaiBrowserControl">
       <mat-option value="1">1</mat-option>
       <mat-option value="2">2</mat-option>
       <mat-option value="3">3</mat-option>
       <mat-option value="4">4</mat-option>
       <mat-option value="5">5</mat-option>
     </mat-select>
+    <mat-error *ngIf="thaiBrowserControl.hasError('required')">
+      The number of browser is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button color="accent" class="scrapy-button" type="submit">Scrapy Thai Version</button>
+</form>
+
+<br>
+
+<form class="example-container" method='POST' [formGroup]="scrapyOptions" (ngSubmit)="runEngSpider()">
+  
+  <mat-form-field>
+    <mat-label>Select scrapy file</mat-label>
+    <mat-select [(value)]="selectEng">
+      <mat-option *ngFor="let file of collection" [value]="file">
+        {{file}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
 
-  <!-- <mat-form-field appearance="fill" [color]="filesControl.value">
+  <mat-form-field style="width: 200px;">
     <mat-label>Select number of browsers</mat-label>
-    <input matInput type="number" placeholder="Ex. 12" [formControl]="browsersControl" min="10">
-    <span matSuffix>px</span>
-    <mat-error *ngIf="browsersControl.required">Browser is required</mat-error>
-    <mat-error *ngIf="browsersControl.invalid">Min number is: 1</mat-error>
-    <mat-error *ngIf="browsersControl.invalid">Max number is: 5</mat-error>
-  </mat-form-field> -->
-
-  <button mat-stroked-button color="accent" class="scrapy-button" type="submit">Scrapy</button>
+    <mat-select [formControl]="engBrowserControl">
+      <mat-option value="1">1</mat-option>
+      <mat-option value="2">2</mat-option>
+      <mat-option value="3">3</mat-option>
+      <mat-option value="4">4</mat-option>
+      <mat-option value="5">5</mat-option>
+    </mat-select>
+    <mat-error *ngIf="engBrowserControl.hasError('required')">
+      The number of browser is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button color="accent" class="scrapy-button" type="submit">Scrapy Eng Version</button>
 
 </form>

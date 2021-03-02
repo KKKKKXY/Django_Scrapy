@@ -12,19 +12,19 @@ export class AppComponent {
   companies = [{company_id: ''}];
 
   constructor(private api: BackendAPIService){
-    this.getThaiCompanies();
+    // this.getThaiCompanies();
   }
 
-  getThaiCompanies = () => {
-    this.api.getAllThaiCompanies().subscribe(
-      data => {
-        console.log(data);
-        this.companies = data;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+  // getThaiCompanies = () => {
+  //   this.api.getAllThaiCompanies().subscribe(
+  //     data => {
+  //       // console.log(data);
+  //       this.companies = data;
+  //     },
+  //     error => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
-  }
 }

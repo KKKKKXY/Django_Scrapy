@@ -1,0 +1,6 @@
+<strong>Dear user!</strong>
+<p>Congratulations! The scrapy process already finished.</p>
+<p>You can export the result on <strong>File Management</strong> page.</p>
+<p>And following hava a attachment: <strong>${ATTACHMENTFILENAME}</strong> that logging every actions when the system scraping DBD website</p>
+<br>
+<p>Thank you.</p>

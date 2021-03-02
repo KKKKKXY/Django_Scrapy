@@ -2,5 +2,4 @@
 <p>Congratulations! Captcha code: <strong>${CAPTCHACODE}</strong>, You logged the website success.</p>
 <p>Please wait a minute, the system start scraping the website...</p>
 <br>
-<br>
 <p>Thank you.</p>

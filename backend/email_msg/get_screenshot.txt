@@ -1,0 +1,5 @@
+<strong>Dear user!</strong>
+<p>Following is the screenshot: <strong>${ATTACHMENTFILENAME}</strong></p>
+<p>Please see the captcha code screenshot and input the captcha code into popup in scrapy page of our application.</p>
+<br>
+<p>Thank you.</p>
