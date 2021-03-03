@@ -1,8 +1,9 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BackendAPIService } from './backend-api.service';
 
 /* External component */
 import { ScrapyAppComponent } from './components/scrapy-app/scrapy-app.component';
@@ -43,6 +44,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { FileManageAppComponent } from './components/file-manage-app/file-manage-app.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 const materialModules = [
   CdkTreeModule,
@@ -76,13 +80,15 @@ const materialModules = [
   MatGridListModule,
   MatRadioModule,
   MatDatepickerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatProgressBarModule,
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     ScrapyAppComponent,
+    FileManageAppComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,8 +99,9 @@ const materialModules = [
     FormsModule,
     ReactiveFormsModule,
     ...materialModules,
+    AngularFileUploaderModule,
   ],
-  providers: [],
+  providers: [BackendAPIService],
   bootstrap: [AppComponent],
   // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,0 +1,8 @@
+<strong>Dear user!</strong>
+<p>There is a error when scraping website!</p>
+<p>Please start a new scrape again!</p>
+<p>${ERROR}</p>
+<br>
+<strong>Also, you can see the error by downloding below log file.</strong>
+<br>
+<p>Thank you.</p>

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
+import os, environ
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
     'scrapy_eng_app',
     'scrapy_thai_app',
-    'corsheaders',
+    'file_manage_app',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL =  True
 ROOT_URLCONF = 'base.urls'
 
 TEMPLATES = [
@@ -87,6 +90,7 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'mysql_server_has_gone_away',
         'ENGINE': 'django.db.backends.mysql',
         'NAME': env('DEFAULT_DATABASE_NAME'),
         'USER': env('DEFAULT_DATABASE_USER'),
@@ -137,3 +141,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL =  '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

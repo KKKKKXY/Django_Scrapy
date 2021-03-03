@@ -1,0 +1,8 @@
+<strong>Dear user!</strong>
+<p>There are some errors: </p>
+<p>${ERROR}</p>
+<br>
+<br>
+<strong>Please start a new scrape again!</strong>
+<br>
+<p>Thank you.</p>

@@ -9,6 +9,7 @@ from itemadapter import ItemAdapter
 from .reg import *
 import json
 from scrapy_eng_app.models import DBDCompany_Eng
+import logging
 
 
 class EngSpiderPipeline(object):
@@ -19,7 +20,7 @@ class EngSpiderPipeline(object):
         pass
 
     def process_item(self, item, spider):
-        print(' ===== raw item data =====')
+        print(' =============== raw item data ===============')
         print(item)
 
         raw_company_id          = item['company_id']
@@ -62,7 +63,7 @@ class EngSpiderPipeline(object):
             company_type = '-'
         if status == 'No Data':
             status = '-'
-        if address == 'No Data':
+        if address == None or address == '':
             address = '-'
         if objective == 'No Data':
             objective = '-'
@@ -98,6 +99,7 @@ class EngSpiderPipeline(object):
 
         if not qs:
             print(' ----> Store ' + company_id + ' a new company information...')
+            logging.info(' ----> Store ' + company_id + ' a new company information...')
             new_item.company_name                   = company_name
             new_item.company_id                     = company_id
             new_item.company_type                   = company_type
@@ -120,85 +122,103 @@ class EngSpiderPipeline(object):
             
             new_item.save()
             print(' ----- Store company: ' + new_item.company_id + ' finished =====')
+            logging.info(' ----- Store company: ' + new_item.company_id + ' finished =====')
         
         else:
             is_updated = False
             print(' ----> Check and update ' + company_id + ' company information...')
+            logging.info(' ----> Check and update ' + company_id + ' company information...')
             if qs.company_name != company_name:
-                print(' >>>>> Company NAME is changed, updating...')
+                print(' >>>>>>>>>> Company NAME is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company NAME is changed, updating...')
                 qs.company_name = company_name
                 is_updated = True
 
             if qs.company_type != company_type:
-                print(' >>>>> Company TYPE is changed, updating...')
+                print(' >>>>>>>>>> Company TYPE is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company TYPE is changed, updating...')
                 qs.company_type = company_type
                 is_updated = True
 
             if qs.company_status != status:
-                print(' >>>>> Company STATUS is changed, updating...')
+                print(' >>>>>>>>>> Company STATUS is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company STATUS is changed, updating...')
                 qs.company_status = status
                 is_updated = True
 
             if qs.company_address != address:
-                print(' >>>>> Company ADDRESS is changed, updating...')
+                print(' >>>>>>>>>> Company ADDRESS is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company ADDRESS is changed, updating...')
                 qs.company_address = address
                 is_updated = True
 
             if qs.company_objective != objective:
-                print(' >>>>> Company OBJECTIVE is changed, updating...')
+                print(' >>>>>>>>>> Company OBJECTIVE is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company OBJECTIVE is changed, updating...')
                 qs.company_objective = objective
                 is_updated = True
 
             if qs.company_directors != directors:
-                print(' >>>>> Company DIRECTORS is changed, updating...')
+                print(' >>>>>>>>>> Company DIRECTORS is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company DIRECTORS is changed, updating...')
                 qs.company_directors = directors
                 is_updated = True
 
             if qs.company_bussiness_type != bussiness_type:
-                print(' >>>>> Company BUSSINESS TYPE is changed, updating...')
+                print(' >>>>>>>>>> Company BUSSINESS TYPE is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company BUSSINESS TYPE is changed, updating...')
                 qs.company_bussiness_type = bussiness_type
                 is_updated = True
 
             if qs.company_bussiness_type_code != bussiness_type_code:
-                print(' >>>>> Company BUSSINESS TYPE CODE is changed, updating...')
+                print(' >>>>>>>>>> Company BUSSINESS TYPE CODE is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company BUSSINESS TYPE CODE is changed, updating...')
                 qs.company_bussiness_type_code = bussiness_type_code
                 is_updated = True
 
             if qs.company_tel != tel:
-                print(' >>>>> Company TEL. is changed, updating...')
+                print(' >>>>>>>>>> Company TEL. is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company TEL. is changed, updating...')
                 qs.company_tel = tel
                 is_updated = True
 
             if qs.company_fax != fax:
-                print(' >>>>> Company FAX is changed, updating...')
+                print(' >>>>>>>>>> Company FAX is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company FAX is changed, updating...')
                 qs.company_fax = fax
                 is_updated = True
 
             if qs.company_website != website:
-                print(' >>>>> Company WEBSITE is changed, updating...')
+                print(' >>>>>>>>>> Company WEBSITE is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company WEBSITE is changed, updating...')
                 qs.company_website = website
                 is_updated = True
 
             if qs.company_email != email:
-                print(' >>>>> Company EMAIL is changed, updating...')
+                print(' >>>>>>>>>> Company EMAIL is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company EMAIL is changed, updating...')
                 qs.company_email = email
                 is_updated = True
 
             if qs.company_last_registered_id != last_registered_id:
-                print(' >>>>> Company LAST REGISTERED ID is changed, updating...')
+                print(' >>>>>>>>>> Company LAST REGISTERED ID is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company LAST REGISTERED ID is changed, updating...')
                 qs.company_last_registered_id = last_registered_id
                 is_updated = True
 
             if qs.company_fiscal_year != fiscal_year:
-                print(' >>>>> Company FISCAL YEAR is changed, updating...')
+                print(' >>>>>>>>>> Company FISCAL YEAR is changed, updating...')
+                logging.warning(' >>>>>>>>>> Company FISCAL YEAR is changed, updating...')
                 qs.company_fiscal_year = fiscal_year
                 is_updated = True
 
             qs.is_changed = is_updated
             qs.save()
             if is_updated:
-                print(' ----- Update company: ' + qs.company_id + ' informtion finished =====')
+                print(' ---------- Update company: ' + qs.company_id + ' informtion finished ==========')
+                logging.critical(' ---------- Update company: ' + qs.company_id + ' informtion finished ==========')
             else:
-                print(' ----- The company have not changed information =====')
+                print(' ---------- The company have not changed information ==========')
+                logging.critical(' ---------- The company have not changed information ==========')
 
         return item
