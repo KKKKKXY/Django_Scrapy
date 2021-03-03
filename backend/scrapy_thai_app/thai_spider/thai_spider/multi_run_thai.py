@@ -1,33 +1,23 @@
-from scrapy.utils.project import get_project_settings
 import logging
+import base64
 from django.views.decorators.csrf import csrf_exempt
 from scrapy.utils.log import configure_logging
-from twisted.internet import reactor
-from scrapy.crawler import CrawlerRunner
-from .spiders.selenium_getCookie_Thai import *
-from .spiders.dbdcrawler_Thai1 import DbdcrawlerSpider1
-from .spiders.dbdcrawler_Thai2 import DbdcrawlerSpider2
-from .spiders.dbdcrawler_Thai3 import DbdcrawlerSpider3
-from .spiders.dbdcrawler_Thai4 import DbdcrawlerSpider4
-from .spiders.dbdcrawler_Thai5 import DbdcrawlerSpider5
-
 from string import Template
 from sendgrid import SendGridAPIClient
-import base64
 from sendgrid.helpers.mail import (
     Mail, Attachment, FileContent, FileName,
     FileType, Disposition, ContentId)
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from backend.data_reader.excel_reader import *
-from backend.data_reader.pdf_reader import *
 
-@api_view(['POST'])
+from .spiders.selenium_getCookie_Thai import *
+from .different_run_spider import *
+
+@api_view(['GET'])
 @csrf_exempt
 def getThaiCaptchaEmail(request):
     print('getThaiCaptchaEmail')
-    if request.method == 'POST':
+    if request.method == 'GET':
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
         with open('/backend/log/Scrapy_Actions.log', 'w'):
@@ -43,64 +33,22 @@ def getThaiCaptchaEmail(request):
 
 def number_of_browser_to_scrapy(num, selectThai):
     print('selectThai is: ' + selectThai)
-    runner = CrawlerRunner(get_project_settings())
+    # runner = CrawlerRunner(get_project_settings())
     if num == 1:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        # d = runner.join()
+        # d.addBoth(lambda _: reactor.stop())
+        # reactor.run()
+        run_1(selectThai)
     elif num == 2:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectThai))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_2(selectThai)
     elif num == 3:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectThai))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_3(selectThai)
     elif num == 4:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider4, cid=random_company(selectThai))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_4(selectThai)
     elif num == 5:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider4, cid=random_company(selectThai))
-        runner.crawl(DbdcrawlerSpider5, cid=random_company(selectThai))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_5(selectThai)
     else:
-        return 'invalid the number of browser'
-
-def random_company(file_name):
-    file_type = file_name.rpartition('.')[-1]
-    print('file_type is: '+ file_type)
-    # excel_path
-    if file_type == 'xlsx' or file_type == 'csv':
-        excel_path = '/backend/media/xlsx/'+file_name
-        print(excel_path)
-        companies_id = get_cid_from_excel(excel_path)
-    # pdf_path
-    elif file_type == 'pdf':
-        pdf_path = '/backend/media/pdf/'+file_name
-        print(pdf_path)
-        pdf_to_excel_path = '/backend/media/pdf_convert_excel/dbd_from_pdf_thai.xlsx'
-        # convert_pdf_to_excel(pdf_path, pdf_to_excel_path)
-        pdf_to_excel_path = '/backend/scrapy_thai_app/thai_spider/thai_spider/spiders/db/dbd_from_pdf_thai.xlsx'
-        companies_id = get_cid_from_pdf(pdf_to_excel_path)
-    else:
-        print('Invaid')
-    return companies_id
+        print('invalid the number of browser')
 
 @api_view(['POST'])
 @csrf_exempt
@@ -131,16 +79,8 @@ def run_thai_spider(request):
                 # start to run spiders
                 # runner = CrawlerRunner(get_project_settings())
                 try:
-                    logging.info('runspider start spider:%s' % name)
+                    logging.info('runspider start spider: run_thai_spider')
                     number_of_browser_to_scrapy(int(thaiBrowser), selectThai)
-                    # runner.crawl(DbdcrawlerSpider1)
-                    # runner.crawl(DbdcrawlerSpider2)
-                    # runner.crawl(DbdcrawlerSpider3)
-                    # runner.crawl(DbdcrawlerSpider4)
-                    # runner.crawl(DbdcrawlerSpider5)
-                    # d = runner.join()
-                    # d.addBoth(lambda _: reactor.stop())
-                    # reactor.run()
 
                     # send finish email to user
                     message_template = read_template('/backend/email_msg/finish_scrapy.txt')
@@ -166,16 +106,28 @@ def run_thai_spider(request):
                     try:
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Message Send.')
-                        logging.warning('Message Send.')
-                        logging.info('finish this spider:%s\n\n' % name)
+                        print('Scrapy finished message send.')
+                        logging.warning('Scrapy finished message send.')
+                        logging.info('finish this spider:%s\n\n' % 'run_thai_spider')
                     except Exception as e:
+                        print('Send scrapy finished message failed.')
                         print(e)
+                        logging.warning('Send scrapy finished message failed.')
                         logging.error(e)
+                    # runner.crawl(DbdcrawlerSpider1)
+                    # runner.crawl(DbdcrawlerSpider2)
+                    # runner.crawl(DbdcrawlerSpider3)
+                    # runner.crawl(DbdcrawlerSpider4)
+                    # runner.crawl(DbdcrawlerSpider5)
+                    # d = runner.join()
+                    # d.addBoth(lambda _: reactor.stop())
+                    # reactor.run()
+                    # if finish == True:
+                    # send finish email to user
 
                 except Exception as e:
-                    logging.exception('runspider spider:%s exception:%s' % (name, e))
-                    message_template = read_template('/backend/email_msg/reactor_restartable_error.txt')
+                    logging.exception('runspider spider:%s exception:%s' % ('run_thai_spider', e))
+                    message_template = read_template('/backend/email_msg/scrapy_error.txt')
                     attachment_file_name = 'Scrapy_Actions.log'
                     message = Mail(
                         from_email='myaploy@gmail.com',
@@ -198,15 +150,17 @@ def run_thai_spider(request):
                     try:
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Message Send.')
-                        logging.warning('Message Send.')
+                        print('Scrapy error happend message send.')
+                        logging.warning('Scrapy error happend message send.')
                     except Exception as e:
+                        print('Send scrapy error happend message failed.')
                         print(e)
+                        logging.warning('Send scrapy error happend message failed.')
                         logging.error(e)
                 logging.info('------------------------------------------')
     
         except Exception as e:
-            logging.exception('Get and store cookie:%s exception:%s' % (name, e))
+            logging.exception('Get and store cookie:%s exception:%s' % ('run_thai_spider', e))
             message_template = read_template('/backend/email_msg/error.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
@@ -217,14 +171,15 @@ def run_thai_spider(request):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
-                print('Message Send.')
-                logging.warning('Message Send.')
+                print('Error happend message send.')
+                logging.warning('Error happend message send.')
             except Exception as e:
+                print('Send Error happend message failed.')
                 print(e)
+                logging.warning('Send Error happend message failed.')
                 logging.error(e)
         return Response({"message": "Scrapy Thai Done!"})
     return Response({"message": "Got some data!", "data": request.data})
-
 
 def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:

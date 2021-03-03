@@ -1,33 +1,23 @@
-from scrapy.utils.project import get_project_settings
 import logging
+import base64
 from django.views.decorators.csrf import csrf_exempt
 from scrapy.utils.log import configure_logging
-from twisted.internet import reactor
-from scrapy.crawler import CrawlerRunner
-from .spiders.selenium_getCookie_Eng import *
-from .spiders.dbdcrawler_Eng1 import DbdcrawlerSpider1
-from .spiders.dbdcrawler_Eng2 import DbdcrawlerSpider2
-from .spiders.dbdcrawler_Eng3 import DbdcrawlerSpider3
-from .spiders.dbdcrawler_Eng4 import DbdcrawlerSpider4
-from .spiders.dbdcrawler_Eng5 import DbdcrawlerSpider5
-
 from string import Template
 from sendgrid import SendGridAPIClient
-import base64
 from sendgrid.helpers.mail import (
     Mail, Attachment, FileContent, FileName,
     FileType, Disposition, ContentId)
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from backend.data_reader.excel_reader import *
-from backend.data_reader.pdf_reader import *
 
-@api_view(['POST'])
+from .spiders.selenium_getCookie_Eng import *
+from .different_run_spider import *
+
+@api_view(['GET'])
 @csrf_exempt
 def getEngCaptchaEmail(request):
     print('getEngCaptchaEmail')
-    if request.method == 'POST':
+    if request.method == 'GET':
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
         with open('/backend/log/Scrapy_Actions.log', 'w'):
@@ -43,64 +33,18 @@ def getEngCaptchaEmail(request):
 
 def number_of_browser_to_scrapy(num, selectEng):
     print('selectEng is: ' + selectEng)
-    runner = CrawlerRunner(get_project_settings())
     if num == 1:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectEng))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_1(selectEng)
     elif num == 2:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectEng))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_2(selectEng)
     elif num == 3:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectEng))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_3(selectEng)
     elif num == 4:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider4, cid=random_company(selectEng))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_4(selectEng)
     elif num == 5:
-        runner.crawl(DbdcrawlerSpider1, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider2, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider3, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider4, cid=random_company(selectEng))
-        runner.crawl(DbdcrawlerSpider5, cid=random_company(selectEng))
-        d = runner.join()
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()
+        run_5(selectEng)
     else:
-        return 'invalid the number of browser'
-
-def random_company(file_name):
-    file_type = file_name.rpartition('.')[-1]
-    print('file_type is: '+ file_type)
-    # excel_path
-    if file_type == 'xlsx' or file_type == 'csv':
-        excel_path = '/backend/media/xlsx/'+file_name
-        print(excel_path)
-        companies_id = get_cid_from_excel(excel_path)
-    # pdf_path
-    elif file_type == 'pdf':
-        pdf_path = '/backend/media/pdf/'+file_name
-        print(pdf_path)
-        # pdf_to_excel_path = '/backend/media/pdf_convert_excel/dbd_from_pdf_eng.xlsx'
-        # convert_pdf_to_excel(pdf_path, pdf_to_excel_path)
-        pdf_to_excel_path = '/backend/scrapy_eng_app/eng_spider/eng_spider/spiders/db/dbd_from_pdf_eng.xlsx'
-        companies_id = get_cid_from_pdf(pdf_to_excel_path)
-    else:
-        print('Invaid')
-    return companies_id
+        print('invalid the number of browser')
 
 @api_view(['POST'])
 @csrf_exempt
@@ -130,7 +74,7 @@ def run_eng_spider(request):
                 storeCookie()
                 # start to run spiders
                 try:
-                    logging.info('runspider start spider:%s' % name)
+                    logging.info('runspider start spider: run_eng_spider')
                     number_of_browser_to_scrapy(int(engBrowser), selectEng)
                     
                     # send finish email to user
@@ -159,15 +103,16 @@ def run_eng_spider(request):
                         response = sg.send(message)
                         print('Message Send.')
                         logging.warning('Message Send.')
-                        logging.info('finish this spider:%s\n\n' % name)
+                        logging.info('finish this spider:%s\n\n' % 'run_eng_spider')
                     except Exception as e:
+                        print('Send scrapy finished message failed.')
                         print(e)
+                        logging.warning('Send scrapy finished message failed.')
                         logging.error(e)
                     
                 except Exception as e:
-                    print(e)
-                    logging.exception('runspider spider:%s exception:%s' % (name, e))
-                    message_template = read_template('/backend/email_msg/reactor_restartable_error.txt')
+                    logging.exception('runspider spider:%s exception:%s' % ('run_eng_spider', e))
+                    message_template = read_template('/backend/email_msg/scrapy_error.txt')
                     attachment_file_name = 'Scrapy_Actions.log'
                     message = Mail(
                         from_email='myaploy@gmail.com',
@@ -190,15 +135,17 @@ def run_eng_spider(request):
                     try:
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Message Send.')
-                        logging.warning('Message Send.')
+                        print('Scrapy error happend message send.')
+                        logging.warning('Scrapy error happend message send.')
                     except Exception as e:
+                        print('Send scrapy error happend message failed.')
                         print(e)
+                        logging.warning('Send scrapy error happend message failed.')
                         logging.error(e)
                 logging.info('------------------------------------------')
                 
         except Exception as e:
-            logging.exception('Get and store cookie:%s exception:%s' % (name, e))
+            logging.exception('Get and store cookie:%s exception:%s' % ('run_eng_spider', e))
             message_template = read_template('/backend/email_msg/error.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
@@ -209,15 +156,16 @@ def run_eng_spider(request):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
-                print('Message Send.')
-                logging.warning('Message Send.')
+                print('Error happend message send.')
+                logging.warning('Error happend message send.')
             except Exception as e:
+                print('Send Error happend message failed.')
                 print(e)
+                logging.warning('Send Error happend message failed.')
                 logging.error(e)
         return Response({"message": "Scrapy Eng Done!"})
     return Response({"message": "Got some data!", "data": request.data})
                 # return redirect("/admin/")
-
 
 def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:

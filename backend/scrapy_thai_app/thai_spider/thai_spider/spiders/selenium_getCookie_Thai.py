@@ -1,10 +1,9 @@
 import os, time, re, pickle
 from selenium import webdriver
-import pytesseract
-from PIL import Image
+# import pytesseract
+# from PIL import Image
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import TimeoutException
-import scrapy
+# from selenium.common.exceptions import TimeoutException
 from string import Template
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -86,18 +85,19 @@ def getCaptchaEmail():
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)
-        print('Message Send.')
-        logging.warning('Message Send.')
+        print('Captcha code screenshot message send.')
+        logging.warning('Captcha code screenshot message send.')
     except Exception as e:
+        print('send captcha code screenshot message failed.')
         print(e)
+        logging.warning('send captcha code screenshot message failed.')
         logging.error(e)
-        
+
 
 def verifyCaptchaAndLogin(captchaCode):
-    error=False
     print ('The captcha code you entered is: ', captchaCode)
     logging.info('The captcha code you entered is: %s' % captchaCode)
-    if len(captchaCode) == 5 and re.match('^[A-Za-z0-9]+$',captchaCode): 
+    if len(captchaCode) == 5 and re.match('^[A-Za-z0-9]+$',captchaCode):
         # Send captcha code in input box and access 'https://datawarehouse.dbd.go.th/index' page
         try:
             driver.find_element_by_xpath('//*[@id="captchaCode"]').send_keys(captchaCode) 
@@ -115,8 +115,13 @@ def verifyCaptchaAndLogin(captchaCode):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
+                print('Captcha code error message send.')
+                logging.warning('Captcha code error message send.')
+                return True
             except Exception as e:
+                print('send captcha code error message failed.')
                 print(e)
+                logging.warning('send captcha code error message failed.')
                 logging.error(e)
         
         if 'Home' in driver.title:
@@ -132,16 +137,18 @@ def verifyCaptchaAndLogin(captchaCode):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
-                print('The server response code is: ' + str(response.status_code))
-                logging.info('The server response code is: %s' % response.status_code)
-                print('Message Send.')
-                logging.warning('Message Send.')
+                # print('The server response code is: ' + str(response.status_code))
+                # logging.info('The server response code is: %s' % response.status_code)
+                print('Login success message send.')
+                logging.warning('Login success message send.')
                 print('Start scrapying...')
                 logging.critical('Start scrapying...')
-                time.sleep(3)
-                error=False
+                # time.sleep(3)
+                return False
             except Exception as e:
+                print('send login success message failed.')
                 print(e)
+                logging.warning('send login success message failed.')
                 logging.error(e)
             # break
         else:
@@ -158,13 +165,13 @@ def verifyCaptchaAndLogin(captchaCode):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
-                print('The server response code is: ' + str(response.status_code))
-                logging.info('The server response code is: %s' % response.status_code)
-                print('Message Send.')
-                logging.warning('Message Send.')
-                error=True
+                print('Captcha code expired message send.')
+                logging.warning('Captcha code expired message send.')
+                return True
             except Exception as e:
+                print('send captcha code expired message failed.')
                 print(e)
+                logging.warning('send captcha code expired message failed.')
                 logging.error(e)
     else:
         print('The capcha code is invalid, please check your inbox message!')
@@ -180,15 +187,14 @@ def verifyCaptchaAndLogin(captchaCode):
         try:
             sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
             response = sg.send(message)
-            print('The server response code is: ' + str(response.status_code))
-            logging.info('The server response code is: %s' % response.status_code)
-            print('Message Send.')
-            logging.warning('Message Send.')
-            error=True
+            print('Invalid captcha code message send.')
+            logging.warning('Invalid captcha code message send.')
+            return True
         except Exception as e:
+            print('send invalid captcha code message failed.')
             print(e)
+            logging.warning('send invalid captcha code message failed.')
             logging.error(e)
-    return error
     
 def storeCookie():
     # load cookie

@@ -63,7 +63,7 @@ class EngSpiderPipeline(object):
             company_type = '-'
         if status == 'No Data':
             status = '-'
-        if address == 'No Data':
+        if address == None or address == '':
             address = '-'
         if objective == 'No Data':
             objective = '-'
