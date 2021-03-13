@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'scrapy_eng_app',
     'scrapy_thai_app',
     'file_manage_app',
+    'finan_posit_app',
+    'income_state_app',
+    'finan_ratio_app',
 ]
 
 MIDDLEWARE = [

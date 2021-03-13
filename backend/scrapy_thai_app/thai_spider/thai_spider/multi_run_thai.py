@@ -13,11 +13,11 @@ from rest_framework.response import Response
 from .spiders.selenium_getCookie_Thai import *
 from .different_run_spider import *
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 @csrf_exempt
 def getThaiCaptchaEmail(request):
     print('getThaiCaptchaEmail')
-    if request.method == 'GET':
+    if request.method == 'POST':
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
         with open('/backend/log/Scrapy_Actions.log', 'w'):
@@ -106,14 +106,14 @@ def run_thai_spider(request):
                     try:
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Scrapy finished message send.')
                         logging.warning('Scrapy finished message send.')
                         logging.info('finish this spider:%s\n\n' % 'run_thai_spider')
                     except Exception as e:
                         print('Send scrapy finished message failed.')
-                        print(e)
                         logging.warning('Send scrapy finished message failed.')
+                        print(e)
                         logging.error(e)
+                        
                     # runner.crawl(DbdcrawlerSpider1)
                     # runner.crawl(DbdcrawlerSpider2)
                     # runner.crawl(DbdcrawlerSpider3)
@@ -150,12 +150,11 @@ def run_thai_spider(request):
                     try:
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Scrapy error happend message send.')
                         logging.warning('Scrapy error happend message send.')
                     except Exception as e:
                         print('Send scrapy error happend message failed.')
-                        print(e)
                         logging.warning('Send scrapy error happend message failed.')
+                        print(e)
                         logging.error(e)
                 logging.info('------------------------------------------')
     
@@ -171,12 +170,11 @@ def run_thai_spider(request):
             try:
                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                 response = sg.send(message)
-                print('Error happend message send.')
                 logging.warning('Error happend message send.')
             except Exception as e:
                 print('Send Error happend message failed.')
-                print(e)
                 logging.warning('Send Error happend message failed.')
+                print(e)
                 logging.error(e)
         return Response({"message": "Scrapy Thai Done!"})
     return Response({"message": "Got some data!", "data": request.data})

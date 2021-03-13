@@ -18,12 +18,12 @@ export class BackendAPIService {
 
   getThaiCaptchaEmail(): Observable<any>{
     console.log('Request capctha email...');
-    return this.http.get(this.baseurl + '/send_thai_captcha_email/', {headers: this.httpHeaders});
+    return this.http.post(this.baseurl + '/send_thai_captcha_email/', {headers: this.httpHeaders});
   }
 
   getEngCaptchaEmail(): Observable<any>{
     console.log('Request capctha email...');
-    return this.http.get(this.baseurl + '/send_eng_captcha_email/', {headers: this.httpHeaders});
+    return this.http.post(this.baseurl + '/send_eng_captcha_email/', {headers: this.httpHeaders});
   }
 
   // runThaiSpider(scraptItem: FormData): Observable<any>{

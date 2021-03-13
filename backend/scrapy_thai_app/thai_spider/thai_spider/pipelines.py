@@ -85,7 +85,7 @@ class ThaiSpiderPipeline(object):
             email = '-'
         if last_registered_id == 'No Data':
             last_registered_id = '-'
-        if fiscal_year == 'No Data':
+        if fiscal_year == 'No Data'or fiscal_year == None:
             fiscal_year = '-'
         if street == None or street == '':
             street = '-'

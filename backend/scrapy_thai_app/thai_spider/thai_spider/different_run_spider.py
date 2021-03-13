@@ -55,34 +55,24 @@ def run_1(selectThai):
 
 def run_2(selectThai):
     def f(q):
-        print('def f(q):')
         try:
             runner = crawler.CrawlerRunner()
             runner.crawl(DbdcrawlerSpider1, cid=random_company(selectThai))
             runner.crawl(DbdcrawlerSpider2, cid=random_company(selectThai))
             deferred = runner.join()
-            # deferred = runner.crawl(spider, cid=random_company(selectThai))
             deferred.addBoth(lambda _: reactor.stop())
             reactor.run()
             q.put(None)
-            print('q.put(None)')
         except Exception as e:
             q.put(e)
-            print('q.put(e)')
 
     q = Queue()
-    print('q = Queue()')
     p = Process(target=f, args=(q,))
-    print('p = Process(target=f, args=(q,))')
     p.start()
-    print('p.start()')
     result = q.get()
-    print('result = q.get()')
     p.join()
-    print('p.join()')
     
     if result is not None:
-        print('if result is not None:')
         raise result
 
 def run_3(selectThai):
