@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from scrapy_thai_app.models import DBDCompany_Thai
+from scrapy_thai_app.profile_models import DBDCompany_Thai
 from scrapy_thai_app.serializers import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets

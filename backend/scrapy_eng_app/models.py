@@ -30,6 +30,6 @@ class DBDCompany_Eng(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'dbd_scraped_company_eng'
-        verbose_name = 'Scraped Company'
+        db_table = 'dbd_scraped_eng'
+        verbose_name = 'Scraped Eng Company'
         verbose_name_plural = 'Scraped Eng Companies'

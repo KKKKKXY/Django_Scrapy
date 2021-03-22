@@ -14,7 +14,7 @@ import scrapy
 #     equity                  = scrapy.Field()
 #     t_liab_and_equity       = scrapy.Field()
 
-class FinanYearDetailItem(scrapy.Item):
+class PositYearItem(scrapy.Item):
     company_id  = scrapy.Field()
     year        = scrapy.Field()
     amount      = scrapy.Field()

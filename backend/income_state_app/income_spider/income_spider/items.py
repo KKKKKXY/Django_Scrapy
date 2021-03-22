@@ -13,7 +13,7 @@ import scrapy
 #     income_tax_expe                 = scrapy.Field()
 #     net_profit                      = scrapy.Field()
 
-class IncomeYearDetailItem(scrapy.Item):
+class IncomeYearItem(scrapy.Item):
     company_id  = scrapy.Field()
     year        = scrapy.Field()
     amount      = scrapy.Field()

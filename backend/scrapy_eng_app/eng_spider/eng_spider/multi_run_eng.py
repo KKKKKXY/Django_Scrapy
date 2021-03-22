@@ -13,11 +13,11 @@ from rest_framework.response import Response
 from .spiders.selenium_getCookie_Eng import *
 from .different_run_spider import *
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @csrf_exempt
 def getEngCaptchaEmail(request):
     print('getEngCaptchaEmail')
-    if request.method == 'GET':
+    if request.method == 'POST':
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
         with open('/backend/log/Scrapy_Actions.log', 'w'):
@@ -55,7 +55,8 @@ def run_eng_spider(request):
         captchaCode = request.data['captchaCode']
         engBrowser = request.data['engBrowser']
         selectEng = request.data['selectEng']
-
+        # with open('/backend/log/Scrapy_Actions.log', 'w'):
+        #     pass
         configure_logging(install_root_handler=False)
         logging.basicConfig(
             filename='log/%s.log' % name,
@@ -64,6 +65,7 @@ def run_eng_spider(request):
         )
         logging.warning('You selected the number of browser to scrapy is: ' + engBrowser)
         logging.warning('You Selected file is: ' + selectEng)
+        # number_of_browser_to_scrapy(int(engBrowser), selectEng)
 
         try:
             # get and store cookie

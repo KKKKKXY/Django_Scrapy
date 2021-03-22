@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +46,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FileManageAppComponent } from './components/file-manage-app/file-manage-app.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
+// import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 const materialModules = [
   CdkTreeModule,
@@ -92,17 +92,17 @@ const materialModules = [
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     ...materialModules,
-    AngularFileUploaderModule,
+    // AngularFileUploaderModule,
   ],
   providers: [BackendAPIService],
   bootstrap: [AppComponent],
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

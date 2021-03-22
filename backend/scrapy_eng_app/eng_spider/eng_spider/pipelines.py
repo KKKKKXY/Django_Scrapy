@@ -6,16 +6,10 @@ import logging
 
 
 class EngSpiderPipeline(object):
-    def __init__(self, *args, **kwargs):
-        self.items = []
-
     def close_spider(self, spider):
         pass
 
     def process_item(self, item, spider):
-        print(' =============== raw item data ===============')
-        print(item)
-
         raw_company_id          = item['company_id']
         company_type            = item['company_type']
         status                  = item['status']
@@ -24,29 +18,20 @@ class EngSpiderPipeline(object):
         raw_company_name        = item['company_name']
         raw_bussiness_type      = item['bussiness_type']
         address                 = item['address']
-        # raw_address             = item['address']
         tel                     = item['tel']
         fax                     = item['fax']
         website                 = item['website']
         email                   = item['email']
         last_registered_id      = item['last_registered_id']
-        fiscal_year             = item['fiscal_year']
+        raw_fiscal_year         = item['fiscal_year']
 
         #clean data
-        # print('raw_directors')
-        # print(raw_directors)
         directors                   = directors_convert(raw_directors)
-        # print('directors')
-        # print(directors)
         bussiness_type              = business_type_separater(raw_bussiness_type)[1]
         bussiness_type_code         = business_type_separater(raw_bussiness_type)[0]
         company_id                  = re.split(':', raw_company_id)[1].strip()
         company_name                = re.split(':', raw_company_name)[1].strip()
-        # street                      = address_separater(raw_address)[0]
-        # subdistrict                 = address_separater(raw_address)[1]
-        # district                    = address_separater(raw_address)[2]
-        # province                    = address_separater(raw_address)[3]
-        # address                     = address_separater(raw_address)[4]
+        fiscal_year                = fiscal_year_convert(raw_fiscal_year)
 
         if company_id == None or company_id == '':
             company_id = '-'
@@ -76,16 +61,8 @@ class EngSpiderPipeline(object):
             email = '-'
         if last_registered_id == 'No Data':
             last_registered_id = '-'
-        if fiscal_year == 'No Data':
+        if fiscal_year == 'No Data' or fiscal_year == '':
             fiscal_year = '-'
-        # if street == None or street == '':
-        #     street = '-'
-        # if subdistrict == None or subdistrict == '':
-        #     subdistrict = '-'
-        # if district == None or district == '':
-        #     district = '-'
-        # if province == None or province == '':
-        #     province = '-'
 
         new_item = DBDCompany_Eng()
         qs = DBDCompany_Eng.objects.all().filter(company_id=company_id).first()
@@ -102,10 +79,6 @@ class EngSpiderPipeline(object):
             new_item.company_directors              = directors
             new_item.company_bussiness_type         = bussiness_type
             new_item.company_bussiness_type_code    = bussiness_type_code
-            # new_item.company_street                 = street
-            # new_item.company_subdistrict            = subdistrict
-            # new_item.company_district               = district
-            # new_item.company_province               = province
             new_item.company_tel                    = tel
             new_item.company_fax                    = fax
             new_item.company_website                = website

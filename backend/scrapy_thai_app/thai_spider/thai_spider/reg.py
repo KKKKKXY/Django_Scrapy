@@ -172,20 +172,28 @@ def date_convert(time):
     return res
 
 def directors_convert(directors):
-        directors_text      = ''
-        count = 0
+    directors_text      = ''
+    count = 0
 
-        for line in directors:
-            if 'ลงหุ้นด้วย' in line:
-                directors_text  = directors_text # + line+'\n'
-            else:
-                if '/' in line:
-                    line = line[:-1]
-                directors_text  = directors_text + str(count+1)+'. '+ line+'\n'
-                count += 1
-        directors_text      = directors_text.rstrip()
+    for line in directors:
+        if 'ลงหุ้นด้วย' in line:
+            directors_text  = directors_text # + line+'\n'
+        else:
+            if '/' in line:
+                line = line[:-1]
+            directors_text  = directors_text + str(count+1)+'. '+ line+'\n'
+            count += 1
+    directors_text      = directors_text.rstrip()
 
-        return directors_text
+    return directors_text
+
+def fiscal_year_convert(fiscal_year):
+        fiscal_year_text      = ''
+
+        for line in fiscal_year:
+            fiscal_year_text = fiscal_year_text + line + ' '
+
+        return fiscal_year_text
 
 # if __name__ == "__main__":
 #     strings = ['857 ซอยเพชรเกษม94 แขวงบางแคเหนือ เขตบางแค กรุงเทพมหานคร', '39 หมู่ที่ 5 ต.นิคมพัฒนา อ.นิคมพัฒนา จ.ระยอง', '122/2หมู่ที่12 ตำบลสันกำแพงอำเภอสันกำแพงจ.เชียงใหม่']

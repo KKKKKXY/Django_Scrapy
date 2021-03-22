@@ -4,7 +4,8 @@ from scrapy.spiders import CrawlSpider
 import logging
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-from finan_ratio_spider.items import *
+from finan_ratio_app.finan_ratio_spider.finan_ratio_spider.items import *
+from finan_ratio_app.models import *
 
 class FinancialRatioCrawlerSpider(CrawlSpider):
     name = 'dbdratiocrawler'
@@ -12,9 +13,9 @@ class FinancialRatioCrawlerSpider(CrawlSpider):
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.192 Safari/537.36'
     }
     allowed_domains = ["datawarehouse.dbd.go.th"]
-    # custom_settings = {
-    #     'ITEM_PIPELINES': {'scrapy_thai_app.thai_spider.thai_spider.pipelines.ThaiSpiderPipeline': 400,}
-    # }
+    custom_settings = {
+        'ITEM_PIPELINES': {'finan_ratio_app.finan_ratio_spider.finan_ratio_spider.pipelines.FinanRatioSpiderPipeline': 400,}
+    }
 
     def __init__(self, cid=None, *args, **kwargs):
         self.cid = cid
@@ -23,18 +24,34 @@ class FinancialRatioCrawlerSpider(CrawlSpider):
 
     def start_requests(self):
         companies_id = self.cid
-        print(companies_id)
-        for i in ['0105554123553', '0103563015316']:
+        for i in companies_id:
             url = 'https://datawarehouse.dbd.go.th/fin/ratio/%s/%s' %(i[3],i)
-            cookie = 'YmU5ZjVjNzUtZDM4MS00ZTJmLWJmODQtMTc1ZTFiYWNjMzg2'
+            cookie = self.getCookie()
             yield scrapy.Request(url=url, 
                                 cookies={"JSESSIONID":cookie},
                                 callback=self.parse,
                                 cb_kwargs=dict(raw_company_id=i, cookie=cookie),
                                 encoding='utf-8')
 
+    def getCookie(self):
+        cookie_path = '/backend/temp/cookie.json'
+        if os.path.isfile(cookie_path):
+            try:
+                with open(cookie_path, 'rb') as f: 
+                    cookies = pickle.load(f)
+            except EOFError:
+                cookies = None
+
+        for i in cookies:
+            if i['name']=='JSESSIONID':
+                cookies= i['value']
+                break
+        return cookies
+
     def parse(self, responese, raw_company_id, cookie):
-        # print()
+        print('Scrapy and store ratio year details for company: ' + raw_company_id + ' ...')
+        logging.info('Scrapy and store ratio year details for company: ' + raw_company_id + ' ...')
+        RatioYear.objects.filter(company_id=raw_company_id).delete()
         try:
             CHROME_DRIVER = os.path.expanduser('/usr/bin/chromedriver')
             chrome_options = Options()
@@ -62,7 +79,7 @@ class FinancialRatioCrawlerSpider(CrawlSpider):
                     year = 'N/A'
                 all_year.append(year)
 
-            y_item = RatioYearDetailItem()
+            y_item = RatioYearItem()
             for i in range(3,6):
                 if i == 3:
                     year = all_year[0]

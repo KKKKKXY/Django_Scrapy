@@ -8,21 +8,15 @@
 from itemadapter import ItemAdapter
 from .reg import *
 import json
-from scrapy_thai_app.models import DBDCompany_Thai
+from scrapy_thai_app.profile_models import DBDCompany_Thai
 import logging
 
 
 class ThaiSpiderPipeline(object):
-    def __init__(self, *args, **kwargs):
-        self.items = []
-
     def close_spider(self, spider):
         pass
 
     def process_item(self, item, spider):
-        print(' =============== raw item data ===============')
-        print(item)
-
         raw_company_id          = item['company_id']
         company_type            = item['company_type']
         status                  = item['status']
@@ -36,26 +30,20 @@ class ThaiSpiderPipeline(object):
         website                 = item['website']
         email                   = item['email']
         last_registered_id      = item['last_registered_id']
-        fiscal_year             = item['fiscal_year']
+        raw_fiscal_year         = item['fiscal_year']
 
         #clean data
-        # print('raw_directors')
-        # print(raw_directors)
         directors                   = directors_convert(raw_directors)
-        # print('directors')
-        # print(directors)
         bussiness_type              = business_type_separater(raw_bussiness_type)[1]
-        # print(bussiness_type)
         bussiness_type_code         = business_type_separater(raw_bussiness_type)[0]
-        # print(bussiness_type_code)
         company_id                  = re.split(':', raw_company_id)[1].strip()
         company_name                = re.split(':', raw_company_name)[1].strip()
-        # print(company_name)
         street                      = address_separater(raw_address)[0]
         subdistrict                 = address_separater(raw_address)[1]
         district                    = address_separater(raw_address)[2]
         province                    = address_separater(raw_address)[3]
         address                     = address_separater(raw_address)[4]
+        fiscal_year                = fiscal_year_convert(raw_fiscal_year)
 
         if company_id == None or company_id == '':
             company_id = '-'
@@ -85,7 +73,7 @@ class ThaiSpiderPipeline(object):
             email = '-'
         if last_registered_id == 'No Data':
             last_registered_id = '-'
-        if fiscal_year == 'No Data'or fiscal_year == None:
+        if fiscal_year == 'No Data' or fiscal_year == '':
             fiscal_year = '-'
         if street == None or street == '':
             street = '-'
@@ -97,10 +85,7 @@ class ThaiSpiderPipeline(object):
             province = '-'
 
         new_item = DBDCompany_Thai()
-        # if DBDCompany_Thai.objects.all().count() == 0:
         qs = DBDCompany_Thai.objects.all().filter(company_id=company_id).first()
-        # print(qs)
-        # print(qs.company_street)
 
         if not qs:
             print(' ----> Store ' + company_id + ' a new company information...')

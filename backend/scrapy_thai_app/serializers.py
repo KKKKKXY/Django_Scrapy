@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from scrapy_thai_app.models import DBDCompany_Thai
+from scrapy_thai_app.profile_models import DBDCompany_Thai
 from django.contrib.auth.models import User, Group
 
 class CompanyThaiSerializer(serializers.ModelSerializer):

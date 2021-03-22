@@ -12,9 +12,9 @@ export class BackendAPIService {
 
   constructor(private http: HttpClient) { }
 
-  getAllThaiCompanies(): Observable<any>{
-    return this.http.get(this.baseurl + '/companies_thai/', {headers: this.httpHeaders});
-  }
+  // getAllThaiCompanies(): Observable<any>{
+  //   return this.http.get(this.baseurl + '/companies_thai/', {headers: this.httpHeaders});
+  // }
 
   getThaiCaptchaEmail(): Observable<any>{
     console.log('Request capctha email...');
