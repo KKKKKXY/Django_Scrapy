@@ -11,10 +11,6 @@ class DBDCompany_Eng(models.Model):
     company_directors               = models.TextField(db_column='company_directors')
     company_bussiness_type          = models.TextField(db_column='company_bussiness_type', default='Null')
     company_bussiness_type_code     = models.CharField(db_column='company_bussiness_code', max_length=20, default='Null')
-    # company_street                  = models.TextField(db_column='company_street', default='Null')
-    # company_subdistrict             = models.CharField(db_column='company_subdistrict', max_length=255, default='Null')
-    # company_district                = models.CharField(db_column='company_district', max_length=255, default='Null')
-    # company_province                = models.CharField(db_column='company_province', max_length=255, default='Null')
     company_address                 = models.TextField(db_column='company_address', default='Null')
     company_tel                     = models.CharField(db_column='company_tel', max_length=255, default='Null')
     company_fax                     = models.CharField(db_column='company_fax', max_length=255, default='Null')
@@ -30,6 +26,6 @@ class DBDCompany_Eng(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'dbd_scraped_company_eng'
-        verbose_name = 'Scraped Company'
+        db_table = 'dbd_scraped_eng'
+        verbose_name = 'Scraped Eng Company'
         verbose_name_plural = 'Scraped Eng Companies'

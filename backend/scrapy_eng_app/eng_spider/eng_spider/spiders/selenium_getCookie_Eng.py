@@ -11,6 +11,7 @@ from sendgrid.helpers.mail import (
     FileType, Disposition, ContentId)
 
 # Selenium Part
+# get email format
 def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:
         template_file_content = template_file.read()
@@ -66,7 +67,7 @@ def getCaptchaEmail():
         subject='Inform: Get screenshot',
         html_content=message_template.substitute(ATTACHMENTFILENAME=attachment_file_name)
     )
-    # # add screenshot
+    # add screenshot
     with open(screenshot_path, 'rb') as f:
         data = f.read()
         f.close()
@@ -119,7 +120,7 @@ def verifyCaptchaAndLogin(captchaCode):
                 print(e)
                 logging.warning('send captcha code error message failed.')
                 logging.error(e)
-
+        # Login Successfully
         if 'Home' in driver.title:
             print('Login Success!!!')
             logging.critical('Login Success!!!')
@@ -144,6 +145,7 @@ def verifyCaptchaAndLogin(captchaCode):
                 logging.warning('send login success message failed.')
                 logging.error(e)
         else:
+            # capcha code is expired
             print('Oops!!! The capcha code is expired, please check your inbox message!')
             logging.warning('Oops!!! The capcha code is expired, please check your inbox message!')
             driver.get(login_page_url)
@@ -166,6 +168,7 @@ def verifyCaptchaAndLogin(captchaCode):
                 logging.warning('send captcha code expired message failed.')
                 logging.error(e)
     else:
+        # capcha code is invalid
         print('The capcha code is invalid, please check your inbox message!')
         logging.warning('The capcha code is invalid, please check your inbox message!')
         driver.refresh()

@@ -1,28 +1,17 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-
-# useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from .reg import *
 import json
-from scrapy_thai_app.models import DBDCompany_Thai
 import logging
-
+import re
+# import own lib
+from .reg import *
+from scrapy_thai_app.models import *
 
 class ThaiSpiderPipeline(object):
-    def __init__(self, *args, **kwargs):
-        self.items = []
-
     def close_spider(self, spider):
         pass
 
     def process_item(self, item, spider):
-        print(' =============== raw item data ===============')
-        print(item)
-
+        # assign item values into each variable
         raw_company_id          = item['company_id']
         company_type            = item['company_type']
         status                  = item['status']
@@ -36,27 +25,20 @@ class ThaiSpiderPipeline(object):
         website                 = item['website']
         email                   = item['email']
         last_registered_id      = item['last_registered_id']
-        fiscal_year             = item['fiscal_year']
+        raw_fiscal_year         = item['fiscal_year']
 
         #clean data
-        # print('raw_directors')
-        # print(raw_directors)
         directors                   = directors_convert(raw_directors)
-        # print('directors')
-        # print(directors)
         bussiness_type              = business_type_separater(raw_bussiness_type)[1]
-        # print(bussiness_type)
         bussiness_type_code         = business_type_separater(raw_bussiness_type)[0]
-        # print(bussiness_type_code)
         company_id                  = re.split(':', raw_company_id)[1].strip()
         company_name                = re.split(':', raw_company_name)[1].strip()
-        # print(company_name)
         street                      = address_separater(raw_address)[0]
         subdistrict                 = address_separater(raw_address)[1]
         district                    = address_separater(raw_address)[2]
         province                    = address_separater(raw_address)[3]
         address                     = address_separater(raw_address)[4]
-
+        fiscal_year                 = fiscal_year_convert(raw_fiscal_year)
         if company_id == None or company_id == '':
             company_id = '-'
         if company_name == None or company_name == '':
@@ -85,7 +67,7 @@ class ThaiSpiderPipeline(object):
             email = '-'
         if last_registered_id == 'No Data':
             last_registered_id = '-'
-        if fiscal_year == 'No Data':
+        if fiscal_year == 'No Data' or fiscal_year == '':
             fiscal_year = '-'
         if street == None or street == '':
             street = '-'
@@ -96,13 +78,12 @@ class ThaiSpiderPipeline(object):
         if province == None or province == '':
             province = '-'
 
+        # declare an object, type is  DBDCompany_Thai
         new_item = DBDCompany_Thai()
-        # if DBDCompany_Thai.objects.all().count() == 0:
+        # filter whether there is already a company in database
         qs = DBDCompany_Thai.objects.all().filter(company_id=company_id).first()
-        # print(qs)
-        # print(qs.company_street)
-
         if not qs:
+            # create a new company and save data into database
             print(' ----> Store ' + company_id + ' a new company information...')
             logging.info(' ----> Store ' + company_id + ' a new company information...')
             new_item.company_name                   = company_name
@@ -130,6 +111,7 @@ class ThaiSpiderPipeline(object):
             logging.info(' ----- Store company: ' + new_item.company_id + ' finished =====')
 
         else:
+            # updata company's information from database
             is_updated = False
             print(' ----> Check and update ' + company_id + ' company information...')
             logging.info(' ----> Check and update ' + company_id + ' company information...')
@@ -228,11 +210,6 @@ class ThaiSpiderPipeline(object):
                 logging.warning(' >>>>>>>>>> Company EMAIL is changed, updating...')
                 qs.company_email = email
                 is_updated = True
-
-            # if qs.company_email != 'jhg@gmail.com':
-            #     print(' >>>>> Company EMAIL is changed, updating...')
-            #     qs.company_email = 'jhg@gmail.com'
-            #     is_updated = True
 
             if qs.company_last_registered_id != last_registered_id:
                 print(' >>>>>>>>>> Company LAST REGISTERED ID is changed, updating...')

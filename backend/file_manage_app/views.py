@@ -1,15 +1,10 @@
+# import needed lib
 from django.shortcuts import render
-
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import status
-
 from .serializers import FileSerializer
-from django.views.decorators.csrf import csrf_exempt
-import json
-import base64
 from django.http import HttpResponse
 from rest_framework import viewsets
+# import own lib
 from .models import File
 
 # Create your views here.

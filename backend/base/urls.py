@@ -18,14 +18,12 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from scrapy_thai_app.views import *
 from scrapy_thai_app.thai_spider.thai_spider.multi_run_thai import *
 from scrapy_eng_app.eng_spider.eng_spider.multi_run_eng import *
 from rest_framework import routers
 from file_manage_app.views import *
 
 router = routers.DefaultRouter()
-router.register(r'companies_thai', CompanyThaiViewSet)
 router.register(r'upload_file', FileUploadViewSet)
 router.register(r'all_files', FileViewSet)
 
@@ -33,7 +31,6 @@ router.register(r'all_files', FileViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('getData/', get_data),
     path('', include(router.urls)),
     path('send_thai_captcha_email/', getThaiCaptchaEmail),
     path('send_eng_captcha_email/', getEngCaptchaEmail),

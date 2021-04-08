@@ -1,3 +1,4 @@
+# import needed lib
 import re
 import datetime
 
@@ -17,7 +18,6 @@ def address_separater(s):
 
     subdistrict_b = 'แขวง'
     subdistrict   = 'ต\\.|ตำบล'
-
 
 
     if province_b in s:
@@ -82,7 +82,6 @@ def address_separater(s):
                 matchObject         = re.search(f'({subdistrict})(.*)({province})',s)
                 company_subdistrict = matchObject.group(2).strip() if matchObject else ''
 
-
             if company_subdistrict:
                 #if subdistrict  is exist
                 matchObject         = re.search(f'(.*)({subdistrict})',s)
@@ -97,7 +96,6 @@ def address_separater(s):
                 company_street      = matchObject.group(1).strip() if matchObject else ''
 
 
-        
     # if can not find anything, return raw address in company_street
     if not company_street and not company_subdistrict and not company_district and not company_province:        
         company_street = s
@@ -124,21 +122,15 @@ def address_clear(subdistrict, district, province):
     subdistrict_pattern_b = 'แขวง'
     subdistrict_pattern   = 'ต|ตำบล'
 
-    #print(subdistrict)
-
     if province == province_b:
         if district_pattern_b in district:
             district = district[3:]
         if subdistrict_pattern_b in subdistrict:
             subdistrict = subdistrict[4:]
-        #district = district.lstrip(district_pattern_b)
-        #subdistrict = subdistrict.lstrip(subdistrict_pattern_b)
     else:
         province = province.lstrip(province_pattern).lstrip('.')
         district = district.lstrip(district_pattern).lstrip('.')
         subdistrict = subdistrict.lstrip(subdistrict_pattern).lstrip('.')
-
-    #print(subdistrict)
     
     return subdistrict, district, province
 
@@ -172,25 +164,30 @@ def date_convert(time):
     return res
 
 def directors_convert(directors):
-        directors_text      = ''
-        count = 0
+    # revise the format of directors:
+    # 1. ...
+    # 2. ...
+    directors_text      = ''
+    count = 0
 
-        for line in directors:
-            if 'ลงหุ้นด้วย' in line:
-                directors_text  = directors_text # + line+'\n'
-            else:
-                if '/' in line:
-                    line = line[:-1]
-                directors_text  = directors_text + str(count+1)+'. '+ line+'\n'
-                count += 1
-        directors_text      = directors_text.rstrip()
+    for line in directors:
+        if 'ลงหุ้นด้วย' in line:
+            directors_text  = directors_text
+        else:
+            if '/' in line:
+                line = line[:-1]
+            directors_text  = directors_text + str(count+1)+'. '+ line+'\n'
+            count += 1
+    directors_text      = directors_text.rstrip()
 
-        return directors_text
+    return directors_text
 
-# if __name__ == "__main__":
-#     strings = ['857 ซอยเพชรเกษม94 แขวงบางแคเหนือ เขตบางแค กรุงเทพมหานคร', '39 หมู่ที่ 5 ต.นิคมพัฒนา อ.นิคมพัฒนา จ.ระยอง', '122/2หมู่ที่12 ตำบลสันกำแพงอำเภอสันกำแพงจ.เชียงใหม่']
+def fiscal_year_convert(fiscal_year):
+    # revise the format of fiscal years:
+    # 2020,2019,...
+        fiscal_year_text      = ''
 
-#     for string in strings:
-#         address = address_separater(string)
-#         print(f'raw address:{address}')
-#         print(f'address with header:{address_decorator(address)}')
+        for line in fiscal_year:
+            fiscal_year_text = fiscal_year_text + line + ' '
+
+        return fiscal_year_text

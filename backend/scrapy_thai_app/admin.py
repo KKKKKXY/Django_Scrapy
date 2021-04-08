@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DBDCompany_Thai
+from .models import *
 
-# Register your models here.
+# Company Profile
 admin.site.register(DBDCompany_Thai)

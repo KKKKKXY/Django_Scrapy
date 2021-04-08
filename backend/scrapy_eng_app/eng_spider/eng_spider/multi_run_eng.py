@@ -1,3 +1,4 @@
+# import needed lib
 import logging
 import base64
 from django.views.decorators.csrf import csrf_exempt
@@ -9,30 +10,34 @@ from sendgrid.helpers.mail import (
     FileType, Disposition, ContentId)
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+# import own lib
 from .spiders.selenium_getCookie_Eng import *
 from .different_run_spider import *
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @csrf_exempt
 def getEngCaptchaEmail(request):
-    print('getEngCaptchaEmail')
-    if request.method == 'GET':
+    if request.method == 'POST':
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
+        # clean up .log file
         with open('/backend/log/Scrapy_Actions.log', 'w'):
             pass
+        # record logging
         logging.basicConfig(
             filename='log/%s.log' % name,
             format='%(levelname)s %(asctime)s: %(message)s',
             level=logging.DEBUG
         )
+        print('Getting Eng email enclose with captcha code')
+        logging.warning('Getting Eng email enclose with captcha code')
+        # get capctcha and send email including capctcha
         getCaptchaEmail()
         return Response({"message": "send capctha code email done"})
     return Response({"message": "other request method"})
 
+# according to the number of browsers user selected to start scrape
 def number_of_browser_to_scrapy(num, selectEng):
-    print('selectEng is: ' + selectEng)
     if num == 1:
         run_1(selectEng)
     elif num == 2:
@@ -45,17 +50,19 @@ def number_of_browser_to_scrapy(num, selectEng):
         run_5(selectEng)
     else:
         print('invalid the number of browser')
+        logging.error('invalid the number of browser')
 
 @api_view(['POST'])
 @csrf_exempt
 def run_eng_spider(request):
     name = 'Scrapy_Actions'
-    print('run_eng_spider')
     if request.method == 'POST':
+        # get the passing variables from frontend
         captchaCode = request.data['captchaCode']
-        engBrowser = request.data['engBrowser']
-        selectEng = request.data['selectEng']
-
+        engBrowser  = request.data['engBrowser']
+        selectEng   = request.data['selectEng']
+        # with open('/backend/log/Scrapy_Actions.log', 'w'):
+        #     pass
         configure_logging(install_root_handler=False)
         logging.basicConfig(
             filename='log/%s.log' % name,
@@ -64,15 +71,17 @@ def run_eng_spider(request):
         )
         logging.warning('You selected the number of browser to scrapy is: ' + engBrowser)
         logging.warning('You Selected file is: ' + selectEng)
+        # number_of_browser_to_scrapy(int(engBrowser), selectEng)
 
         try:
-            # get and store cookie
+            # verify whether the cookie is valid
             is_error = verifyCaptchaAndLogin(captchaCode)
             if is_error:
                 logging.warning('Please get a new capctha code screenshot and input capctha code again!')
             else:
+                # store cookie
                 storeCookie()
-                # start to run spiders
+                # start to run crawlers
                 try:
                     logging.info('runspider start spider: run_eng_spider')
                     number_of_browser_to_scrapy(int(engBrowser), selectEng)
@@ -99,18 +108,21 @@ def run_eng_spider(request):
                     attachment.disposition = Disposition('attachment')
                     message.attachment = attachment
                     try:
+                        # send email
                         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
                         response = sg.send(message)
-                        print('Message Send.')
-                        logging.warning('Message Send.')
+                        print('Scrapy finished message send.')
+                        logging.warning('Scrapy finished message send.')
                         logging.info('finish this spider:%s\n\n' % 'run_eng_spider')
                     except Exception as e:
+                        # error occurs when sending email
                         print('Send scrapy finished message failed.')
                         print(e)
                         logging.warning('Send scrapy finished message failed.')
                         logging.error(e)
                     
                 except Exception as e:
+                    # error occurs when run crawlers
                     logging.exception('runspider spider:%s exception:%s' % ('run_eng_spider', e))
                     message_template = read_template('/backend/email_msg/scrapy_error.txt')
                     attachment_file_name = 'Scrapy_Actions.log'
@@ -145,6 +157,7 @@ def run_eng_spider(request):
                 logging.info('------------------------------------------')
                 
         except Exception as e:
+            # error occurs when run selenium part
             logging.exception('Get and store cookie:%s exception:%s' % ('run_eng_spider', e))
             message_template = read_template('/backend/email_msg/error.txt')
             message = Mail(
@@ -167,6 +180,7 @@ def run_eng_spider(request):
     return Response({"message": "Got some data!", "data": request.data})
                 # return redirect("/admin/")
 
+# to get email format
 def read_template(filename):
     with open(filename, 'r', encoding='utf-8') as template_file:
         template_file_content = template_file.read()

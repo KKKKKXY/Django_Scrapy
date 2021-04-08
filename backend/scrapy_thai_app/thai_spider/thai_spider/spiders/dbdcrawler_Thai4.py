@@ -1,12 +1,12 @@
-import os, time, pickle
+# import needed lib
+import os, pickle
 import scrapy
 from scrapy.spiders import CrawlSpider
 import logging
-
+# import own lib
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
 from scrapy_thai_app.thai_spider.thai_spider.items import ThaiSpiderItem
-from .selenium_getCookie_Thai import *
 from backend.data_reader.excel_reader import *
 from backend.data_reader.pdf_reader import *
 
@@ -21,13 +21,13 @@ class DbdcrawlerSpider4(CrawlSpider):
     }
 
     def __init__(self, cid=None, *args, **kwargs):
+        # inicial and get cid from other file
         self.cid = cid
         logging.info(self.cid)
         super(DbdcrawlerSpider4, self).__init__(*args, **kwargs)
 
     def start_requests(self):
         companies_id = self.cid
-        print(companies_id)
         for i in companies_id:
             url = 'https://datawarehouse.dbd.go.th/company/profile/%s/%s' %(i[3],i)
             yield scrapy.Request(url=url, cookies={"JSESSIONID":self.getCookie()}, callback=self.parse, encoding='utf-8')
@@ -50,7 +50,6 @@ class DbdcrawlerSpider4(CrawlSpider):
     def parse(self, response):
         print('------------START SCRAPING BROWSER 4------------')
         logging.warning('------------START SCRAPING BROWSER 4------------')
-        time.sleep(5)
         objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
         if objective == None:
             objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
@@ -99,10 +98,13 @@ class DbdcrawlerSpider4(CrawlSpider):
             last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
 
         fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        fiscal_year = []
         if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
-            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+            for a in response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/a'):
+                fiscal_year.append(a.xpath("string()").get().strip())
         else:
-            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/text()').get().strip()
+            for a in response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/a'):
+                fiscal_year.append(a.xpath("string()").get().strip())
 
         item = ThaiSpiderItem()
         item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()

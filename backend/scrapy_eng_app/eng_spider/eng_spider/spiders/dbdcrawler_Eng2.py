@@ -1,8 +1,9 @@
-import os, time, pickle
+# import needed lib
+import os, pickle
 import scrapy
 from scrapy.spiders import CrawlSpider
 import logging
-
+# import own lib
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
 from scrapy_eng_app.eng_spider.eng_spider.items import EngSpiderItem
@@ -20,13 +21,13 @@ class DbdcrawlerSpider2(CrawlSpider):
     }
 
     def __init__(self, cid=None, *args, **kwargs):
+        # inicial and get cid from other file
         self.cid = cid
         logging.info(self.cid)
         super(DbdcrawlerSpider2, self).__init__(*args, **kwargs)
 
     def start_requests(self):
         companies_id = self.cid
-        print(companies_id)
         for i in companies_id:
             url = 'https://datawarehouse.dbd.go.th/company/profile/%s/%s' %(i[3],i)
             yield scrapy.Request(url=url, cookies={"JSESSIONID":self.getCookie()}, callback=self.parse, encoding='utf-8')
@@ -49,7 +50,6 @@ class DbdcrawlerSpider2(CrawlSpider):
     def parse(self, response):
         print('------------START SCRAPING BROWSER 2------------')
         logging.warning('------------START SCRAPING BROWSER 2------------')
-        time.sleep(5)
         objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div/p/text()').get()
         if objective == None:
             objective = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[5]/div/p/text()').get().strip()
@@ -62,8 +62,8 @@ class DbdcrawlerSpider2(CrawlSpider):
             director_list.append(i.strip())
 
         raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
-        if raw_bussiness_type == None:
-            raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
+        if raw_bussiness_type == None or raw_bussiness_type.strip() == 'No Data':
+            raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[1]/div/p/text()').get().strip()
         else:
             raw_bussiness_type = raw_bussiness_type.strip()
 
@@ -95,13 +95,16 @@ class DbdcrawlerSpider2(CrawlSpider):
         if last_registered_id_title == 'Last Registered ID':
             last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[6]/td[2]/text()').get().strip()
         else:
-            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+            last_registered_id = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
 
         fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
+        fiscal_year = []
         if fiscal_year_title == 'Fiscal Year (submitted financial statement)':
-            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/text()').get().strip()
+            for a in response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/a'):
+                fiscal_year.append(a.xpath("string()").get().strip())
         else:
-            fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/text()').get().strip()
+            for a in response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[8]/td[2]/a'):
+                fiscal_year.append(a.xpath("string()").get().strip())
 
         item = EngSpiderItem()
         item['company_id']              = response.xpath('/html/body/div/div[4]/div[2]/div/div[2]/div[1]/div/div[1]/p/text()').get().strip()

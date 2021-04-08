@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
+# Company Profile Models
 class DBDCompany_Thai(models.Model):
     company_id                      = models.CharField(db_column='company_id', max_length=20,  primary_key=True, unique = True, default='Null')
     company_name                    = models.CharField(db_column='company_name', max_length=255, default='Null')
@@ -24,9 +24,15 @@ class DBDCompany_Thai(models.Model):
     company_fiscal_year             = models.CharField(db_column='company_fiscal_year', max_length=255, default='Null')
     created                         = models.DateTimeField(auto_now_add=True)
     is_changed                      = models.BooleanField(default=False)
-    # updated                         = models.DateTimeField(auto_now=True)
-    # date                            = models.DateTimeField(default=timezone.now)
-    # company_zipcode                 = models.CharField(db_column='company_zipcode', max_length=255, default='Null')
+
+    def __str__(self):
+        return self.company_id + ": " + self.company_name
+
+    class Meta:
+        managed = True
+        db_table = 'dbd_scraped_thai'
+        verbose_name = 'Scraped Thai Company'
+        verbose_name_plural = 'Scraped Thai Companies'
     
     # @property
     # def to_dict(self):
@@ -53,13 +59,3 @@ class DBDCompany_Thai(models.Model):
     #         'date': self.date
     #     }
     #     return data
-
-
-    def __str__(self):
-        return self.company_id + ": " + self.company_name
-
-    class Meta:
-        managed = True
-        db_table = 'dbd_scraped_company_thai'
-        verbose_name = 'Scraped Company'
-        verbose_name_plural = 'Scraped Thai Companies'

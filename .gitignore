@@ -6,22 +6,35 @@ backend/base/.env
 mya_v0.0.1
 
 # python cache
+# base
 backend/base/__pycache__
+# data_reader
 backend/data_reader/__pycache__
-backend/scrapy_eng_app/__pycache__
-backend/scrapy_eng_app/migrations/__pycache__
-backend/scrapy_eng_app/eng_spider/eng_spider/__pycache__
-backend/scrapy_eng_app/eng_spider/eng_spider/spiders/__pycache__
-
+# file_manage_app
 backend/file_manage_app/__pycache__
 backend/file_manage_app/migrations/__pycache__
-
+# finan_posit_app
+backend/finan_posit_app/__pycache__
+backend/finan_posit_app/finan_posit_spider/finan_posit_spider/__pycache__
+backend/finan_posit_app/finan_posit_spider/finan_posit_spider/spiders/__pycache__
+backend/finan_posit_app/migrations/__pycache__
+# finan_ratio_app
+backend/finan_ratio_app/__pycache__
+backend/finan_ratio_app/finan_ratio_spider/finan_ratio_spider/__pycache__
+backend/finan_ratio_app/finan_ratio_spider/finan_ratio_spider/spiders/__pycache__
+backend/finan_ratio_app/migrations/__pycache__
+# income_state_app
+backend/income_state_app/__pycache__
+backend/income_state_app/income_spider/income_spider/__pycache__
+backend/income_state_app/income_spider/income_spider/spiders/__pycache__
+backend/income_state_app/migrations/__pycache__
+# scrapy_eng_app
+backend/scrapy_eng_app/__pycache__
+backend/scrapy_eng_app/eng_spider/eng_spider/__pycache__
+backend/scrapy_eng_app/eng_spider/eng_spider/spiders/__pycache__
+backend/scrapy_eng_app/migrations/__pycache__
+# scrapy_thai_app
 backend/scrapy_thai_app/__pycache__
 backend/scrapy_thai_app/migrations/__pycache__
-backend/scrapy_thai_app/thai_spider/__pycache__
 backend/scrapy_thai_app/thai_spider/thai_spider/__pycache__
 backend/scrapy_thai_app/thai_spider/thai_spider/spiders/__pycache__
-
-mya_v0.0.1/main/__pycache__
-mya_v0.0.1/scrapy_app/scrapy_app/__pycache__
-mya_v0.0.1/scrapy_app/scrapy_app/spiders/__pycache__
