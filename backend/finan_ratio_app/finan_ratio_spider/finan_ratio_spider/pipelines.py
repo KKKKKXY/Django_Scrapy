@@ -4,17 +4,19 @@ from finan_ratio_app.models import *
 
 class FinanRatioSpiderPipeline:
     def close_spider(self, spider):
-        print()
-        print('Store ratio details finished -----------------------------------------------------')
         logging.critical('Store ratio details finished -----------------------------------------------------')
+        
+        # get the number of request pages
+        request_page_num = len(spider.cid) + spider.id_start_num + 1
+        # get all companies' id from ratio_year_detail table in database
         cids_qs = RatioYear.objects.values('company_id').distinct()
         print('ratio details COUNT is: ' + str(cids_qs.count()))
+
         try:
-            for i in range(cids_qs.count()-1, cids_qs.count()-11, -1):
-                # print(cids_qs[i]['company_id'])
+            # assign years detail into each year list
+            for i in range(cids_qs.count()-1-spider.id_start_num, cids_qs.count()-request_page_num, -1):
                 cid = cids_qs[i]['company_id']
                 year_qs = RatioYear.objects.filter(company_id=cid)
-                
                 # PRatio
                 roa_years = []
                 roe_years = []
@@ -35,7 +37,6 @@ class FinanRatioSpiderPipeline:
                 dter_years = []
                 dtcr_years = []
                 for x in range(0, year_qs.count(), 15):
-                    print('Assign All Ratio Details for year ------> ' + year_qs[x].year)
                     logging.info('Assign All Ratio Details for year ------> ' + year_qs[x].year)
                     roa_years.append(year_qs[x])
                     roe_years.append(year_qs[x+1])
@@ -54,7 +55,7 @@ class FinanRatioSpiderPipeline:
                     dtcr_years.append(year_qs[x+14])
 
                 # PRatio
-                print('<------ Assign Ratio Details for PR ------>')
+                logging.info('<------ Assign Ratio Details for PR ------>')
                 pr_detail_qs = PRatio.objects.filter(company_id=cid)
                 if pr_detail_qs.exists() and pr_detail_qs.count() == 1:
                     pr_detail = pr_detail_qs.first()
@@ -71,8 +72,8 @@ class FinanRatioSpiderPipeline:
                     pr_detail.opera_inc_on_reve_r.set(oiorr_years)
                     pr_detail.net_profit_mar.set(npm_years)
 
-                # # LRatio
-                print('<------ Assign Ratio Details for LR ------>')
+                # LRatio
+                logging.info('<------ Assign Ratio Details for LR ------>')
                 lr_detail_qs = LRatio.objects.filter(company_id=cid)
                 if lr_detail_qs.exists() and lr_detail_qs.count() == 1:
                     lr_detail = lr_detail_qs.first()
@@ -87,8 +88,8 @@ class FinanRatioSpiderPipeline:
                     lr_detail.invent_tur.set(it_years)
                     lr_detail.acco_pay_tur.set(apt_years)
 
-                # # OERatio
-                print('<------ Assign Ratio Details for OER ------>')
+                # OERatio
+                logging.info('<------ Assign Ratio Details for OER ------>')
                 oer_detail_qs = OERatio.objects.filter(company_id=cid)
                 if oer_detail_qs.exists() and oer_detail_qs.count() == 1:
                     oer_detail = oer_detail_qs.first()
@@ -99,8 +100,8 @@ class FinanRatioSpiderPipeline:
                     oer_detail.t_asset_tur.set(tat_years)
                     oer_detail.opera_expe_to_t_reve_r.set(oettrr_years)
     
-                # # FPPRatio
-                print('<------ Assign Ratio Details for FPPR ------>')
+                # FPPRatio
+                logging.info('<------ Assign Ratio Details for FPPR ------>')
                 fppr_detail_qs = FPPRatio.objects.filter(company_id=cid)
                 if fppr_detail_qs.exists() and fppr_detail_qs.count() == 1:
                     fppr_detail = fppr_detail_qs.first()
@@ -116,9 +117,10 @@ class FinanRatioSpiderPipeline:
                     fppr_detail.debt_to_capi_r.set(dtcr_years)
 
 
+                # check whether the company already exist in database
                 company_qs = FinancialRatio.objects.filter(company_id=cid)
                 if company_qs.exists() and company_qs.count() == 1:
-                    print('Store financial ratio info for company: ' + company_qs.first().company_id)
+                    # if exists, update year detail to the company
                     logging.info('Store financial ratio info for company: ' + company_qs.first().company_id)
                     fr = company_qs.first()
                     fr.profit_r.add(pr_detail)
@@ -126,22 +128,26 @@ class FinanRatioSpiderPipeline:
                     fr.operat_effici_r.add(oer_detail)
                     fr.finan_posit_propo_r.add(fppr_detail)
                 else:
-                    print('Create new company: ' + cid)
+                    # if not, create a new company
                     logging.info('Create new company: ' + cid)
                     fr = FinancialRatio.objects.create(company_id=cid)
                     fr.profit_r.add(pr_detail)
                     fr.liquid_r.add(lr_detail)
                     fr.operat_effici_r.add(oer_detail)
                     fr.finan_posit_propo_r.add(fppr_detail)
+            
+            print('Store company financial ratio info finished ========----------------------=======')
+            logging.critical('Store company financial ratio info finished ========----------------------=======')
+            print()
         except Exception as e:
             print('Store financial ratio info error')
             print(e)
             logging.warning('Store financial ratio info error')
             logging.error(e)
-        print('Store company financial ratio info finished ========----------------------=======')
-        logging.critical('Store company financial ratio info finished ========----------------------=======')
+        
     
     def process_item(self, item, spider):
+        # store financial ratio year details into ratio_year_detail table in database
         year = RatioYear()
         year.company_id     = item['company_id']
         year.year           = item['year']

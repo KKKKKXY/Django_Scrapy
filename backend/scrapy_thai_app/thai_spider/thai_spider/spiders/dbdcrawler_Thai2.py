@@ -1,8 +1,9 @@
+# import needed lib
 import os, pickle
 import scrapy
 from scrapy.spiders import CrawlSpider
 import logging
-
+# import own lib
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
 from scrapy_thai_app.thai_spider.thai_spider.items import ThaiSpiderItem
@@ -20,6 +21,7 @@ class DbdcrawlerSpider2(CrawlSpider):
     }
 
     def __init__(self, cid=None, *args, **kwargs):
+        # inicial and get cid from other file
         self.cid = cid
         logging.info(self.cid)
         super(DbdcrawlerSpider2, self).__init__(*args, **kwargs)

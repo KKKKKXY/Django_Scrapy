@@ -1,3 +1,4 @@
+# import needed lib
 import re
 
 def business_type_separater(s):
@@ -20,6 +21,9 @@ def business_type_separater(s):
 
 
 def directors_convert(directors):
+    # revise the format of directors:
+    # 1. ...
+    # 2. ...
     directors_text      = ''
     count = 0
 
@@ -36,6 +40,8 @@ def directors_convert(directors):
     return directors_text
 
 def fiscal_year_convert(fiscal_year):
+    # revise the format of fiscal years:
+    # 2020,2019,...
     fiscal_year_text      = ''
 
     for line in fiscal_year:

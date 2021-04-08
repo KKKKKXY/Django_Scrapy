@@ -11,7 +11,6 @@ import { BackendAPIService } from '../../backend-api.service';
 export class FileManageAppComponent implements OnInit {
   file: File;
   typeControl = new FormControl('', [Validators.required]);
-  // options: FormGroup;
   selected: string;
 
   constructor(private http: HttpClient, private fb: FormBuilder, private api: BackendAPIService) {  }

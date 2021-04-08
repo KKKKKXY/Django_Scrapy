@@ -1,6 +1,7 @@
 from django.db import models
 
 # Income Statement Models
+# Income Year
 class IncomeYear(models.Model):
     company_id      = models.CharField(db_column='company_id', max_length=20, blank=True, null=True)
     year            = models.CharField(db_column='year', max_length=20, blank=True, null=True)
@@ -16,6 +17,7 @@ class IncomeYear(models.Model):
         verbose_name = 'Scraped Income Year Detail'
         verbose_name_plural = 'Scraped Income Year Details'
 
+# Income Statement
 class IncomeStatement(models.Model):
     company_id                      = models.CharField(db_column='company_id', max_length=20,  primary_key=True, unique = True, default='Null')
     reve_from_sale_serv             = models.ManyToManyField(IncomeYear, blank=True, max_length=255, related_name='reve_from_sale_serv',  db_column='reve_from_sale_serv')

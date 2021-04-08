@@ -1,13 +1,4 @@
 <form class="example-container" method='POST' [formGroup]="scrapyOptions" (ngSubmit)="runThaiSpider()">
-  <!-- <mat-form-field appearance="fill" [color]="filesControl.value">
-    <mat-label>Select scrapy file</mat-label>
-    <mat-select [formControl]="filesControl">
-      <mat-option value="dbd_2020.xlsx">dbd_2020.xlsx</mat-option>
-      <mat-option value="dbd_2020">dbd_2020</mat-option>
-      <mat-option value="dbd">dbd</mat-option>
-    </mat-select>
-  </mat-form-field> -->
-
   <mat-form-field>
     <mat-label>Select scrapy file</mat-label>
     <mat-select [(value)]="selectThai">

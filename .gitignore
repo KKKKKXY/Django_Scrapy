@@ -36,6 +36,5 @@ backend/scrapy_eng_app/migrations/__pycache__
 # scrapy_thai_app
 backend/scrapy_thai_app/__pycache__
 backend/scrapy_thai_app/migrations/__pycache__
-backend/scrapy_thai_app/thai_spider/__pycache__
 backend/scrapy_thai_app/thai_spider/thai_spider/__pycache__
 backend/scrapy_thai_app/thai_spider/thai_spider/spiders/__pycache__

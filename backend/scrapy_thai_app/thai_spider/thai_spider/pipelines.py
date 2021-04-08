@@ -1,22 +1,17 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-
-
-# useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from .reg import *
 import json
-from scrapy_thai_app.profile_models import DBDCompany_Thai
 import logging
-
+import re
+# import own lib
+from .reg import *
+from scrapy_thai_app.models import *
 
 class ThaiSpiderPipeline(object):
     def close_spider(self, spider):
         pass
 
     def process_item(self, item, spider):
+        # assign item values into each variable
         raw_company_id          = item['company_id']
         company_type            = item['company_type']
         status                  = item['status']
@@ -43,8 +38,7 @@ class ThaiSpiderPipeline(object):
         district                    = address_separater(raw_address)[2]
         province                    = address_separater(raw_address)[3]
         address                     = address_separater(raw_address)[4]
-        fiscal_year                = fiscal_year_convert(raw_fiscal_year)
-
+        fiscal_year                 = fiscal_year_convert(raw_fiscal_year)
         if company_id == None or company_id == '':
             company_id = '-'
         if company_name == None or company_name == '':
@@ -84,10 +78,12 @@ class ThaiSpiderPipeline(object):
         if province == None or province == '':
             province = '-'
 
+        # declare an object, type is  DBDCompany_Thai
         new_item = DBDCompany_Thai()
+        # filter whether there is already a company in database
         qs = DBDCompany_Thai.objects.all().filter(company_id=company_id).first()
-
         if not qs:
+            # create a new company and save data into database
             print(' ----> Store ' + company_id + ' a new company information...')
             logging.info(' ----> Store ' + company_id + ' a new company information...')
             new_item.company_name                   = company_name
@@ -115,6 +111,7 @@ class ThaiSpiderPipeline(object):
             logging.info(' ----- Store company: ' + new_item.company_id + ' finished =====')
 
         else:
+            # updata company's information from database
             is_updated = False
             print(' ----> Check and update ' + company_id + ' company information...')
             logging.info(' ----> Check and update ' + company_id + ' company information...')
@@ -213,11 +210,6 @@ class ThaiSpiderPipeline(object):
                 logging.warning(' >>>>>>>>>> Company EMAIL is changed, updating...')
                 qs.company_email = email
                 is_updated = True
-
-            # if qs.company_email != 'jhg@gmail.com':
-            #     print(' >>>>> Company EMAIL is changed, updating...')
-            #     qs.company_email = 'jhg@gmail.com'
-            #     is_updated = True
 
             if qs.company_last_registered_id != last_registered_id:
                 print(' >>>>>>>>>> Company LAST REGISTERED ID is changed, updating...')

@@ -1,8 +1,9 @@
+# import needed lib
 import os, pickle
 import scrapy
 from scrapy.spiders import CrawlSpider #, Rule
 import logging
-
+# import own lib
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath('.'))))
 from scrapy_eng_app.eng_spider.eng_spider.items import EngSpiderItem
@@ -20,6 +21,7 @@ class DbdcrawlerSpider1(CrawlSpider):
     }
 
     def __init__(self, cid=None, *args, **kwargs):
+        # inicial and get cid from other file
         self.cid = cid
         logging.info(self.cid)
         super(DbdcrawlerSpider1, self).__init__(*args, **kwargs)
@@ -58,12 +60,6 @@ class DbdcrawlerSpider1(CrawlSpider):
         directors = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[2]/div/div/ol/li/text()').getall()
         for i in directors:
             director_list.append(i.strip())
-
-        # raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
-        # if raw_bussiness_type == None:
-        #     raw_bussiness_type = response.xpath('/html/body/div[1]/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[4]/div/p/text()').get().strip()
-        # else:
-        #     raw_bussiness_type = raw_bussiness_type.strip()
 
         raw_bussiness_type = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[3]/div[2]/div/p/text()').get()
         if raw_bussiness_type == None or raw_bussiness_type.strip() == 'No Data':

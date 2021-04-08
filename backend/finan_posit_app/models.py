@@ -1,6 +1,7 @@
 from django.db import models
 
 # Financial Position Models
+# Position Year
 class PositYear(models.Model):
     company_id      = models.CharField(db_column='company_id', max_length=20, blank=True, null=True)
     year            = models.CharField(db_column='year', max_length=20, blank=True, null=True)
@@ -16,6 +17,7 @@ class PositYear(models.Model):
         verbose_name = 'Scraped Posit Year Detail'
         verbose_name_plural = 'Scraped Posit Year Details'
 
+# Financial Position
 class FinancialPosition(models.Model):
     company_id              = models.CharField(db_column='company_id', max_length=20,  primary_key=True, unique = True, default='Null')
     accounts_receive        = models.ManyToManyField(PositYear, blank=True, max_length=255, related_name='accounts_receive',  db_column='accounts_receive')
@@ -29,7 +31,6 @@ class FinancialPosition(models.Model):
     t_liab                  = models.ManyToManyField(PositYear, blank=True, max_length=255, related_name='t_liab',  db_column='t_liab')
     equity                  = models.ManyToManyField(PositYear, blank=True, max_length=255, related_name='equity',  db_column='equity')
     t_liab_and_equity       = models.ManyToManyField(PositYear, blank=True, max_length=255, related_name='t_liab_and_equity',  db_column='t_liab_and_equity')
-    # accounts_receivable                     = models.ForeignKey(PositYear, on_delete=models.SET_NULL, blank=True, null=True, related_name='models', db_column='accounts_receivable', max_length=255)
 
     def __str__(self):
         return self.company_id
