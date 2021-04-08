@@ -18,6 +18,7 @@ from .different_run_spider import *
 @csrf_exempt
 def getThaiCaptchaEmail(request):
     if request.method == 'POST':
+        reciemail = request.data['reciemail']
         name = 'Scrapy_Actions'
         configure_logging(install_root_handler=False)
         # clean up .log file
@@ -32,7 +33,7 @@ def getThaiCaptchaEmail(request):
         print('Getting Thai email enclose with captcha code')
         logging.warning('Getting Thai email enclose with captcha code')
         # get capctcha and send email including capctcha
-        getCaptchaEmail()
+        getCaptchaEmail(reciemail)
         return Response({"message": "send capctha code email done"})
     return Response({"message": "other request method"})
 
@@ -61,8 +62,8 @@ def run_thai_spider(request):
         captchaCode = request.data['captchaCode']
         thaiBrowser = request.data['thaiBrowser']
         selectThai  = request.data['selectThai']
-        # with open('/backend/log/Scrapy_Actions.log', 'w'):
-        #     pass
+        reciemail   = request.data['reciemail']
+
         configure_logging(install_root_handler=False)
         logging.basicConfig(
             filename='log/%s.log' % name,
@@ -71,11 +72,11 @@ def run_thai_spider(request):
         )
         logging.warning('You selected the number of browser to scrapy is: ' + thaiBrowser)
         logging.warning('You Selected file is: ' + selectThai)
-        # number_of_browser_to_scrapy(int(thaiBrowser), selectThai)
+        logging.warning('Your email address is: ' + reciemail)
 
         try:
             # verify whether the cookie is valid
-            is_error = verifyCaptchaAndLogin(captchaCode)
+            is_error = verifyCaptchaAndLogin(captchaCode, reciemail)
             if is_error:
                 logging.warning('Please get a new capctha code screenshot and input capctha code again!')
             else:
@@ -91,7 +92,7 @@ def run_thai_spider(request):
                     attachment_file_name = 'Scrapy_Actions.log'
                     message = Mail(
                         from_email='myaploy@gmail.com',
-                        to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                        to_emails=reciemail,
                         subject='Inform: Scrapy Finished!',
                         html_content=message_template.substitute(ATTACHMENTFILENAME=attachment_file_name)
                     )
@@ -128,7 +129,7 @@ def run_thai_spider(request):
                     attachment_file_name = 'Scrapy_Actions.log'
                     message = Mail(
                         from_email='myaploy@gmail.com',
-                        to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                        to_emails=reciemail,
                         subject='Warning: Scrapy error happend!',
                         html_content=message_template.substitute(ERROR=e)
                     )
@@ -162,7 +163,7 @@ def run_thai_spider(request):
             message_template = read_template('/backend/email_msg/error.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
-                to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                to_emails=reciemail,
                 subject='Warning: Error happend!',
                 html_content=message_template.substitute(ERROR=e)
             )

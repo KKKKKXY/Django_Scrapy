@@ -21,6 +21,18 @@
       The number of browser is <strong>required</strong>
     </mat-error>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Input recipient Email</mat-label>
+    <input type="email" matInput [formControl]="reciEmailThaiControl" placeholder="Ex. pat@gmail.com">
+    <mat-error *ngIf="reciEmailThaiControl.hasError('email') && !reciEmailThaiControl.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="reciEmailThaiControl.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
   <button mat-stroked-button color="accent" class="scrapy-button" type="submit">Scrapy Thai Version</button>
 </form>
 
@@ -50,6 +62,18 @@
       The number of browser is <strong>required</strong>
     </mat-error>
   </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Input recipient Email</mat-label>
+    <input type="email" matInput [formControl]="reciEmailEngControl" placeholder="Ex. pat@gmail.com">
+    <mat-error *ngIf="reciEmailEngControl.hasError('email') && !reciEmailEngControl.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="reciEmailEngControl.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
   <button mat-stroked-button color="accent" class="scrapy-button" type="submit">Scrapy Eng Version</button>
 
 </form>

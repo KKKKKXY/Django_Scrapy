@@ -22,6 +22,7 @@ def read_template(filename):
 
 # Setting driver
 try:
+    is_failed = False
     CHROME_DRIVER = os.path.expanduser('/usr/bin/chromedriver')
     chrome_options = Options()
     chrome_options.add_argument('--headless')
@@ -35,67 +36,71 @@ try:
     login_page_url = 'https://datawarehouse.dbd.go.th/login'
     cookie_path = '/backend/temp/cookie.json'
 except Exception as e:
-    print(e)
-    logging.error(e)
-    message_template = read_template('/backend/email_msg/error.txt')
-    message = Mail(
-        from_email='myaploy@gmail.com',
-        to_emails='xingyuan_kang@elearning.cmu.ac.th',
-        subject='Warning: Error happend!',
-        html_content=message_template.substitute(ERROR=e)
-    )
-    try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
-    except Exception as e:
-        print(e)
-        logging.error(e)
+    is_failed = True
+    error = e
+
+def getCaptchaEmail(reciemail):
+    if is_failed == True:
+        print(error)
+        logging.error(error)
+        message_template = read_template('/backend/email_msg/error.txt')
+        message = Mail(
+            from_email='myaploy@gmail.com',
+            # to_emails='xingyuan_kang@elearning.cmu.ac.th',
+            to_emails=reciemail,
+            subject='Warning: Error happend!',
+            html_content=message_template.substitute(ERROR=e)
+        )
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+        except Exception as e:
+            print(e)
+            logging.error(e)
+    else:
+        # Access login page
+        driver.get(login_page_url)
+        print(driver.title)
+        logging.info('The scarpe website title is:%s' % driver.title)
+        print('Getting Screenshot...')
+        logging.warning('Getting Screenshot...')
+
+        # Screenshot captcha code and store into 'screenshot_path'
+        sshot = driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/div/div[2]/form/div[1]/span/img')
+        sshot.screenshot(screenshot_path)
+        message_template = read_template('/backend/email_msg/get_screenshot.txt')
+        attachment_file_name = 'capthca.png'
+        message = Mail(
+            from_email='myaploy@gmail.com',
+            to_emails=reciemail,
+            subject='Inform: Get screenshot',
+            html_content=message_template.substitute(ATTACHMENTFILENAME=attachment_file_name)
+        )
+        # add screenshot
+        with open(screenshot_path, 'rb') as f:
+            data = f.read()
+            f.close()
+        encoded = base64.b64encode(data).decode()
+        attachment = Attachment()
+        attachment.file_content = FileContent(encoded)
+        attachment.file_type = FileType('image/jpeg')
+        attachment.file_name = FileName(attachment_file_name)
+        attachment.disposition = Disposition('inline')
+        attachment.content_id = ContentId('capthca')
+        message.attachment = attachment
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print('Captcha code screenshot message send.')
+            logging.warning('Captcha code screenshot message send.')
+        except Exception as e:
+            print('send captcha code screenshot message failed.')
+            print(e)
+            logging.warning('send captcha code screenshot message failed.')
+            logging.error(e)
 
 
-def getCaptchaEmail():
-    # Access login page
-    driver.get(login_page_url)
-    print(driver.title)
-    logging.info('The scarpe website title is:%s' % driver.title)
-    print('Getting Screenshot...')
-    logging.warning('Getting Screenshot...')
-
-    # Screenshot captcha code and store into 'screenshot_path'
-    sshot = driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/div/div[2]/form/div[1]/span/img')
-    sshot.screenshot(screenshot_path)
-    message_template = read_template('/backend/email_msg/get_screenshot.txt')
-    attachment_file_name = 'capthca.png'
-    message = Mail(
-        from_email='myaploy@gmail.com',
-        to_emails='xingyuan_kang@elearning.cmu.ac.th',
-        subject='Inform: Get screenshot',
-        html_content=message_template.substitute(ATTACHMENTFILENAME=attachment_file_name)
-    )
-    # add screenshot
-    with open(screenshot_path, 'rb') as f:
-        data = f.read()
-        f.close()
-    encoded = base64.b64encode(data).decode()
-    attachment = Attachment()
-    attachment.file_content = FileContent(encoded)
-    attachment.file_type = FileType('image/jpeg')
-    attachment.file_name = FileName(attachment_file_name)
-    attachment.disposition = Disposition('inline')
-    attachment.content_id = ContentId('capthca')
-    message.attachment = attachment
-    try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
-        print('Captcha code screenshot message send.')
-        logging.warning('Captcha code screenshot message send.')
-    except Exception as e:
-        print('send captcha code screenshot message failed.')
-        print(e)
-        logging.warning('send captcha code screenshot message failed.')
-        logging.error(e)
-
-
-def verifyCaptchaAndLogin(captchaCode):
+def verifyCaptchaAndLogin(captchaCode, reciemail):
     print ('The captcha code you entered is: ', captchaCode)
     logging.info('The captcha code you entered is: %s' % captchaCode)
     if len(captchaCode) == 5 and re.match('^[A-Za-z0-9]+$',captchaCode):
@@ -109,7 +114,7 @@ def verifyCaptchaAndLogin(captchaCode):
             message_template = read_template('/backend/email_msg/error.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
-                to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                to_emails=reciemail,
                 subject='Warning: Error happend!',
                 html_content=message_template.substitute(ERROR=e)
             )
@@ -131,7 +136,7 @@ def verifyCaptchaAndLogin(captchaCode):
             message_template = read_template('/backend/email_msg/login_sucess.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
-                to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                to_emails=reciemail,
                 subject='Inform: Login success!',
                 html_content=message_template.substitute(CAPTCHACODE=captchaCode)
             )
@@ -160,7 +165,7 @@ def verifyCaptchaAndLogin(captchaCode):
             message_template = read_template('/backend/email_msg/cookie_expired.txt')
             message = Mail(
                 from_email='myaploy@gmail.com',
-                to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                to_emails=reciemail,
                 subject='Warning: Captcha code expired!',
                 html_content=message_template.substitute(CAPTCHACODE=captchaCode)
             )
@@ -183,7 +188,7 @@ def verifyCaptchaAndLogin(captchaCode):
         message_template = read_template('/backend/email_msg/cookie_invalid.txt')
         message = Mail(
                 from_email='myaploy@gmail.com',
-                to_emails='xingyuan_kang@elearning.cmu.ac.th',
+                to_emails=reciemail,
                 subject='Warning: Invalid Captcha code!',
                 html_content=message_template.substitute(CAPTCHACODE=captchaCode)
         ) 
@@ -213,130 +218,3 @@ def storeCookie():
         else:
             print('no JSESSIONID in this page!')
             logging.error('no JSESSIONID in this page!')
-    
-# get and verify captcha, then access 'https://datawarehouse.dbd.go.th/index' page 
-# def getCaptchaAndLogin():
-#     # Access login page
-#     driver.get(login_page_url)
-#     print(driver.title)
-#     logging.info('The scarpe website title is:%s' % driver.title)
-#     print('Getting Screenshot...')
-#     logging.warning('Getting Screenshot...')
-#     # Screenshot captcha code and store into 'screenshot_path'
-#     for i in range(100):
-#         sshot = driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/div/div[2]/form/div[1]/span/img')
-#         sshot.screenshot(screenshot_path)
-#         time.sleep(2)
-
-#         captchaCode = ''
-#         # user input 
-#         user_input = input("Enter captcha code: ")
-#         captchaCode = user_input
-#         print ('The captcha code you entered is: ', captchaCode)
-#         logging.info('The captcha code you entered is: %s' % captchaCode)
-
-#         if len(captchaCode) == 5 and re.match('^[A-Za-z0-9]+$',captchaCode): 
-#             # Send captcha code in input box and access 'https://datawarehouse.dbd.go.th/index' page
-#             try:
-#                 driver.find_element_by_xpath('//*[@id="captchaCode"]').send_keys(captchaCode) 
-#                 driver.find_element_by_xpath('//*[@id="signinBtn"]').click()
-#             except Exception as e:
-#                 print(e)
-#                 logging.error(e)
-#                 message_template = read_template('/backend/email_msg/error.txt')
-#                 message = Mail(
-#                     from_email='myaploy@gmail.com',
-#                     to_emails='xingyuan_kang@elearning.cmu.ac.th',
-#                     subject='Warning: Error happend!',
-#                     html_content=message_template.substitute(ERROR=e)
-#                 )
-#                 try:
-#                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-#                     response = sg.send(message)
-#                 except Exception as e:
-#                     print(e)
-#                     logging.error(e)
-            
-#             if 'Home' in driver.title:
-#                 print('Login Success!!!')
-#                 logging.critical('Login Success!!!')
-#                 message_template = read_template('/backend/email_msg/login_sucess.txt')
-#                 message = Mail(
-#                     from_email='myaploy@gmail.com',
-#                     to_emails='xingyuan_kang@elearning.cmu.ac.th',
-#                     subject='Inform: Login success!',
-#                     html_content=message_template.substitute(CAPTCHACODE=captchaCode)
-#                 )
-#                 try:
-#                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-#                     response = sg.send(message)
-#                     print('The server response code is: ' + str(response.status_code))
-#                     logging.info('The server response code is: %s' % response.status_code)
-#                     print('Message Send.')
-#                     logging.warning('Message Send.')
-#                     print('Start scrapying...')
-#                     logging.critical('Start scrapying...')
-#                     time.sleep(3)
-#                 except Exception as e:
-#                     print(e)
-#                     logging.error(e)
-#                 break
-#             else:
-#                 print('Oops!!! The capcha code is expired, please check your inbox message!')
-#                 logging.warning('Oops!!! The capcha code is expired, please check your inbox message!')
-#                 driver.get(login_page_url)
-#                 message_template = read_template('/backend/email_msg/cookie_expired.txt')
-#                 message = Mail(
-#                     from_email='myaploy@gmail.com',
-#                     to_emails='xingyuan_kang@elearning.cmu.ac.th',
-#                     subject='Warning: Captcha code expired!',
-#                     html_content=message_template.substitute(CAPTCHACODE=captchaCode)
-#                 )
-#                 try:
-#                     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-#                     response = sg.send(message)
-#                     print('The server response code is: ' + str(response.status_code))
-#                     logging.info('The server response code is: %s' % response.status_code)
-#                     print('Message Send.')
-#                     logging.warning('Message Send.')
-#                 except Exception as e:
-#                     print(e)
-#                     logging.error(e)
-#         else:
-#             print('The capcha code is invalid, please check your inbox message!')
-#             logging.warning('The capcha code is invalid, please check your inbox message!')
-#             driver.refresh()
-#             message_template = read_template('/backend/email_msg/cookie_invalid.txt')
-#             message = Mail(
-#                     from_email='myaploy@gmail.com',
-#                     to_emails='xingyuan_kang@elearning.cmu.ac.th',
-#                     subject='Warning: Invalid Captcha code!',
-#                     html_content=message_template.substitute(CAPTCHACODE=captchaCode)
-#             ) 
-#             try:
-#                 sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-#                 response = sg.send(message)
-#                 print('The server response code is: ' + str(response.status_code))
-#                 logging.info('The server response code is: %s' % response.status_code)
-#                 print('Message Send.')
-#                 logging.warning('Message Send.')
-#             except Exception as e:
-#                 print(e)
-#                 logging.error(e)
-
-
-
-# def get_contacts(filename):
-#     names = []
-#     emails = []
-#     with open(filename, mode='r', encoding='utf-8') as contacts_file:
-#         for a_contact in contacts_file:
-#             names.append(a_contact.split()[0])
-#             emails.append(a_contact.split()[1])
-#     return names, emails
-
-
-
-# check whether access 'https://datawarehouse.dbd.go.th/index' page successfully
-# getCaptchaAndLogin()
-# storeCookie()
