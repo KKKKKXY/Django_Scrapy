@@ -12,17 +12,6 @@ export class BackendAPIService {
 
   constructor(private http: HttpClient) { }
 
-
-  getThaiCaptchaEmail(): Observable<any>{
-    console.log('Request capctha email...');
-    return this.http.post(this.baseurl + '/send_thai_captcha_email/', {headers: this.httpHeaders});
-  }
-
-  getEngCaptchaEmail(): Observable<any>{
-    console.log('Request capctha email...');
-    return this.http.post(this.baseurl + '/send_eng_captcha_email/', {headers: this.httpHeaders});
-  }
-
   getAllFiles(): Observable<any>{
     return this.http.get(this.baseurl + '/all_files/', {headers: this.httpHeaders});
   }

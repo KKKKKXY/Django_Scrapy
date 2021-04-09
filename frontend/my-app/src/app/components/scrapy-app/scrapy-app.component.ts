@@ -12,10 +12,12 @@ import { BackendAPIService } from '../../backend-api.service';
 
 export class ScrapyAppComponent implements OnInit {
   scrapyOptions: FormGroup;
-  thaiBrowserControl = new FormControl('', [Validators.required]);
-  engBrowserControl = new FormControl('', [Validators.required]);
-  selectThai = new FormControl('', [Validators.required]);
-  selectEng = new FormControl('', [Validators.required]);
+  thaiBrowserControl      = new FormControl('', [Validators.required]);
+  engBrowserControl       = new FormControl('', [Validators.required]);
+  selectThai              = new FormControl('', [Validators.required]);
+  selectEng               = new FormControl('', [Validators.required]);
+  reciEmailThaiControl    = new FormControl('', [Validators.required, Validators.email,]);
+  reciEmailEngControl     = new FormControl('', [Validators.required, Validators.email,]);
 
   collection: Array<File> = [];
   captchaCode: any;
@@ -26,6 +28,8 @@ export class ScrapyAppComponent implements OnInit {
       engBrowser: this.engBrowserControl,
       selectthai: this.selectThai,
       selecteng: this.selectEng,
+      reciThaiEmail: this.reciEmailThaiControl,
+      reciEngEmail: this.reciEmailEngControl,
     });
   }
 
@@ -50,9 +54,13 @@ export class ScrapyAppComponent implements OnInit {
   runThaiSpider = () => {
     console.log(this.thaiBrowserControl.value);
     console.log(this.selectThai.toString());
+    console.log(this.reciEmailThaiControl.value);
+
+    const scraptItem = new FormData();
+    scraptItem.append('reciemail', this.reciEmailThaiControl.value);
 
     // get captcha email
-    this.api.getThaiCaptchaEmail().subscribe(
+      this.http.post('http://localhost:1200/send_thai_captcha_email/', scraptItem).subscribe(
       data => {
         console.log(data);
       },
@@ -68,8 +76,6 @@ export class ScrapyAppComponent implements OnInit {
       console.log('Cancel scrapy');
     }
     else{
-      const scraptItem = new FormData();
-      // const s = this.selectThai.toString();
       scraptItem.append('captchaCode', this.captchaCode);
       scraptItem.append('thaiBrowser', this.thaiBrowserControl.value);
       scraptItem.append('selectThai', this.selectThai.toString());
@@ -89,9 +95,13 @@ export class ScrapyAppComponent implements OnInit {
   runEngSpider = () => {
     console.log(this.engBrowserControl.value);
     console.log(this.selectEng.toString());
+    console.log(this.reciEmailEngControl.value);
+
+    const scraptItem = new FormData();
+    scraptItem.append('reciemail', this.reciEmailEngControl.value);
 
     // get captcha email
-    this.api.getEngCaptchaEmail().subscribe(
+    this.http.post('http://localhost:1200/send_eng_captcha_email/', scraptItem).subscribe(
       data => {
         console.log(data);
       },
@@ -107,11 +117,10 @@ export class ScrapyAppComponent implements OnInit {
       console.log('Cancel scrapy');
     }
     else{
-      const scraptItem = new FormData();
       scraptItem.append('captchaCode', this.captchaCode);
       scraptItem.append('engBrowser', this.engBrowserControl.value);
       scraptItem.append('selectEng', this.selectEng.toString());
-
+      
       this.http.post('http://localhost:1200/run_eng_spider/', scraptItem).subscribe(
         data => {
           console.log(data);
