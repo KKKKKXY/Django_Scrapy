@@ -100,11 +100,9 @@ class DbdcrawlerSpider1(CrawlSpider):
         fiscal_year_title = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[1]/text()').get()
         fiscal_year = []
         if fiscal_year_title == 'ปีที่ส่งงบการเงิน':
-            # fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/a/text()').get()
             for a in response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[7]/td[2]/a'):
                 fiscal_year.append(a.xpath("string()").get().strip())
         else:
-            # fiscal_year = response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/a/text()').get()
             for a in response.xpath('/html/body/div/div[4]/div[2]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/table/tr[9]/td[2]/a'):
                 fiscal_year.append(a.xpath("string()").get().strip())
 

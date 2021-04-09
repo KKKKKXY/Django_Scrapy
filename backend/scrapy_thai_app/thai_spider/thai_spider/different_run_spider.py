@@ -10,14 +10,11 @@ from backend.data_reader.pdf_reader import *
 # import needed lib
 import scrapy.crawler as crawler
 from django.core.files.storage import default_storage
-# from scrapy.crawler import CrawlerRunner
-# from scrapy.utils.project import get_project_settings
-# from crochet import setup
 from multiprocessing import Process, Queue
 from twisted.internet import reactor
 import logging
 # import own lib
-# from scrapy_thai_app.models import *
+from scrapy_thai_app.models import *
 
 
 # select all companies' id from file
@@ -238,7 +235,6 @@ def run_4(selectThai):
 
 # open five browsers
 def run_5(selectThai):
-    # https://datawarehouse.dbd.go.th/company/profile/2/0102563000172
     # get all ids from file
     cids=all_companies_id(selectThai)
     cids_1 = []

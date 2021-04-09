@@ -5,17 +5,6 @@ from finan_posit_app.models import *
 class FinanPositSpiderPipeline:
     def close_spider(self, spider):
         logging.critical('Store financial year details finished -----------------------------------------------------')
-        
-        # print()
-        # print(spider.cid)
-        # print('len(spider.cid): ' + str(len(spider.cid)))
-        # print(spider.id_start_num)
-        # request_page_num = len(spider.cid) + spider.id_start_num + 1
-        # print('request_page_num: ' + str(request_page_num))
-        # # get all companies' id from posit_year_detail table in database
-        # cids_qs = PositYear.objects.values('company_id').distinct()
-        # print('financial year COUNT is: ' + str(cids_qs.count()))
-
 
         # get the number of request pages
         request_page_num = len(spider.cid) + spider.id_start_num + 1

@@ -39,22 +39,3 @@ def get_cid_from_pdf(pdf_to_excel_path):
         logging.info('Row: ' + str(i) + ' Value is: ' + cell_obj.value)
         companies_id.append(cell_obj.value)
     return companies_id
-
-
-
-
-# def get_cid_from_pdf(pdf_to_excel_path):
-#     print('------Start get company id from PDF------')
-#     logging.warning('------Start get company id from PDF------')
-#     companies_id = []
-#     wb_obj = openpyxl.load_workbook(pdf_to_excel_path)
-#     sheet_obj = wb_obj.active
-#     max_row = sheet_obj.max_row
-#     for i in range(250):
-#         rnum = random.randint(2, max_row)
-#         cell_obj = sheet_obj.cell(row = rnum, column = 3)
-#         print('Row: ' + str(rnum) + ' Value is: ' + cell_obj.value)
-#         logging.info('Row: ' + str(rnum) + ' Value is: ' + cell_obj.value)
-#         companies_id.append(cell_obj.value)
-#     # print(sheet_obj.cell(row = max_row, column = 3).value)   
-#     return companies_id

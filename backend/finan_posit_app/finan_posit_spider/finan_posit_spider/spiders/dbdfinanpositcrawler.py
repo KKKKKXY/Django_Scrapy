@@ -162,38 +162,3 @@ class FinancialPositionCrawlerSpider(CrawlSpider):
                     
             except Exception as e:
                 print(e)
-
-
-        # # driver.maximize_window()
-        # # driver.execute_script("window.open()")
-        # # print(driver.window_handles)
-        # time.sleep(10)
-        # driver.get_screenshot_as_file('aaaaaaaaaa.png')
-
-        # # print(driver.window_handles)
-        # # driver.add_cookie({'name':'JSESSIONID', 'value':'OTJjODE0NWEtZGUyOC00OTM4LTgwMDYtOGI5MmMxODQzMzk0'})
-        # # driver.get("https://datawarehouse.dbd.go.th/company/profile/5/0105554123553")
-
-        # sshot = driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/div/div[2]/form/div[1]/span/img')
-        # sshot.screenshot('s.png')
-        # print('Enter your cap code:')
-        # cap = input()
-        # driver.find_element_by_xpath('//*[@id="captchaCode"]').send_keys(cap)
-        # driver.find_element_by_xpath('//*[@id="signinBtn"]').click()
-        # time.sleep(10)
-        # driver.get_screenshot_as_file('bbbbbbbbbb.png')
-
-        # driver.find_element_by_name('textStr').send_keys('0105554123553')
-        # driver.find_element_by_xpath('//*[@id="form"]/div[2]/div/div/div[2]/button').click()
-        # time.sleep(10)
-        # driver.get_screenshot_as_file('cccccccccc.png')
-
-        # driver.find_element_by_xpath('//*[@id="fixTable"]/tbody/tr/td[2]').click()
-        # # time.sleep(10)
-        # # driver.get_screenshot_as_file('dddddddddd.png')
-
-        # driver.switch_to_window(driver.window_handles[0])
-        # driver.get("https://datawarehouse.dbd.go.th/fin/balancesheet/5/0105554123553")
-        # # driver.find_element_by_xpath('//*[@id="navsidebar"]/ul/li[2]/a').click()
-        # time.sleep(10)
-        # driver.get_screenshot_as_file('eeeeeeeeee.png')
