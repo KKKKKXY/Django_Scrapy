@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-# Create your models here.
+# Company Profile Models
 class DBDCompany_Thai(models.Model):
     company_id                      = models.CharField(db_column='company_id', max_length=20,  primary_key=True, unique = True, default='Null')
     company_name                    = models.CharField(db_column='company_name', max_length=255, default='Null')
@@ -24,42 +24,12 @@ class DBDCompany_Thai(models.Model):
     company_fiscal_year             = models.CharField(db_column='company_fiscal_year', max_length=255, default='Null')
     created                         = models.DateTimeField(auto_now_add=True)
     is_changed                      = models.BooleanField(default=False)
-    # updated                         = models.DateTimeField(auto_now=True)
-    # date                            = models.DateTimeField(default=timezone.now)
-    # company_zipcode                 = models.CharField(db_column='company_zipcode', max_length=255, default='Null')
-    
-    # @property
-    # def to_dict(self):
-    #     data = {
-    #         'company_id': json.loads(self.company_id),
-    #         'company_name': json.loads(self.company_name),
-    #         'company_type': json.loads(self.company_type),
-    #         'company_status': json.loads(self.company_status),
-    #         'company_objective': json.loads(self.company_objective),
-    #         'company_directors': json.loads(self.company_directors),
-    #         'company_bussiness_type': json.loads(self.company_bussiness_type),
-    #         'company_bussiness_type_code': json.loads(self.company_bussiness_type_code),
-    #         'company_street': json.loads(self.company_street),
-    #         'company_subdistrict': json.loads(self.company_subdistrict),
-    #         'company_district': json.loads(self.company_district),
-    #         'company_province': json.loads(self.company_province),
-    #         'company_address': json.loads(self.company_address),
-    #         'company_tel': json.loads(self.company_tel),
-    #         'company_fax': json.loads(self.company_fax),
-    #         'company_website': json.loads(self.company_website),
-    #         'company_email': json.loads(self.company_email),
-    #         'company_last_registered_id': json.loads(self.company_last_registered_id),
-    #         'company_fiscal_year': json.loads(self.company_fiscal_year),
-    #         'date': self.date
-    #     }
-    #     return data
-
 
     def __str__(self):
         return self.company_id + ": " + self.company_name
 
     class Meta:
         managed = True
-        db_table = 'dbd_scraped_company_thai'
-        verbose_name = 'Scraped Company'
+        db_table = 'dbd_scraped_thai'
+        verbose_name = 'Scraped Thai Company'
         verbose_name_plural = 'Scraped Thai Companies'

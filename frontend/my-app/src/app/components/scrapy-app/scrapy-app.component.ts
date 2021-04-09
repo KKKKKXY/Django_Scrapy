@@ -1,19 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// import { Component, OnInit, ViewChild } from '@angular/core';
-// import { MatPaginator, MatTableDataSource } from '@angular/material';
-
-// import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-
 import { BackendAPIService } from '../../backend-api.service';
 
-
-/////
 @Component({
   selector: 'app-scrapy-app',
   templateUrl: './scrapy-app.component.html',
@@ -22,87 +11,124 @@ import { BackendAPIService } from '../../backend-api.service';
 })
 
 export class ScrapyAppComponent implements OnInit {
-  myControl = new FormControl();
-  option: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  scrapyOptions: FormGroup;
+  thaiBrowserControl      = new FormControl('', [Validators.required]);
+  engBrowserControl       = new FormControl('', [Validators.required]);
+  selectThai              = new FormControl('', [Validators.required]);
+  selectEng               = new FormControl('', [Validators.required]);
+  reciEmailThaiControl    = new FormControl('', [Validators.required, Validators.email,]);
+  reciEmailEngControl     = new FormControl('', [Validators.required, Validators.email,]);
 
-  options: FormGroup;
-  // filesControl = new FormControl('dbd_2020.xlsx');
-  // browsersControl = new FormControl(5, Validators.min(10));
-  // companies = [{company_id: ''}];
+  collection: Array<File> = [];
+  captchaCode: any;
 
-  filesControl = new FormControl('dbd_2020.xlsx', [Validators.required]);
-  browsersControl = new FormControl(5, [Validators.required, Validators.min(1), Validators.max(5)]);
-
-  constructor(fb: FormBuilder, private api: BackendAPIService) {
-    this.options = fb.group({
-      file: this.filesControl,
-      browsers: this.browsersControl,
+  constructor(fb: FormBuilder, private http: HttpClient, private api: BackendAPIService) {
+    this.scrapyOptions = fb.group({
+      thaiBrowser: this.thaiBrowserControl,
+      engBrowser: this.engBrowserControl,
+      selectthai: this.selectThai,
+      selecteng: this.selectEng,
+      reciThaiEmail: this.reciEmailThaiControl,
+      reciEngEmail: this.reciEmailEngControl,
     });
-    // this.runThaiSpider();
+  }
+
+  ngOnInit() {
+    this.getCollection();
+  }
+
+  getCollection() {
+    this.api.getAllFiles().subscribe(
+      data => {
+        console.log(data);
+        for (let i = 0; i < data.length; i++){
+          this.collection.push(data[i].filename);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   runThaiSpider = () => {
-    console.log(this.browsersControl.value);
-    console.log(this.filesControl.value);
-    this.api.runThaiSpider().subscribe(
+    console.log(this.thaiBrowserControl.value);
+    console.log(this.selectThai.toString());
+    console.log(this.reciEmailThaiControl.value);
+
+    const scraptItem = new FormData();
+    scraptItem.append('reciemail', this.reciEmailThaiControl.value);
+
+    // get captcha email
+      this.http.post('http://localhost:1200/send_thai_captcha_email/', scraptItem).subscribe(
       data => {
         console.log(data);
-        // this.companies = data;
       },
       error => {
         console.log(error);
       }
     );
 
-  }
+    // if captcha code is valid, start to scrapy
+    this.captchaCode = prompt('Please enter the capchacode that you got in inbox', '');
+    console.log(this.captchaCode);
+    if (this.captchaCode === '' || this.captchaCode === null){
+      console.log('Cancel scrapy');
+    }
+    else{
+      scraptItem.append('captchaCode', this.captchaCode);
+      scraptItem.append('thaiBrowser', this.thaiBrowserControl.value);
+      scraptItem.append('selectThai', this.selectThai.toString());
 
-  ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
+      this.http.post('http://localhost:1200/run_thai_spider/', scraptItem).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
       );
+
+    }
   }
 
-  // getFontSize() {
-  //       return Math.max(10, this.fontSizeControl.value);
-  //     }
+  runEngSpider = () => {
+    console.log(this.engBrowserControl.value);
+    console.log(this.selectEng.toString());
+    console.log(this.reciEmailEngControl.value);
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    const scraptItem = new FormData();
+    scraptItem.append('reciemail', this.reciEmailEngControl.value);
 
-    return this.option.filter(option => option.toLowerCase().includes(filterValue));
+    // get captcha email
+    this.http.post('http://localhost:1200/send_eng_captcha_email/', scraptItem).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
+    // if captcha code is valid, start to scrapy
+    this.captchaCode = prompt('Please enter the capchacode that you got in inbox', '');
+    console.log(this.captchaCode);
+    if (this.captchaCode === '' || this.captchaCode === null){
+      console.log('Cancel scrapy');
+    }
+    else{
+      scraptItem.append('captchaCode', this.captchaCode);
+      scraptItem.append('engBrowser', this.engBrowserControl.value);
+      scraptItem.append('selectEng', this.selectEng.toString());
+      
+      this.http.post('http://localhost:1200/run_eng_spider/', scraptItem).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
   }
-
-  // tslint:disable-next-line: typedef
-  // submit(){
-  //   console.log(this.browsersControl.value);
-  //   console.log(this.filesControl.value);
-
-  // }
 }
-
-// export class ScrapyAppComponent{
-//   options: FormGroup;
-//   colorControl = new FormControl('primary');
-//   fontSizeControl = new FormControl(16, Validators.min(10));
-//   constructor(fb: FormBuilder) {
-//     this.options = fb.group({
-//       color: this.colorControl,
-//       fontSize: this.fontSizeControl,
-//     });
-//   }
-
-//   getFontSize() {
-//     return Math.max(10, this.fontSizeControl.value);
-//   }
-// }
-
-// // export class ScrapyAppComponent implements OnInit {
-
-// //   constructor() { }
-
-// //   ngOnInit(): void {
-// //   }
-// // }
